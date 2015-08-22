@@ -1,6 +1,6 @@
 {
   "name": "rmcomms",
-  "version": "0.1.0-beta",
+  "version": "0.2.0-beta",
   "description": "Remove comments and duplicate empty lines from JavaScript files",
   "main": "lib/rmcomms.js",
   "bin" : {
