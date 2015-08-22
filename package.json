@@ -1,0 +1,28 @@
+{
+  "name": "rmcomms",
+  "version": "0.1.0-beta",
+  "description": "Remove comments and duplicate empty lines from JavaScript files",
+  "main": "lib/rmcomms.js",
+  "bin" : {
+    "rmcomms": "./bin/rmcomms-cli.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aMarCruz/rmcomms.git"
+  },
+  "keywords": [
+    "source",
+    "comments",
+    "remover",
+    "conditional compilation"
+  ],
+  "author": "Muut, Inc. and other contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aMarCruz/rmcomms/issues"
+  },
+  "homepage": "https://github.com/aMarCruz/rmcomms#readme"
+}
