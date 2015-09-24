@@ -1,5 +1,8 @@
 # Changelog for jspreproc
 
+#### Version 0.1.3 beta 2 - 2015-09-24
+- Fix: include_once is lost with further includes
+
 #### Version 0.1.3 beta 1 - 2015-09-24
 - Updated readme file
 - Minor improvement to main regex.

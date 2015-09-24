@@ -1,27 +1,9 @@
+console.log('hello')
 
-/*
-  @author: amarcruz
-  @license: MIT
-*/
+//#include dummy
 
-// delete this
-/*
-  ...and this
-*/
+//#include_once dummy
 
-console.log('Hi')
+//#include include2
 
-//#include defines
-
-//#ifdef INC
-//#include defines
-//#endif
-
-//#if 1
-console.log('Hello World')
-  //#if 0
-console.log('Never shown')
-  //#endif
-//#endif
-
-console.log('Good bye')
+console.log('bye')
