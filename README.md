@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/jspreproc.svg)](http://badge.fury.io/js/jspreproc)
+
 # jspreproc
 A JavaScript source file preprocessor in pure JavaScript, with duplicate empty lines and comments remover.
 
@@ -19,7 +21,7 @@ options | description
 --empty-lines | how much empty lines keep in the output (-1: keep all)<br> type: number - default: `1`
 -C, --comments| treatment of comments, one of:<br> "all": keep all, "none": remove all, "filter": apply filter<br> type: string - default: `filter`
 -F, --filter  | keep comments matching filter. "all" to apply all filters,<br>or one or more of: license, jsdocs, jslint, jshint, eslint<br> type: string - default: `[license]`
--v, --version | print version to stdout and exit.
+-V, --version | print version to stdout and exit.
 -h, --help | display a short help
 Example:
 ```sh
@@ -53,14 +55,12 @@ CC follows the C preprocessor style, with the same keywords, preceded by `//`
 ```js
 //#if expression
 //#elif __expression__
-
 ```
 If the expression evaluates to falsy, the block of code that follows the statement is removed.
 
 ```js
 //#ifdef NAME
 //#ifndef NAME
-
 ```
 Test the existence of a defined name.
 These are shorthands for `#if defined(NAME)` and `#if !defined(NAME)`.
