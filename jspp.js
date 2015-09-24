@@ -5,7 +5,7 @@ var preproc = require('./lib/preproc'),
 
 var argv = require('minimist')(process.argv.slice(2),
     {
-      'alias':   {'define': 'D', 'comments': 'C', 'filter': 'F', 'version': 'v', 'help': 'h'},
+      'alias':   {'define': 'D', 'comments': 'C', 'filter': 'F', 'version': 'V', 'help': 'h'},
       'string':  ['define', 'headers', 'eol-type', 'comments', 'filter'],
       'boolean': ['opt'],
       'default': {
@@ -22,7 +22,7 @@ var argv = require('minimist')(process.argv.slice(2),
       }
     })
 
-if (argv.v) return showVersion()
+if (argv.V) return showVersion()
 if (argv.h) return showHelp()
 
 Object.keys(argv).forEach(function (k) {
@@ -95,7 +95,7 @@ function showHelp() {
     '-F, --filter    keep comments matching filter. "all" to apply all filters, or',
     '                one or more of: ' + filts,
     '                type: string - default: [' + options.filter.join(', ') + ']',
-    '-v, --version   print version to stdout.',
+    '-V, --version   output the version number.',
     '-h, --help      display this message'
     ].join('\n'))
 

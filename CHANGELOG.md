@@ -1,5 +1,9 @@
 # Changelog for jspreproc
 
+#### Version 0.1.3 beta 1 - 2015-09-24
+First public release almost ready for production.
+- Fix: filename is restored returning from an included file.
+
 #### Version 0.1.2 - 2015-09-24
 - Fix: include_once ignore already included files with the "include" keyword.
 - Fix: separator normalization in __FILE
@@ -11,4 +15,4 @@ First public release
 - Comment filters for linters
 
 #### Version 0.1.0-beta - 2015-08-21
-- Added very basic conditional compilation with `/*@if ($DEF)...`
+- Added very basic conditional compilation
