@@ -1,6 +1,6 @@
 {
   "name": "jspreproc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "JavaScript source file preprocessor and comments remover for JavaScript",
   "main": "lib/preproc.js",
   "bin": {
@@ -22,7 +22,7 @@
     "conditional",
     "compilation"
   ],
-  "devDependencies": {
+  "dependencies": {
     "minimist": "^1.2.0"
   },
   "scripts": {

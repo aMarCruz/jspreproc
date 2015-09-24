@@ -1,29 +1,28 @@
 # jspreproc
 A JavaScript source file preprocessor in pure JavaScript, with duplicate empty lines and comments remover.
 
-Build different versions of a library.
-
 ## Install
-```bash
+```sh
 npm install jspreproc
 ```
 
 ### Command-line
-```bash
+jspreproc name for command-line interface is `jspp`
+```sh
 jspp [options] file1 file2 ...
 ```
-option | description
+options | description
 -------|------------
--D,<br>--define  | add a define for use in expressions (e.g. -D NAME=value)<br>type: string
+-D, --define  | add a define for use in expressions (e.g. -D NAME=value)<br>type: string
 --headers     | text to insert before each file.<br> type: string - default: `'\n//// __FILE\n\n'`
 --eol-type    | normalize end of lines to "unix", "win", or "mac" style<br> type: string - default: `unix`
 --empty-lines | how much empty lines keep in the output (-1: keep all)<br> type: number - default: `1`
--C,<br>--comments| treatment of comments, one of:<br> "all": keep all, "none": remove all, "filter": apply filter<br> type: string - default: `filter`
--F,<br>--filter  | keep comments matching filter. "all" to apply all filters, or<br> one or more of: license, jsdocs, jslint, jshint, eslint<br> type: string - default: `[license]`
--v,<br>--version | print version to stdout.
--h,<br>--help | display a short help
+-C, --comments| treatment of comments, one of:<br> "all": keep all, "none": remove all, "filter": apply filter<br> type: string - default: `filter`
+-F, --filter  | keep comments matching filter. "all" to apply all filters,<br>or one or more of: license, jsdocs, jslint, jshint, eslint<br> type: string - default: `[license]`
+-v, --version | print version to stdout and exit.
+-h, --help | display a short help
 Example:
-```
+```sh
 jspp -D DEBUG --filter jsdoc lib/myfile > tmp/myfile.js
 ```
 
@@ -32,15 +31,16 @@ jspp -D DEBUG --filter jsdoc lib/myfile > tmp/myfile.js
 var jspp = require('jspreproc')
 var stream = jspp(files, options)
 ```
-Parameter files can be an array, options is an object with the same options from command-line, but replace `eol-type` with `eolType`, and `empty-lines` with `emptyLines`. e.g.
+Parameter files can be an array, options is an object with the same options from command-line, but replace `eol-type` with `eolType`, and `empty-lines` with `emptyLines`.
+Example:
 ```js
-jspp('file1', { emptyLines: 0 }).pipe(process.stdout)
+jspp('file1', {define:'NDEBUG', emptyLines: 0}).pipe(process.stdout)
 ```
-the return value of jspp() is a `stream.PassThrough` instance.
+return value is a [`stream.PassThrough`](https://nodejs.org/api/stream.html#stream_class_stream_passthrough) instance.
 
-## Conditional Comments (CC)
+### Conditional Comments (CC)
 
-Conditional Comments allows remove unused parts of your application.
+Conditional Comments allows remove unused parts and build different versions of your application.
 
 * Keep CC in their own line, with no other tokens (only single-line comment).
 * CC keywords are case sensitive and must begin at the start of the comment.
@@ -55,7 +55,7 @@ CC follows the C preprocessor style, with the same keywords, preceded by `//`
 //#elif __expression__
 
 ```
-If the expression evaluates to falsy value, code following the statement is removed.
+If the expression evaluates to falsy, the block of code that follows the statement is removed.
 
 ```js
 //#ifdef NAME
@@ -63,32 +63,28 @@ If the expression evaluates to falsy value, code following the statement is remo
 
 ```
 Test the existence of a defined name.
-These are a shorthands for `#if defined(NAME)` and `#if !defined(NAME)`.
+These are shorthands for `#if defined(NAME)` and `#if !defined(NAME)`.
 
 ```js
 //#else
-```
-
-```js
 //#endif
 ```
-Closes a conditional block.
+Default block and closing statements.
 
 ```js
 //#define NAME value  // value defaults to 1
 //#undef NAME
 ```
-DEFINEs are global to all processed files.
-Valid names for defines are all uppercase, starts with one [$_A-Z] character, followed by one or more [_A-Z], so minimum length is 2.
-`__FILE` is the only predefined value. This is the name of the current file, relative to the current working directory, with separators in unix style (`/`).
-You can't use nested defines in values.
+Once declared, the DEFINEs are global to all files and their value can be changed at any time.
+Valid names for defines are all uppercase, starts with one character in the range `[$_A-Z]`, followed by one or more of `[_A-Z]`, so minimum length is 2.
+You can't use defines inside the values.
 
 ```js
 //#include filename
 //#include_once filename
 ```
-This statements includes the content of another file. `filename` can be an absolute name, or relative to the current file. Default extension is `.js`
-You can include the same file multiple times in the current file, but the statement is ignored if the same file was processed or included in a higher level (avoids recursion).
+This statements inserts the content of another file. `filename` can be an absolute file name, or relative to the current file. Default extension is `.js`
+You can include the same file multiple times in the current file, but the statement is ignored if the same file was processed or included in a preceding level (avoids recursion).
 Use `include_once` to include only one copy by process.
 
 ## Examples
@@ -115,23 +111,24 @@ Use `include_once` to include only one copy by process.
 //#endif
 ```
 ```js
-//#if DEBUG         // returns false if DEBUG is falsy or not defined
+//#if DEBUG             // returns false if DEBUG is falsy or not defined
   console.log('info')
 //#endif
 ```
-#### Defines
+####  Defines
 ```js
-//#define FOO 1
+//#define FOO "one"
 //#define BAR 2
-//#define DEBUG      // DEBUG value is 1
-//#define FOO (1+2)  // redefine FOO
+//#define DEBUG         // DEBUG value is 1
+//#define FOO (1+2)     // redefine FOO
 ```
 #### Includes
 ```js
-//#include myfile    // myfile.js in the same folder of current file
+//#include myfile       // myfile.js in the same folder of current file
 //#include_once ../myone
-//#include myfile    // ok to insert again
-//#include ../myone  // ignored
+//#include myfile       // ok to insert again
+//#include ../myone.js  // ignored
 ```
-### END
-If you have time, please help me improving this page... English is not my best friend.
+### TODO
+Tests, docs.
+If you wish and have time, help me improving this page... English is not my best friend.
