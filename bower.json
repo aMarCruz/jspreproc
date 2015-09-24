@@ -1,0 +1,23 @@
+{
+  "name": "jspreproc",
+  "main": "lib/preproc.js",
+  "homepage": "https://github.com/aMarCruz/jspreproc",
+  "authors": ["Alberto Martinez"],
+  "description": "JavaScript source file preprocessor and comments remover for JavaScript",
+  "keywords": [
+    "source",
+    "comments",
+    "remover",
+    "defines",
+    "preprocessor",
+    "conditional",
+    "compilation"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ]
+}

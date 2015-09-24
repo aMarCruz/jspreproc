@@ -1,0 +1,37 @@
+{
+  "name": "jspreproc",
+  "version": "0.1.0",
+  "description": "JavaScript source file preprocessor and comments remover for JavaScript",
+  "main": "lib/preproc.js",
+  "bin": {
+    "jspp": "./jspp.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aMarCruz/jspreproc.git"
+  },
+  "keywords": [
+    "source",
+    "comments",
+    "remover",
+    "defines",
+    "preprocessor",
+    "conditional",
+    "compilation"
+  ],
+  "devDependencies": {
+    "minimist": "^1.2.0"
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "author": "Alberto Martinez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aMarCruz/jspreproc/issues"
+  },
+  "homepage": "https://github.com/aMarCruz/jspreproc#readme"
+}
