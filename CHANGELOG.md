@@ -1,6 +1,10 @@
 # Changelog for jspreproc
 
 #### Version 0.1.3 beta 1 - 2015-09-24
+- Updated readme file
+- Minor improvement to main regex.
+
+#### Version 0.1.3 beta 0 - 2015-09-24
 First public release almost ready for production.
 - Fix: filename is restored returning from an included file.
 
