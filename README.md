@@ -41,22 +41,17 @@ Example:
 jspp('file1', {define:'NDEBUG', emptyLines: 0}).pipe(process.stdout)
 ```
 
-### Conditional Comments (CC)
+## C-Style Preprocessor Keywords
+
+jspreproc follows the C preprocessor style, with the same keywords, preceded by `//`
+
+### Conditional Comments
 
 Conditional Comments allows remove unused parts and build different versions of your application.
 
 * Keep CC in their own line, with no other tokens (only single-line comment).
 * CC keywords are case sensitive and must begin at the start of the comment.
 * Only spaces and tabs are allowed between the CC parts.
-
-Unlike in C, redefining a symbol changes their value, does not generates error.
-You can't use a defined symbol as the value in a new definition, e.g. `#define FOO BAR` (this is a TODO).
-
-jspreproc does not supports function-like macros, nor macro expansion out of `if-elif` expressions.
-
-### Keywords
-
-CC follows the C preprocessor style, with the same keywords, preceded by `//`
 
 ```js
 //#if expression
@@ -77,19 +72,30 @@ These are shorthands for `#if defined(NAME)` and `#if !defined(NAME)`.
 ```
 Default block and closing statements.
 
+### Defines
+
 ```js
 //#define NAME value  // value defaults to 1
 //#undef NAME
 ```
 Once defined, the symbol is global to all files and their value can be changed at any time.
 Valid names for defines are all uppercase, starts with one character in the range `[$_A-Z]`, followed by one or more of `[_A-Z]`, so minimum length is 2.
-You can't use a defined symbol to define a new symbol.
+
+You can't use defined symbols as the value in a new definition, only literal primitive constant values (this is in TODO).
+e.g. `#define FOO "1"` is ok, `#define BAR FOO` will generate error.
+
+Unlike in C, redefining a symbol changes their value, does not generates error.
+
+jspreproc does not supports function-like macros, nor macro expansion out of if-elif expressions.
+
+### Includes
 
 ```js
 //#include filename
 //#include_once filename
 ```
-This statements inserts the content of another file. `filename` can be an absolute file name, or relative to the current file. Default extension is `.js`
+This statements inserts the content of another file. `filename` can be an absolute file name, or relative to the current file. Default extension is `.js`.
+
 You can include the same file multiple times in the current file, but the statement is ignored if the same file was processed or included in a preceding level (avoids recursion).
 Use `include_once` to include only one copy by process.
 
@@ -122,7 +128,7 @@ Use `include_once` to include only one copy by process.
 //#endif
 ```
 
-####  Defines
+**Defines**
 ```js
 //#define FOO "one"
 //#define BAR 2
@@ -130,7 +136,7 @@ Use `include_once` to include only one copy by process.
 //#define FOO (1+2)     // redefine FOO
 ```
 
-#### Includes
+**Includes**
 ```js
 //#include myfile       // myfile.js in the same folder of current file
 //#include_once ../myone
@@ -139,10 +145,11 @@ Use `include_once` to include only one copy by process.
 ```
 
 ### Known Issues
-Support for define recursion.
-
 process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. [ConEmu](https://conemu.github.io/) and others, use clean Windows prompt or [MSYS](http://www.mingw.org/wiki/msys) with mintty.
 
 ### TODO
-Tests, docs.
+Support for using defined symbols in a new definition.
+
+Docs and tests.
+
 If you wish and have time, help me improving this page... English is not my best friend.
