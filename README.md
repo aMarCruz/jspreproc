@@ -1,7 +1,7 @@
 [![npm version](https://badge.fury.io/js/jspreproc.svg)](http://badge.fury.io/js/jspreproc)
 
 # jspreproc
-A JavaScript source file preprocessor in pure JavaScript, with duplicate empty lines and comments remover.
+A tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
 
 ## Install
 ```sh
@@ -33,12 +33,13 @@ jspp -D DEBUG --filter jsdoc lib/myfile > tmp/myfile.js
 var jspp = require('jspreproc')
 var stream = jspp(files, options)
 ```
-Parameter files can be an array, options is an object with the same options from command-line, but replace `eol-type` with `eolType`, and `empty-lines` with `emptyLines`.
+Parameter files can be an array, options is an object with the same options from command-line, but replace dashed options with camelCase properties: `eol-type` with `eolType`, and `empty-lines` with `emptyLines`.
+jspp return value is a [`stream.PassThrough`](https://nodejs.org/api/stream.html#stream_class_stream_passthrough) instance.
+
 Example:
 ```js
 jspp('file1', {define:'NDEBUG', emptyLines: 0}).pipe(process.stdout)
 ```
-return value is a [`stream.PassThrough`](https://nodejs.org/api/stream.html#stream_class_stream_passthrough) instance.
 
 ### Conditional Comments (CC)
 
@@ -48,6 +49,11 @@ Conditional Comments allows remove unused parts and build different versions of 
 * CC keywords are case sensitive and must begin at the start of the comment.
 * Only spaces and tabs are allowed between the CC parts.
 
+Unlike in C, redefining a symbol changes their value, does not generates error.
+You can't use a defined symbol as the value in a new definition, e.g. `#define FOO BAR` (this is a TODO).
+
+jspreproc does not supports function-like macros, nor macro expansion out of `if-elif` expressions.
+
 ### Keywords
 
 CC follows the C preprocessor style, with the same keywords, preceded by `//`
@@ -56,13 +62,13 @@ CC follows the C preprocessor style, with the same keywords, preceded by `//`
 //#if expression
 //#elif __expression__
 ```
-If the expression evaluates to falsy, the block of code that follows the statement is removed.
+If the expression evaluates to falsy, the block following the statement is removed.
 
 ```js
 //#ifdef NAME
 //#ifndef NAME
 ```
-Test the existence of a defined name.
+Test the existence of a defined symbol.
 These are shorthands for `#if defined(NAME)` and `#if !defined(NAME)`.
 
 ```js
@@ -75,9 +81,9 @@ Default block and closing statements.
 //#define NAME value  // value defaults to 1
 //#undef NAME
 ```
-Once declared, the DEFINEs are global to all files and their value can be changed at any time.
+Once defined, the symbol is global to all files and their value can be changed at any time.
 Valid names for defines are all uppercase, starts with one character in the range `[$_A-Z]`, followed by one or more of `[_A-Z]`, so minimum length is 2.
-You can't use defines inside the values.
+You can't use a defined symbol to define a new symbol.
 
 ```js
 //#include filename
@@ -90,14 +96,14 @@ Use `include_once` to include only one copy by process.
 ## Examples
 
 ```js
-//#if DEF == 1
+//#if DEF == 1    // you can use single-line comments after the expression
   console.log('only preserved if DEF is 1')
 //#endif
 ```
 ```js
-//# if (DEF)      // can have spaces between `#` and the keyword
+//# if (DEF)      // you can insert spaces between `#` and the keyword
   //# if FOO      // ...but not between the `//` and `#`
-  //# endif
+  //# endif       // indented conditional comments are recognized
 //# else
 //#   if BAR
 //#   endif
@@ -115,6 +121,7 @@ Use `include_once` to include only one copy by process.
   console.log('info')
 //#endif
 ```
+
 ####  Defines
 ```js
 //#define FOO "one"
@@ -122,6 +129,7 @@ Use `include_once` to include only one copy by process.
 //#define DEBUG         // DEBUG value is 1
 //#define FOO (1+2)     // redefine FOO
 ```
+
 #### Includes
 ```js
 //#include myfile       // myfile.js in the same folder of current file
@@ -129,6 +137,12 @@ Use `include_once` to include only one copy by process.
 //#include myfile       // ok to insert again
 //#include ../myone.js  // ignored
 ```
+
+### Known Issues
+Support for define recursion.
+
+process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. [ConEmu](https://conemu.github.io/) and others, use clean Windows prompt or [MSYS](http://www.mingw.org/wiki/msys) with mintty.
+
 ### TODO
 Tests, docs.
 If you wish and have time, help me improving this page... English is not my best friend.
