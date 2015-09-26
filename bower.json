@@ -3,7 +3,7 @@
   "description": "Source file preprocessor and comments remover for JavaScript in JavaScript",
   "main": "lib/preproc.js",
   "dependencies": {
-    "substack/minimist": "^1.2.0"
+    "minimist": "git://github.com/substack/minimist.git#master"
   },
   "moduleType": [
     "node"
@@ -21,9 +21,11 @@
     "rmcomms",
     "jspp"
   ],
-  "authors": [
-    "Alberto Martínez <amarcruzbox-git@yahoo.com> (http://github.com/aMarCruz)"
-  ],
+  "authors": {
+    "name": "Alberto Martínez",
+    "email": "amarcruzbox-git@yahoo.com",
+    "homepage": "http://github.com/aMarCruz"
+  },
   "homepage": "http://github.com/aMarCruz/jspreproc",
   "repository": {
     "type": "git",
