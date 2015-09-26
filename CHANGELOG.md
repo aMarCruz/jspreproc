@@ -1,5 +1,9 @@
 # Changelog for jspreproc
 
+#### Version 0.1.3 beta 3 - 2015-09-24
+- Updated README
+- Fix: "jsdocs" filter for comments renamed to "jsdoc"
+
 #### Version 0.1.3 beta 2 - 2015-09-24
 - Fix: include_once is lost with further includes
 

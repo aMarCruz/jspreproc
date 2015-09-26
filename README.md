@@ -7,6 +7,7 @@ A tiny C-style source file preprocessor in JavaScript for JavaScript, with dupli
 ```sh
 npm install jspreproc
 ```
+jspreproc is for node.js 10.x or above.
 
 ### Command-line
 jspreproc name for command-line interface is `jspp`
@@ -20,7 +21,7 @@ options | description
 --eol-type    | normalize end of lines to "unix", "win", or "mac" style<br> type: string - default: `unix`
 --empty-lines | how much empty lines keep in the output (-1: keep all)<br> type: number - default: `1`
 -C, --comments| treatment of comments, one of:<br> "all": keep all, "none": remove all, "filter": apply filter<br> type: string - default: `filter`
--F, --filter  | keep comments matching filter. "all" to apply all filters,<br>or one or more of: license, jsdocs, jslint, jshint, eslint<br> type: string - default: `[license]`
+-F, --filter  | keep comments matching filter. "all" to apply all filters,<br>or one or more of: license, jsdoc, jslint, jshint, eslint<br> type: string - default: `[license]`
 -V, --version | print version to stdout and exit.
 -h, --help | display a short help
 Example:
