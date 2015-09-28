@@ -84,7 +84,6 @@
     "requireReturnTypes": true,
     "checkTypes": "strictNativeCase",
     "checkRedundantAccess": "enforceLeadingUnderscore",
-    "leadingUnderscoreAccess": true,
-    "requireNewlineAfterDescription": false
+    "leadingUnderscoreAccess": true
   }
 }

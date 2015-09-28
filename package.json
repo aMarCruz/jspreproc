@@ -1,6 +1,6 @@
 {
   "name": "jspreproc",
-  "version": "0.1.3-beta.3",
+  "version": "0.1.4-beta.1",
   "description": "Source file preprocessor and comments remover for JavaScript in JavaScript",
   "author": "Alberto Martínez",
   "license": "MIT",
@@ -16,11 +16,18 @@
     "jspp.js",
     "lib"
   ],
-  "engines" : {
+  "engines": {
     "node": ">=0.10.1"
+  },
+  "scripts": {
+    "test": "node test/run.js"
   },
   "dependencies": {
     "minimist": "^1.2.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.2",
+    "jasmine-spec-reporter": "^2.4.0"
   },
   "homepage": "https://github.com/aMarCruz/jspreproc#readme",
   "repository": {

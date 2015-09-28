@@ -78,7 +78,11 @@ function showHelp() {
 
     'Valid names to define starts with one [$_A-Z] followed by one or more [_A-Z],\n' +
     'all uppercase, and are for use with #if-ifdef-ifndef-elif statements.\n' +
-    'Predefined __FILE contains the relative name of the file being processed.\n'
+    'Predefined __FILE contains the relative name of the file being processed.\n\n' +
+
+    'NOTE: There\'s a breaking change in v0.1.4-beta.1, following the C behavior,\n' +
+    '      defined symbols are readonly now, you need undef first to change its\n' +
+    '      value. The new, special keyword #set can do more than these defines.'
     )
   console.log([
     '-D, --define    add a define for use in expressions (e.g. -D NAME=value)',

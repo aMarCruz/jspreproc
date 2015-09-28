@@ -1,9 +1,5 @@
-console.log('hello')
-
 //#include dummy
-
+//#if ONCE
 //#include_once dummy
-
+//#endif
 //#include include2
-
-console.log('bye')

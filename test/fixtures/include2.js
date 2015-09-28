@@ -1,5 +1,4 @@
-console.log('Hello')
-
+console.log('include2')
 //#include dummy
 //#include dummy
 //#include include1

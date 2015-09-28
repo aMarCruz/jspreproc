@@ -1,0 +1,14 @@
+/**
+  @author: amarcruz
+  comment preserved with comments is "all", or "filter" with the "jsdoc"
+  filter enabled.
+*/
+//@license: MIT - preserved when the comments option is "all" or "filter"
+/*
+  # Comment preserved when comments option is "all"
+    or "filter" with filter "all" or "titles"
+*/
+console.log('with #')     //# keep when comments is "all", or "filter" with filter "all" or "titles"
+console.log('jslint')     //jslint keep this comment with the jslint filter
+console.log('jshint')     // jshint keep this comment with the jshint filter
+console.log('eslint')     // eslint keep with the eslint filter

@@ -1,6 +1,15 @@
 # Changelog for jspreproc
 
-#### Version 0.1.3 beta 3 - 2015-09-24
+#### Version 0.1.4 beta 1 - 2015-09-28
+- First tests with Jasmine (http://jasmine.github.io/)
+- Defines can include other defines, with immediate evaluation
+- Use of the prefix '$_' for replacement of defined symbols in the entire file.
+- Added "jscs" to comment filters (http://jscs.info/)
+- Added "titles" to comment filters, for markdown titles ('#' markers only)
+- Fix: "jsdocs" filter for comments renamed to "jsdoc"
+- Updated README
+
+#### Version 0.1.3 beta 3 - 2015-09-25
 - Updated README
 - Fix: "jsdocs" filter for comments renamed to "jsdoc"
 
