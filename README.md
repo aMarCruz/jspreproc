@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/jspreproc.svg)](http://badge.fury.io/js/jspreproc)
+[![npm version](https://badge.fury.io/js/jspreproc.svg)](http://badge.fury.io/js/jspreproc) [![Dependency Status](https://david-dm.org/aMarCruz/jspreproc.svg)](https://david-dm.org/aMarCruz/jspreproc) [![devDependency Status](https://david-dm.org/aMarCruz/jspreproc/dev-status.svg)](https://david-dm.org/aMarCruz/jspreproc#info=devDependencies)
 
 # jspreproc
 A tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
