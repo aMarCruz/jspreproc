@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint no-console: 0 */
 
 var preproc = require('./lib/preproc'),
     options = require('./lib/options')
@@ -9,7 +10,7 @@ var argv = require('minimist')(process.argv.slice(2),
       'string':  ['define', 'header1', 'headers', 'indent', 'eol-type', 'comments', 'filter'],
       'boolean': ['opt'],
       'default': {
-        'headers':     options.header1,
+        'header1':     options.header1,
         'headers':     options.headers,
         'indent':      options.indent,
         'eol-type':    options.eolType,
@@ -66,20 +67,22 @@ function showVersion() {
  * Displays version and usage
  */
 function showHelp() {
-  console.log(
-    '\nUsage: \033[1mjspp\033[0m [options] [file …]\n\n' +
-
-    'Version: ' + require('./package.json').version + '\n\n' +
-
-    'Concatenates one or more input files, outputting a single merged file.\n' +
-    'Any include statements in the input files are expanded in-place to the\n' +
-    'contents of the imported file. include statements for files already\n' +
-    'included in a parent level are ignored (avoids recursion).\n\n' +
-
-    'Valid names to define starts with one [$_A-Z] followed by one or more [_A-Z],\n' +
-    'all uppercase, and are for use with #if-ifdef-ifndef-elif statements.\n' +
-    'Predefined __FILE contains the relative name of the file being processed.\n'
-    )
+  console.log([
+    '',
+    'Usage: \033[1mjspp\033[0m [options] [file …]' +
+    '',
+    'Version: ' + require('./package.json').version,
+    '',
+    'Concatenates one or more input files, outputting a single merged file.',
+    'Any include statements in the input files are expanded in-place to the',
+    'contents of the imported file. include statements for files already',
+    'included in a parent level are ignored (avoids recursion).',
+    '',
+    'Valid names to define starts with one [$_A-Z] followed by one or more [_A-Z],',
+    'all uppercase, and are for use with #if-ifdef-ifndef-elif statements.',
+    'Predefined __FILE contains the relative name of the file being processed.',
+    ''
+  ].join('\n'))
   console.log([
     '-D, --define    add a define for use in expressions (e.g. -D NAME=value)',
     '                type: string',
@@ -105,7 +108,7 @@ function showHelp() {
     '                type: string - default: ["' + options.filter.join("', '") + '"]',
     '-V, --version   print version to stdout and exits.',
     '-h, --help      display this message.'
-    ].join('\n'))
+  ].join('\n'))
 
   return 0
 }

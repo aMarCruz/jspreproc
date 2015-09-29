@@ -1,7 +1,12 @@
+/*
+  Tests for jspreproc using jasmine
+*/
 var jspp = require('../lib/preproc'),
     stream = require('stream'),
     path = require('path'),
     fs = require('fs')
+
+var fixtures = path.join(__dirname, 'fixtures')
 
 function cat(file) {
   var f = path.join(__dirname, file)
@@ -22,29 +27,37 @@ function testStr(str, opts, callback) {
 }
 
 function testFile(file, opts, callback) {
-  testStr(path.join('test', 'fixtures', file), opts, callback)
+  testStr(path.join(fixtures, file), opts, callback)
+}
+
+function readExpect(file) {
+  return cat(path.join('expect', file))
 }
 
 
 /*
   Comments Suite
 */
-describe("Comments", function() {
+describe('Comments', function () {
+  var opts = { headers: '', emptyLines: 0 }
 
   it('are preserved with -C all', function (done) {
-    testFile('comments.js', {headers: '', comments: 'all'},
-      function (result) {
-        expect(result).toBe(cat('expect/comments_all.js'))
-        done()
-      })
+
+    opts.comments = 'all'
+    testFile('comments.js', opts, function (result) {
+      expect(result).toBe(readExpect('comments_all.js'))
+      done()
+    })
   })
 
-  it('are preserved for linters with -C filer -F all', function (done) {
-    testFile('comments.js', {headers: '', comments: 'filter', filter: 'all', emptyLines: 0},
-      function (result) {
-        expect(result).toBe(cat('expect/comments_linters.js'))
-        done()
-      })
+  it('are preserved for linters with -F all', function (done) {
+
+    opts.comments = 'filter'
+    opts.filter = 'all'
+    testFile('comments.js', opts, function (result) {
+      expect(result).toBe(readExpect('comments_linters.js'))
+      done()
+    })
   })
 
 })
@@ -53,14 +66,14 @@ describe("Comments", function() {
 /*
   #define Suite
 */
-describe("#define", function() {
+describe('#define', function () {
   var opts = {
     test: true,
     emptyLines: 0,
     headers: ''
   }
 
-  it("evaluates the expression immediately", function (done) {
+  it('evaluates the expression immediately', function (done) {
 
     testStr('//#define N1 1\n//#define $_N N1+2\n$_N', opts,
       function (result) {
@@ -69,7 +82,7 @@ describe("#define", function() {
       })
   })
 
-  it("concatenate strings", function (done) {
+  it('concatenate strings', function (done) {
 
     testStr('//#define STR "a"\n//#define $_STR STR+"b"\n$_STR', opts,
       function (result) {
@@ -78,7 +91,7 @@ describe("#define", function() {
       })
   })
 
-  it("preserve regexes", function (done) {
+  it('preserve regexes', function (done) {
 
     testFile('define_regex.js', {headers: '', emptyLines: 0},
       function (result) {

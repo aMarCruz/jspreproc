@@ -12,3 +12,4 @@ branches:
     - stable
 notifications:
     email: false
+sudo: false

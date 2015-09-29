@@ -1,5 +1,9 @@
 # Changelog for jspreproc
 
+#### Version 0.1.4 beta 4 - 2015-09-29
+- jasmine directory changed to spec
+- format with eslint rules
+
 #### Version 0.1.4 beta 3 - 2015-09-29
 - Fix: `path.isAbsolute` does not exists in node 0.10, removed.
 

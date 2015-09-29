@@ -1,6 +1,6 @@
 {
   "name": "jspreproc",
-  "version": "0.1.4-beta.3",
+  "version": "0.1.4-beta.4",
   "description": "Source file preprocessor and comments remover for JavaScript in JavaScript",
   "author": "Alberto Martínez",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "node": ">=0.10.1"
   },
   "scripts": {
-    "test": "node test/run.js"
+    "test": "node spec/run.js"
   },
   "dependencies": {
     "minimist": "^1.2.0"
