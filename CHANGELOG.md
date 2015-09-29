@@ -1,5 +1,8 @@
 # Changelog for jspreproc
 
+#### Version 0.1.4 beta 3 - 2015-09-29
+- Fix: `path.isAbsolute` does not exists in node 0.10, removed.
+
 #### Version 0.1.4 beta 2 - 2015-09-28
 - Enhancement: `header1` option, for setting the header of the top level file.
 - Enhancement: `indent` option, adds indentation to included files.
