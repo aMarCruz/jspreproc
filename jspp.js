@@ -6,10 +6,12 @@ var preproc = require('./lib/preproc'),
 var argv = require('minimist')(process.argv.slice(2),
     {
       'alias':   {'define': 'D', 'comments': 'C', 'filter': 'F', 'version': 'V', 'help': 'h'},
-      'string':  ['define', 'headers', 'eol-type', 'comments', 'filter'],
+      'string':  ['define', 'header1', 'headers', 'indent', 'eol-type', 'comments', 'filter'],
       'boolean': ['opt'],
       'default': {
+        'headers':     options.header1,
         'headers':     options.headers,
+        'indent':      options.indent,
         'eol-type':    options.eolType,
         'empty-lines': options.emptyLines,
         'comments':    options.comments
@@ -64,8 +66,6 @@ function showVersion() {
  * Displays version and usage
  */
 function showHelp() {
-  var filts = Object.keys(options._FILT).join(', ')
-
   console.log(
     '\nUsage: \033[1mjspp\033[0m [options] [file …]\n\n' +
 
@@ -78,29 +78,33 @@ function showHelp() {
 
     'Valid names to define starts with one [$_A-Z] followed by one or more [_A-Z],\n' +
     'all uppercase, and are for use with #if-ifdef-ifndef-elif statements.\n' +
-    'Predefined __FILE contains the relative name of the file being processed.\n\n' +
-
-    'NOTE: There\'s a breaking change in v0.1.4-beta.1, following the C behavior,\n' +
-    '      defined symbols are readonly now, you need undef first to change its\n' +
-    '      value. The new, special keyword #set can do more than these defines.'
+    'Predefined __FILE contains the relative name of the file being processed.\n'
     )
   console.log([
     '-D, --define    add a define for use in expressions (e.g. -D NAME=value)',
     '                type: string',
+    '--header1       text to insert before the top level file.',
+    '                type: string - default: ' + JSON.stringify(options.header1),
     '--headers       text to insert before each file.',
     '                type: string - default: ' + JSON.stringify(options.headers),
-    '--eol-type      normalize end of lines to "unix", "win", or "mac" style',
-    '                type: string - default: ' + options.eolType,
+    '--indent        indentation to add before each line of included files.',
+    '                The format matches the regex /^\\d+\s*[ts]/ (e.g. \'1t\'),',
+    '                where \'t\' means tabs and \'s\' spaces, default is spaces.',
+    '                Each level adds indentation.',
+    '                type: string - default: ' + JSON.stringify(options.indent),
+    '--eol-type      normalize end of lines to unix, win, or mac style',
+    '                type: string - default: ' + JSON.stringify(options.eolType),
     '--empty-lines   how much empty lines keep in the output (-1: keep all)',
-    '                type: number - default: ' + options.emptyLines,
+    '                type: number - default: ' + JSON.stringify(options.emptyLines),
     '-C, --comments  treatment of comments, one of:',
-    '                "all": keep all, "none": remove all, "filter": apply filter',
-    '                type: string - default: ' + options.comments,
-    '-F, --filter    keep comments matching filter. "all" to apply all filters, or',
-    '                one or more of: ' + filts,
-    '                type: string - default: [' + options.filter.join(', ') + ']',
-    '-V, --version   output the version number.',
-    '-h, --help      display this message'
+    '                all: keep all, none: remove all, filter: apply filter',
+    '                type: string - default: ' + JSON.stringify(options.comments),
+    '-F, --filter    keep comments matching filter. "all" to apply all filters,',
+    '                or one or more of:',
+    '                ' + Object.keys(options._FILT).join(', '),
+    '                type: string - default: ["' + options.filter.join("', '") + '"]',
+    '-V, --version   print version to stdout and exits.',
+    '-h, --help      display this message.'
     ].join('\n'))
 
   return 0

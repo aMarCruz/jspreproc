@@ -4,7 +4,7 @@
 A tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
 
 **NOTE:**
-As v0.1.4-beta.1, the expression used to define a symbol can include other defined symbols (itself inclusive). The expression is evaluated immediately.
+As version 0.1.4-beta.1, the expression used to define a symbol can include other defined symbols (itself inclusive). The expression is evaluated immediately.
 Also, symbols can contain digits except for the first character, names beginning with `$_` can be used for replacement on the processing file (experimental).
 
 ## Install
@@ -23,13 +23,15 @@ jspp [options] file1 file2 ...
 options | description
 -------|------------
 -D, --define<br>--set | add a define for use in expressions (e.g. -D NAME=value)<br>type: string
---headers     | text to insert before each file.<br> type: string - default: `'\n//// __FILE\n\n'`
---eol-type    | normalize end of lines to "unix", "win", or "mac" style<br> type: string - default: `unix`
---empty-lines | how much empty lines keep in the output (-1: keep all)<br> type: number - default: `1`
--C, --comments| treatment of comments, one of:<br> "all": keep all, "none": remove all, "filter": apply filter<br> type: string - default: `filter`
--F, --filter  | keep comments matching filter. "all" to apply all filters,<br>or one or more of: license, titles, jsdoc, jslint, jshint, eslint, jscs<br> type: string - default: `[license]`
--V, --version | print version to stdout and exit.
--h, --help | display a short help
+--header1     | text to insert before the top level file.<br> type: string - default: `""`
+--headers     | text to insert before each file.<br> type: string - default: `'\n// __FILE\n\n'`
+--indent      | indentation to add before each line of included files.<br> The format matches the regex `/$\d+\s*[ts]/` (e.g. `1t`),<br> where `t` means tabs and `s` spaces, default is spaces.<br> Each level adds indentation.<br> type: string - default: `"2s"`
+--eol-type    | normalize end of lines to unix, win, or mac style<br> type: string - default: `"unix"`
+--empty-lines | how much empty lines keep in the output (`-1`: keep all)<br> type: number - default: `1`
+-C, --comments| treatment of comments, one of:<br> `all`: keep all, `none`: remove all, `filter`: apply filter<br> type: string - default: `"filter"`
+-F, --filter  | keep comments matching filter. `all` to apply all filters,<br>or one or more of:<br> `license`, `titles`, `jsdoc`, `jslint`, `jshint`, `eslint`, `jscs`<br> type: string - default: `["license"]`
+-V, --version | print version to stdout and exits.
+-h, --help | display a short help.
 
 _Example:_
 ```sh
@@ -67,42 +69,43 @@ Conditional Comments allows remove unused parts and build different versions of 
 * CC keywords are case sensitive and must begin at the start of the comment.
 * Only spaces and tabs are allowed between the CC parts.
 
-**`//#if expression`**
+**`//#if expression`**  
 **`//#elif expression`**
 
 If the expression evaluates to falsy, the block following the statement is removed.
 
-**`//#ifdef SYMBOL`**
+**`//#ifdef SYMBOL`**  
 **`//#ifndef SYMBOL`**
 
 Test the existence of a defined symbol.
 These are shorthands for `#if defined(SYMBOL)` and `#if !defined(SYMBOL)`.
 
-**`//#else`**
+**`//#else`**  
 **`//#endif`**
 
 Default block and closing statements.
 
 ### Defines
 
-**`//#define SYMBOL`**
-**`//#define SYMBOL expression`**
+**`//#define SYMBOL`**  
+**`//#define SYMBOL expression`**  
 **`//#undef SYMBOL`**
 
 Default value for new symbols is 1. In expressions, undefined symbols are replaced with 0.
 Once defined, the symbol is global to all files and their value can be changed at any time.
 Valid names for defines are all uppercase, starts with one character in the range `[$_A-Z]`, followed by one or more of `[0-9_A-Z]`, so minimum length is 2.
 
-You can use defined symbols in a new definition. The expression in the statement is immediately evaluated to a literal constant value and this value is assigned to the symbol.
+You can use defined symbols in a new definition. The expression in the statement is immediately evaluated to a literal constant value and it is assigned to the symbol.
+This behavior includes predefined symbol `__FILE`, which is replaced by the file name at the time of the evaluation.
 
 Unlike the C preprocessor behavior, redefining a symbol changes their value, does not generates error.
 
 **NOTE:**
-jspreproc does not supports function-like macros, nor macro expansion out of if-elif expressions, except for symbols beginning with '`$_`' followed by one or more characters in `[0-9_A-Z]`, that can be used for replacement in the file being processed (new in 0.1.4-beta).
+jspreproc does not supports function-like macros, nor macro expansion out of `#if-elif` expressions, except for symbols beginning with '`$_`' followed by one or more characters in `[0-9_A-Z]`, that can be used for replacement in the file being processed (new in 0.1.4-beta).
 
 ### Includes
 
-**`//#include filename`**
+**`//#include filename`**  
 **`//#include_once filename`**
 
 These statements inserts the content of another file. `filename` can be an absolute file name, or relative to the current file. Default extension is `.js`.
@@ -140,22 +143,16 @@ Use `include_once` to include only one copy by process.
 ```
 
 **Defines**
+
 ```js
 //#define FOO "one"
 //#define BAR 2
 //#define DEBUG         // DEBUG value is 1
 //#define FOO (1+2)     // redefine FOO
 ```
-Effects of inmediate evaluation:
-```js
-//#define FOO 'foo'             // value defaults to 1
-//#define BAR NAME + 'bar'      // OTHER value is 'foobar'
-//#define FOO 'baz'
-console.log('%s %s', FOO, BAR)  // prints 'baz foobar'
-//#undef FOO
-console.log('%s %s', FOO, BAR)  // SyntaxError
-```
+
 Using const-like symbols in the source code:
+
 ```js
 //#define $_NAME 1              // must begin with '$_'
 var foo = $_NAME + 1            // foo is 2
@@ -173,8 +170,27 @@ var a = $_NAME.test('a')        // a is true
 var x = $_NAME                  // SyntaxError
 ```
 
-**Fail safe #define**
+Effects of immediate evaluation:
+
+```js
+//#define $_FOO 'foo'           // value defaults to 1
+//#define $_BAR NAME + 'bar'    // OTHER value is 'foobar'
+//#define $_FOO 'baz'
+console.log('%s %s', $_FOO, $_BAR) // prints 'baz foobar'
+//#undef $_FOO
+console.log('%s %s', $_FOO, $_BAR) // SyntaxError
+```
+```js
+// Next define sets FILE to the name of the *current* file
+//#define FILE '__FILE'
+
+// From now on, although the file being processed change, the value of
+// FILE remains the same. You need redefine FILE to update their value.
+```
+
+**Fail safe #define**  
 Even without run jspreproc in file2.js, next code will work:
+
 ```js
 // file1.js
 //#define $_NAME 1
@@ -191,6 +207,7 @@ console.log($_NAME);    // prints '1'
 ```
 
 **Includes**
+
 ```js
 //#include myfile       // myfile.js in the same folder of current file
 //#include_once ../myone

@@ -1,5 +1,10 @@
 # Changelog for jspreproc
 
+#### Version 0.1.4 beta 2 - 2015-09-28
+- Enhancement: `header1` option, for setting the header of the top level file.
+- Enhancement: `indent` option, adds indentation to included files.
+- Fix: Incorrect value for `__FILE` - Delay evaluation if expression contains `__FILE`
+
 #### Version 0.1.4 beta 1 - 2015-09-28
 - First tests with Jasmine (http://jasmine.github.io/)
 - Defines can include other defines, with immediate evaluation
