@@ -2,20 +2,21 @@
 /* eslint no-console: 0 */
 
 var preproc = require('./lib/preproc'),
-    options = require('./lib/options')
+    Options = require('./lib/options'),
+    defopts = Options.prototype.defaults
 
 var argv = require('minimist')(process.argv.slice(2),
     {
       'alias':   {'define': 'D', 'comments': 'C', 'filter': 'F', 'version': 'V', 'help': 'h'},
       'string':  ['define', 'header1', 'headers', 'indent', 'eol-type', 'comments', 'filter'],
-      'boolean': ['opt'],
+      'boolean': ['showme'],
       'default': {
-        'header1':     options.header1,
-        'headers':     options.headers,
-        'indent':      options.indent,
-        'eol-type':    options.eolType,
-        'empty-lines': options.emptyLines,
-        'comments':    options.comments
+        'header1':     defopts.header1,
+        'headers':     defopts.headers,
+        'indent':      defopts.indent,
+        'eol-type':    defopts.eolType,
+        'empty-lines': defopts.emptyLines,
+        'comments':    defopts.comments
       },
       'unknown': function (opt) {
         if (opt[0] === '-' && opt !== '--empty-lines') {
@@ -35,7 +36,7 @@ Object.keys(argv).forEach(function (k) {
     delete argv[k]
   }
 })
-if (argv.opt) return showOpts(argv)
+if (argv.showme) return showOpts(argv)
 
 preproc(argv._, argv).pipe(process.stdout)
 
@@ -50,8 +51,9 @@ process.on('exit', function (code) {
 })
 
 function showOpts(argv) {
+  var opt = new Options(argv)
   console.dir(argv._)
-  console.dir(options.merge(argv))
+  console.dir(opt)
   return 1
 }
 
@@ -69,45 +71,44 @@ function showVersion() {
 function showHelp() {
   console.log([
     '',
-    'Usage: \033[1mjspp\033[0m [options] [file …]' +
+    '  Usage: \033[1mjspp\033[0m [options] [file...]',
     '',
-    'Version: ' + require('./package.json').version,
+    '    Tiny C-style source file preprocessor for JavaScript, with duplicate',
+    '    empty lines and comments remover.',
     '',
-    'Concatenates one or more input files, outputting a single merged file.',
-    'Any include statements in the input files are expanded in-place to the',
-    'contents of the imported file. include statements for files already',
-    'included in a parent level are ignored (avoids recursion).',
-    '',
-    'Valid names to define starts with one [$_A-Z] followed by one or more [_A-Z],',
-    'all uppercase, and are for use with #if-ifdef-ifndef-elif statements.',
-    'Predefined __FILE contains the relative name of the file being processed.',
+    '    If no file name are given, jspp reads from the standard input.',
     ''
   ].join('\n'))
   console.log([
-    '-D, --define    add a define for use in expressions (e.g. -D NAME=value)',
-    '                type: string',
-    '--header1       text to insert before the top level file.',
-    '                type: string - default: ' + JSON.stringify(options.header1),
-    '--headers       text to insert before each file.',
-    '                type: string - default: ' + JSON.stringify(options.headers),
-    '--indent        indentation to add before each line of included files.',
-    '                The format matches the regex /^\\d+\s*[ts]/ (e.g. \'1t\'),',
-    '                where \'t\' means tabs and \'s\' spaces, default is spaces.',
-    '                Each level adds indentation.',
-    '                type: string - default: ' + JSON.stringify(options.indent),
-    '--eol-type      normalize end of lines to unix, win, or mac style',
-    '                type: string - default: ' + JSON.stringify(options.eolType),
-    '--empty-lines   how much empty lines keep in the output (-1: keep all)',
-    '                type: number - default: ' + JSON.stringify(options.emptyLines),
-    '-C, --comments  treatment of comments, one of:',
-    '                all: keep all, none: remove all, filter: apply filter',
-    '                type: string - default: ' + JSON.stringify(options.comments),
-    '-F, --filter    keep comments matching filter. "all" to apply all filters,',
-    '                or one or more of:',
-    '                ' + Object.keys(options._FILT).join(', '),
-    '                type: string - default: ["' + options.filter.join("', '") + '"]',
-    '-V, --version   print version to stdout and exits.',
-    '-h, --help      display this message.'
+    '  Options:',
+    '',
+    '    -D, --define    add a define for use in expressions (e.g. -D NAME=value)',
+    '                    type: string',
+    '    --header1       text to insert before the top level file.',
+    '                    type: string - default: ' + JSON.stringify(defopts.header1),
+    '    --headers       text to insert before each file.',
+    '                    type: string - default: ' + JSON.stringify(defopts.headers),
+    '    --indent        indentation to add before each line of included files.',
+    '                    The format matches the regex /^\\d+\s*[ts]/ (e.g. \'1t\'),',
+    '                    where \'t\' means tabs and \'s\' spaces, default is spaces.',
+    '                    Each level adds indentation.',
+    '                    type: string - default: ' + JSON.stringify(defopts.indent),
+    '    --eol-type      normalize end of lines to unix, win, or mac style',
+    '                    type: string - default: ' + JSON.stringify(defopts.eolType),
+    '    --empty-lines   how much empty lines keep in the output (-1: keep all)',
+    '                    type: number - default: ' + JSON.stringify(defopts.emptyLines),
+    '    -C, --comments  treatment of comments, one of:',
+    '                    all: keep all, none: remove all, filter: apply filter',
+    '                    type: string - default: ' + JSON.stringify(defopts.comments),
+    '    -F, --filter    keep comments matching filter. "all" to apply all filters,',
+    '                    or one or more of:',
+    '                    ' + Object.keys(Options.prototype.filters).join(', '),
+    '                    type: string - default: ["' + defopts.filter.join("', '") + '"]',
+    '    -V, --version   print version to stdout and exits.',
+    '    -h, --help      display this message.',
+    '',
+    '  Tip: use "^n" in the header1 and headers values to insert line feeds.',
+    ''
   ].join('\n'))
 
   return 0

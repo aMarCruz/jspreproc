@@ -1,18 +1,23 @@
-[![npm version](https://badge.fury.io/js/jspreproc.svg)](http://badge.fury.io/js/jspreproc) [![Build Status](https://travis-ci.org/aMarCruz/jspreproc.svg?branch=master)](https://travis-ci.org/aMarCruz/jspreproc) [![Dependency Status](https://david-dm.org/aMarCruz/jspreproc.svg)](https://david-dm.org/aMarCruz/jspreproc) [![devDependency Status](https://david-dm.org/aMarCruz/jspreproc/dev-status.svg)](https://david-dm.org/aMarCruz/jspreproc#info=devDependencies)
+[![npm Version][npm-image]][npm-url]
+[![Build Status][build-image]][build-url]
+[![Dependency Status][depend-image]][depend-url]
+[![devDependency Status][devdep-image]][devdep-url]
 
 # jspreproc
+
 A tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
 
-**NOTE:**
-As version 0.1.4-beta.1, the expression used to define a symbol can include other defined symbols (itself inclusive). The expression is evaluated immediately.
+**NOTE:**  
+Since version 0.1.4-beta.1, the expression used to define a symbol can include other defined symbols (to itself inclusive). The expression is evaluated immediately.  
 Also, symbols can contain digits except for the first character, names beginning with `$_` can be used for replacement on the processing file (experimental).
 
 ## Install
 
 You can install jspreproc using npm, locally in your project and globally to use the CLI tool.
-jspreproc is for node.js 0.10.x or above.
+jspreproc works in node.js 0.10.x or above.
 
 ### Command-line
+
 ```sh
 npm -g install jspreproc
 ```
@@ -20,11 +25,12 @@ jspreproc name for command-line interface is `jspp`
 ```sh
 jspp [options] file1 file2 ...
 ```
+
 options | description
 -------|------------
--D, --define<br>--set | add a define for use in expressions (e.g. -D NAME=value)<br>type: string
+-D, --define  | add a define for use in expressions (e.g. -D NAME=value)<br>type: string
 --header1     | text to insert before the top level file.<br> type: string - default: `""`
---headers     | text to insert before each file.<br> type: string - default: `'\n// __FILE\n\n'`
+--headers     | text to insert before each file.<br> type: string - default: `"'\n// __FILE\n\n'"`
 --indent      | indentation to add before each line of included files.<br> The format matches the regex `/$\d+\s*[ts]/` (e.g. `1t`),<br> where `t` means tabs and `s` spaces, default is spaces.<br> Each level adds indentation.<br> type: string - default: `"2s"`
 --eol-type    | normalize end of lines to unix, win, or mac style<br> type: string - default: `"unix"`
 --empty-lines | how much empty lines keep in the output (`-1`: keep all)<br> type: number - default: `1`
@@ -32,6 +38,8 @@ options | description
 -F, --filter  | keep comments matching filter. `all` to apply all filters,<br>or one or more of:<br> `license`, `titles`, `jsdoc`, `jslint`, `jshint`, `eslint`, `jscs`<br> type: string - default: `["license"]`
 -V, --version | print version to stdout and exits.
 -h, --help | display a short help.
+
+Tip: use `^n` in the `header1` and `headers` values to insert line feeds (new in v0.1.5-beta.1)
 
 _Example:_
 ```sh
@@ -47,7 +55,7 @@ npm install jspreproc
 var jspp = require('jspreproc')
 var stream = jspp(files, options)
 ```
-Parameter files can be an array, options is an object with the same options from command-line, but replace dashed options with camelCase properties: `eol-type` with `eolType`, and `empty-lines` with `emptyLines`.
+Parameter files can be an array, options is an object with the same options from command-line, but replace dashed options with camelCase properties: `eol-type` with `eolType`, and `empty-lines` with `emptyLines`.  
 jspp return value is a [`stream.PassThrough`](https://nodejs.org/api/stream.html#stream_class_stream_passthrough) instance.
 
 _Example:_
@@ -92,11 +100,22 @@ Default block and closing statements.
 **`//#undef SYMBOL`**
 
 Default value for new symbols is 1. In expressions, undefined symbols are replaced with 0.
+
 Once defined, the symbol is global to all files and their value can be changed at any time.
 Valid names for defines are all uppercase, starts with one character in the range `[$_A-Z]`, followed by one or more of `[0-9_A-Z]`, so minimum length is 2.
 
-You can use defined symbols in a new definition. The expression in the statement is immediately evaluated to a literal constant value and it is assigned to the symbol.
+You can use defined symbols in a new definition. The symbols in the expression are replaced with their values and then the expression in immediately evaluated to a literal constant value and it is assigned to the symbol.
 This behavior includes predefined symbol `__FILE`, which is replaced by the file name at the time of the evaluation.
+
+This is an example of the process:
+
+```js
+//#define $_FOO 'fo'+'o'        // $_FOO is evaluated to 'foo'
+//#define $_BAR "bar"           // $_BAR is evaluated to 'bar'
+//#define $_BAZ $_FOO + $_BAR   // replaces $_FOO and $_BAR, and the result...
+                                //   'foo'+'bar' is evaluates to 'foobar'
+console.log($_BAZ)              // outputs foobar
+```
 
 Unlike the C preprocessor behavior, redefining a symbol changes their value, does not generates error.
 
@@ -111,6 +130,9 @@ jspreproc does not supports function-like macros, nor macro expansion out of `#i
 These statements inserts the content of another file. `filename` can be an absolute file name, or relative to the current file. Default extension is `.js`.
 
 You can include the same file multiple times in the current file, but the statement is ignored if the same file was processed or included in a preceding level (avoids recursion).
+
+jspreproc does not cache the file, it is readed from the file system and preprocessed before each insertion.
+
 Use `include_once` to include only one copy by process.
 
 ## Examples
@@ -220,6 +242,16 @@ process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. [
 
 ### TODO
 
-Docs and tests.
+- Docs and tests
+- Custom filters
 
 If you wish and have time, help me improving this page... English is not my best friend.
+
+[npm-image]:https://badge.fury.io/js/jspreproc.svg
+[npm-url]:http://badge.fury.io/js/jspreproc
+[build-image]:https://travis-ci.org/aMarCruz/jspreproc.svg?branch=master
+[build-url]:https://travis-ci.org/aMarCruz/jspreproc
+[depend-image]:https://david-dm.org/aMarCruz/jspreproc.svg
+[depend-url]:https://david-dm.org/aMarCruz/jspreproc
+[devdep-image]:https://david-dm.org/aMarCruz/jspreproc/dev-status.svg
+[devdep-url]:https://david-dm.org/aMarCruz/jspreproc#info=devDependencies

@@ -9,8 +9,8 @@
 */
 //@license: MIT - preserved when the comments option is "all" or "filter"
 /*
-  # Comment preserved when comments option is "all"
-    or "filter" with filter "all" or "titles"
+  # This comment is preserved when comments option is "all"
+    or "filter" and filter set to "all" or "titles"
 */
 console.log('with #')     //# keep when comments is "all", or "filter" with filter "all" or "titles"
 console.log('jslint')     //jslint keep this comment with the jslint filter

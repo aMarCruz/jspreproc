@@ -1,5 +1,15 @@
 # Changelog for jspreproc
 
+#### Version 0.1.5 beta 1 - 2015-10-01
+- Fix: empty lines counter is more precise now
+- Fix: process.on calling multiple times
+- Enhancement: code refactorization, more debug-friendly
+- Enhancement: use `^n` in the `header1` and `headers` values to insert line feeds
+- Enhancement: more clear output with the `-h` option 
+- Added custom filters in TODO
+- More tests
+- Updated readme
+
 #### Version 0.1.4 beta 4 - 2015-09-29
 - jasmine directory changed to spec
 - format with eslint rules
