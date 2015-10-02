@@ -13,8 +13,8 @@ Also, symbols can contain digits except for the first character, names beginning
 
 ## Install
 
-You can install jspreproc using npm, locally in your project and globally to use the CLI tool.
-jspreproc works in node.js 0.10.x or above.
+You can install jspreproc using npm, locally in your project and globally to use the CLI tool.  
+jspreproc works in node.js 0.10.x or above (tested in Windows 7/8, cmd and bash shells).
 
 ### Command-line
 
@@ -31,7 +31,7 @@ options | description
 -D, --define  | add a define for use in expressions (e.g. -D NAME=value)<br>type: string
 --header1     | text to insert before the top level file.<br> type: string - default: `""`
 --headers     | text to insert before each file.<br> type: string - default: `"'\n// __FILE\n\n'"`
---indent      | indentation to add before each line of included files.<br> The format matches the regex `/$\d+\s*[ts]/` (e.g. `1t`),<br> where `t` means tabs and `s` spaces, default is spaces.<br> Each level adds indentation.<br> type: string - default: `"2s"`
+--indent      | indentation to add before each line on included files.<br> The format matches the regex `/$\d+\s*[ts]/` (e.g. `1t`),<br> where `t` means tabs and `s` spaces, default is spaces.<br> Each level adds indentation.<br> type: string - default: `"2s"`
 --eol-type    | normalize end of lines to unix, win, or mac style<br> type: string - default: `"unix"`
 --empty-lines | how much empty lines keep in the output (`-1`: keep all)<br> type: number - default: `1`
 -C, --comments| treatment of comments, one of:<br> `all`: keep all, `none`: remove all, `filter`: apply filter<br> type: string - default: `"filter"`
@@ -39,12 +39,15 @@ options | description
 -V, --version | print version to stdout and exits.
 -h, --help | display a short help.
 
-Tip: use `^n` in the `header1` and `headers` values to insert line feeds (new in v0.1.5-beta.1)
-
 _Example:_
 ```sh
 jspp -D DEBUG --filter jsdoc lib/myfile > tmp/myfile.js
 ```
+
+**_Tips:_**
+
+- Use `^n` in the `header1` and `headers` values to insert line feeds (new in v0.1.5-beta.1)
+- Fork the [jspreproc repository](from http://github.com/aMarCruz/jspreproc), run `npm i && npm t`, and find usage cases in spec/app-spec.js
 
 ### node.js
 
@@ -85,7 +88,7 @@ If the expression evaluates to falsy, the block following the statement is remov
 **`//#ifdef SYMBOL`**  
 **`//#ifndef SYMBOL`**
 
-Test the existence of a defined symbol.
+Test the existence of a defined symbol.  
 These are shorthands for `#if defined(SYMBOL)` and `#if !defined(SYMBOL)`.
 
 **`//#else`**  

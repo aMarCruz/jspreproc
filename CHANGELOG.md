@@ -1,5 +1,9 @@
 # Changelog for jspreproc
 
+#### Version 0.1.5 beta 2 - 2015-10-01
+- Fix: regex for defines not trimming names
+- Fix: empty lines counter is even more precise
+
 #### Version 0.1.5 beta 1 - 2015-10-01
 - Fix: empty lines counter is more precise now
 - Fix: process.on calling multiple times

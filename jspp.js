@@ -107,7 +107,10 @@ function showHelp() {
     '    -V, --version   print version to stdout and exits.',
     '    -h, --help      display this message.',
     '',
-    '  Tip: use "^n" in the header1 and headers values to insert line feeds.',
+    '  Tips:',
+    '    Use "^n" in the header1 and headers option values to insert line feeds.',
+    '    Fork the jspreproc repo from http://github.com/aMarCruz/jspreproc,',
+    '    run `npm i && npm t`, and find usage cases in spec/app-spec.js',
     ''
   ].join('\n'))
 
