@@ -4,7 +4,7 @@
 /* eslint-env node, jasmine */
 
 var jspp = require('../lib/preproc'),
-    stream = require('stream'),
+    //stream = require('stream'),
     path = require('path'),
     fs = require('fs'),
     defaults = require('../lib/options').prototype.defaults
@@ -21,27 +21,24 @@ function readExpect(file) {
 }
 
 function testIt(str, opts, done) {
-  var sout = new stream.PassThrough({encoding: 'utf8', decodeStrings: false}),
-      text = [],
+  var text = [],
       stpp = jspp(str, opts)
 
-  function unlink(w, r) {
-    w.unpipe(r)
-    w.removeAllListeners('data')
-    return null
+  function unlink() {
+    stpp.removeAllListeners('data')
   }
 
-  stpp.pipe(sout)
+  stpp
     .on('data', function (chunk) {
       text.push(chunk)
     })
     .once('end', function () {
-      stpp = sout = unlink(stpp, sout)
+      unlink()
       done(text = text.join(''))
     })
     .once('error', function (err) {
-      stpp = sout = unlink(stpp, sout)
-      done.fail('' + err)
+      unlink()
+      done(err)
     })
 }
 
@@ -263,6 +260,122 @@ describe('#define', function () {
       })
     })
 
+  })
+
+})
+
+
+// Conditional Blocks
+// ------------------
+
+describe('Conditionals Blocks', function () {
+
+  it('can be indented', function (done) {
+    var text = [
+      '//#define _A',
+      '//#if 1',
+      '  //#if _A',
+      '  a',
+      '  //#endif',
+      '//#endif'
+    ].join('\n')
+
+    testStr(text, {}, function (result) {
+      expect(result).toBe('  a\n')
+      done()
+    })
+  })
+
+  it('can include spaces between `//#` and the keyword', function (done) {
+    var text = [
+      '//# define _A',
+      '//# if 1',
+      '//#   if _A',
+      '  a',
+      '  //# endif',
+      '//# endif'
+    ].join('\n')
+
+    testStr(text, {}, function (result) {
+      expect(result).toBe('  a\n')
+      done()
+    })
+  })
+
+  it('can NOT include spaces between `//` and the `#`', function (done) {
+    var text = [
+      '// #if 0',
+      '  a',
+      '// #endif'
+    ].join('\n')
+
+    testStr(text, {}, function (result) {
+      expect(result).toBe('  a\n')
+      done()
+    })
+  })
+
+  it('without correct secuence raises an exception', function (done) {
+    var text = [
+      '//#elif 0',
+      '//#endif'
+    ].join('\n')
+
+    pending('I can\'t capture exceptions')
+
+    testStr(text, {}, function (result) {
+      if (result instanceof Error)
+        done()
+      else
+        done.fail('Expected to fail')
+    })
+  })
+
+  it('unclosed block raises an Exception!!!', function (done) {
+    var text = [
+      '//#if 0',
+      '//#if 1',
+      '//#elif 0',
+      '//#endif'
+    ].join('\n')
+
+    pending('I can\'t capture exceptions')
+
+    testStr(text, {}, function (result) {
+      if (result instanceof Error)
+        done()
+      else
+        done.fail('Expected to fail')
+    })
+  })
+
+  it('unclosed block throws even in included files', function (done) {
+    var text = [
+      '//#if 1',
+      '//#include ' + path.join(fixtures, 'unclosed'),
+      '//#endif'
+    ].join('\n')
+
+    pending('I can\'t capture exceptions')
+
+    testStr(text, {}, function (result) {
+      if (result instanceof Error)
+        done()
+      else
+        done.fail('Expected to fail')
+    })
+  })
+
+  it('with a file', function (done) {
+
+    pending('I can\'t capture exceptions')
+
+    testFile('unclosed', {}, function (result) {
+      if (result instanceof Error)
+        done()
+      else
+        done.fail('Expected to fail')
+    })
   })
 
 })

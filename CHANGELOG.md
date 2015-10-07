@@ -1,5 +1,9 @@
 # Changelog for jspreproc
 
+#### Version 0.1.5 beta 3 - 2015-10-01
+- Fix: detection of keyword in correct place doesn't works sometimes
+- Enhancement: added detection of unclosed blocks
+
 #### Version 0.1.5 beta 2 - 2015-10-01
 - Fix: regex for defines not trimming names
 - Fix: empty lines counter is even more precise
