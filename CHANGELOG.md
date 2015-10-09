@@ -1,6 +1,18 @@
 # Changelog for jspreproc
 
-#### Version 0.1.5 beta 3 - 2015-10-01
+#### Version 0.2.0 beta - 2015-10-09
+Important upgrade:
+Corrections to the implementation of the stream returned and the program logic. This allows for asynchronous use and freedom in handling errors.
+- Fix: probable memory leaks
+- Fix: custom filters are active without using the --filter option 
+- Fix: error catching in tests working now
+
+#### Version 0.1.5 beta 4 - 2015-10-08 (unpublished)
+- Enhancement: added --custom-filters for command-line, customFilters for API
+- Fix? error catching in tests
+- Fix: character '^' not replaced in headers
+
+#### Version 0.1.5 beta 3 - 2015-10-07
 - Fix: detection of keyword in correct place doesn't works sometimes
 - Enhancement: added detection of unclosed blocks
 

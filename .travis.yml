@@ -1,15 +1,18 @@
 language: node_js
 node_js:
-  - "4.1"
-  - "4.0"
-  - "0.12"
-  - "0.11"
-  - "0.10"
-  - "iojs"
+    - "4.1"
+    - "4.0"
+    - "0.12"
+    - "0.11"
+    - "0.10"
+    - "iojs"
 branches:
-  only:
-    - master
-    - stable
+    only:
+        - master
+        - stable
 notifications:
     email: false
 sudo: false
+addons:
+    code_climate:
+        repo_token: aa4e3cdca1aa2e328f9b2031b761f3baa63fea94e0587ccba671e3d8b3ef9fda

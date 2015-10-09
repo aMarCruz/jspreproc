@@ -1,13 +1,15 @@
-[![npm Version][npm-image]][npm-url]
-[![Build Status][build-image]][build-url]
-[![Dependency Status][depend-image]][depend-url]
-[![devDependency Status][devdep-image]][devdep-url]
+[![npm Version][npm-image]][npm-url] [![Downloads by Month][npm-dm-image]][npm-url] [![License][license-image]][license-url]
+
+---
 
 # jspreproc
 
 A tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
 
 **NOTE:**  
+Version 0.2.0-beta is an important upgrade.  
+It has corrections to the implementation of the stream returned and the program logic. This allows for asynchronous use and freedom in handling errors with `stream.on("error")` code.
+
 Since version 0.1.4-beta.1, the expression used to define a symbol can include other defined symbols (to itself inclusive). The expression is evaluated immediately.  
 Also, symbols can contain digits except for the first character, names beginning with `$_` can be used for replacement on the processing file (experimental).
 
@@ -26,18 +28,46 @@ jspreproc name for command-line interface is `jspp`
 jspp [options] file1 file2 ...
 ```
 
-options | description
--------|------------
--D, --define  | add a define for use in expressions (e.g. -D NAME=value)<br>type: string
---header1     | text to insert before the top level file.<br> type: string - default: `""`
---headers     | text to insert before each file.<br> type: string - default: `"'\n// __FILE\n\n'"`
---indent      | indentation to add before each line on included files.<br> The format matches the regex `/$\d+\s*[ts]/` (e.g. `1t`),<br> where `t` means tabs and `s` spaces, default is spaces.<br> Each level adds indentation.<br> type: string - default: `"2s"`
---eol-type    | normalize end of lines to unix, win, or mac style<br> type: string - default: `"unix"`
---empty-lines | how much empty lines keep in the output (`-1`: keep all)<br> type: number - default: `1`
--C, --comments| treatment of comments, one of:<br> `all`: keep all, `none`: remove all, `filter`: apply filter<br> type: string - default: `"filter"`
--F, --filter  | keep comments matching filter. `all` to apply all filters,<br>or one or more of:<br> `license`, `titles`, `jsdoc`, `jslint`, `jshint`, `eslint`, `jscs`<br> type: string - default: `["license"]`
--V, --version | print version to stdout and exits.
--h, --help | display a short help.
+## options
+
+<dl type="compact">
+  <dt>-D, --define</dt>
+    <dd>Declares a symbol for using in expressions (e.g. `-D NAME=value`)<br>  
+      <i>type:</i> string - <i>e.g.</i> `-D "MODULE=1"`</dd>
+  <dt>--header1</dt>
+    <dd>Text to insert before the top level file.<br>
+      <i>type:</i> string - <i>default:</i> `""`</dd>
+  <dt>--headers</dt>
+    <dd>Text to insert before each included file.<br>  
+      <i>type:</i> string - <i>default:</i> `"'\n// __FILE\n\n'"`</dd>
+  <dt>--indent</dt>
+    <dd>Indentation to add before each line on included files.    
+      The format matches the regex `/$\d+\s*[ts]/` (e.g. `1t`), where `t` means tabs and `s` spaces, default is spaces.  
+      Each level adds indentation.<br>
+      <i>type:</i> string - <i>default:</i> `"2s"`</dd>
+  <dt>--eol-type</dt>
+    <dd>Normalize end of lines to unix, win, or mac style<br>
+      <i>type:</i> string - <i>default:</i> `"unix"`</dd>
+  <dt>--empty-lines</dt>
+    <dd>How much empty lines keep in the output (`-1`: keep all)<br>
+      <i>type:</i> number - <i>default:</i> `1`</dd>
+  <dt>-C, --comments</dt>
+    <dd>Treatment of comments, one of:<br>
+      `all`: keep all, `none`: remove all, `filter`: apply filter<br>
+      <i>type:</i> string - <i>default:</i> `"filter"`</dd>
+  <dt>-F, --filter</dt>
+    <dd>Keep comments matching filter. `all` to apply all filters, or one or more of:<br>
+      `license`, `titles`, `jsdoc`, `jslint`, `jshint`, `eslint`, `jscs`<br>
+      <i>type:</i> string - <i>default:</i> `["license"]`</dd>
+  <dt>--custom-filter</dt>
+    <dd>String for create a regex as custom filter to apply with `regex.test()`.  
+      Must return true to keep the comment.<br>
+      <i>type:</i> string - <i>e.g.</i> `--custom-filter "\\\* @module"`</dd>
+  <dt>-V, --version</dt>
+    <dd>Print version to stdout and exits.</dd>
+  <dt>-h, --help</dt>
+    <dd>Display a short help.</dd>
+</dl>
 
 _Example:_
 ```sh
@@ -250,11 +280,18 @@ process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. [
 
 If you wish and have time, help me improving this page... English is not my best friend.
 
-[npm-image]:https://badge.fury.io/js/jspreproc.svg
-[npm-url]:http://badge.fury.io/js/jspreproc
-[build-image]:https://travis-ci.org/aMarCruz/jspreproc.svg?branch=master
-[build-url]:https://travis-ci.org/aMarCruz/jspreproc
-[depend-image]:https://david-dm.org/aMarCruz/jspreproc.svg
-[depend-url]:https://david-dm.org/aMarCruz/jspreproc
-[devdep-image]:https://david-dm.org/aMarCruz/jspreproc/dev-status.svg
-[devdep-url]:https://david-dm.org/aMarCruz/jspreproc#info=devDependencies
+---
+
+[![Build Status][build-image]][build-url] [![Dependency Status][depend-image]][depend-url] [![devDependency Status][devdep-image]][devdep-url]
+
+[npm-image]:     https://badge.fury.io/js/jspreproc.svg
+[npm-dm-image]:  https://img.shields.io/npm/dm/jspreproc.svg
+[npm-url]:       https://www.npmjs.com/package/jspreproc
+[build-image]:   https://travis-ci.org/aMarCruz/jspreproc.svg?branch=master
+[build-url]:     https://travis-ci.org/aMarCruz/jspreproc
+[depend-image]:  https://david-dm.org/aMarCruz/jspreproc.svg
+[depend-url]:    https://david-dm.org/aMarCruz/jspreproc
+[devdep-image]:  https://david-dm.org/aMarCruz/jspreproc/dev-status.svg
+[devdep-url]:    https://david-dm.org/aMarCruz/jspreproc#info=devDependencies
+[license-image]: https://img.shields.io/npm/l/express.svg?style=flat-square
+[license-url]:   https://github.com/aMarCruz/jspreproc/blob/master/LICENSE

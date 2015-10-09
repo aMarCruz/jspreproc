@@ -1,5 +1,5 @@
-var jasmine = new (require('jasmine'))(),
-    SpecReporter = require('jasmine-spec-reporter'),
+var jasmine = new (require('jasmine'))()
+var SpecReporter = require('jasmine-spec-reporter'),
     path = require('path')
 
 jasmine.configureDefaultReporter({print: function () {}})
