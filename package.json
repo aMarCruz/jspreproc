@@ -38,16 +38,20 @@
     "url": "https://github.com/aMarCruz/jspreproc/issues"
   },
   "keywords": [
-    "source",
+    "code"
     "comments",
-    "remover",
-    "defines",
-    "preprocessor",
-    "conditional",
+    "compact",
     "compilation",
-    "include",
+    "conditional",
+    "defines",
     "files",
-    "rmcomms",
-    "jspp"
+    "include",
+    "javascript",
+    "join",
+    "jspp",
+    "preprocessor",
+    "remover",
+    "source",
+    "rmcomms"
   ]
 }
