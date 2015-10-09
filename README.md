@@ -1,4 +1,7 @@
-[![npm Version][npm-image]][npm-url] [![Downloads by Month][npm-dm-image]][npm-url] [![License][license-image]][license-url]
+[![License][license-image]][license-url]
+[![Build Status][build-image]][build-url]
+[![npm Version][npm-image]][npm-url]
+[![Downloads by Month][npm-dm-image]][npm-url]
 
 ---
 
@@ -282,7 +285,7 @@ If you wish and have time, help me improving this page... English is not my best
 
 ---
 
-[![Build Status][build-image]][build-url] [![Dependency Status][depend-image]][depend-url] [![devDependency Status][devdep-image]][devdep-url]
+[![Dependency Status][depend-image]][depend-url] [![devDependency Status][devdep-image]][devdep-url]
 
 [npm-image]:     https://badge.fury.io/js/jspreproc.svg
 [npm-dm-image]:  https://img.shields.io/npm/dm/jspreproc.svg
