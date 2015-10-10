@@ -32,11 +32,11 @@ This is in preparation for tools like Grunt, Gulp, etc.
 Declares a symbol for using in expressions.
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --define &lt;_NAME_[=_value_]> | define | string | (none) | `-D "MODULE=1"`|
 
 Valid symbol names begins with a character in the range `[$_0-9A-Z]` (dollar sign, underscore, or alphabetic ASCII _uppercase_), followed by one or more characters in `[_0-9A-Z]` (underscore or alphanumeric uppercase).  
-If the symbol begins with `$_`, followed by one or more characters in `[_0-9A-Z]`, you can use the symbol for replacing text in the code too.
+If the symbol begins with `$_`, followed by one or more characters in `[_0-9A-Z]`, you can use the symbol for replacing text in the code, too.
 
 
 ### --header1
@@ -44,12 +44,12 @@ If the symbol begins with `$_`, followed by one or more characters in `[_0-9A-Z]
 Text to insert before the _top level_ file.  
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --header1 &lt;_string_> | header1 | string | `""` | `--header "// @module foo\\n"`
 
 As seen in the example, you can use special JavaScript characters like `\n`, `\t`, and so, but can specify an end of line with a caret, too (e.g. `"// @module foo^"`). In the output, the caret is replaced with a end of line (as configured by the `--eol-type` option). Use two carets to output a literal one.  
 
-The output of the header is generated with the same engine as the defined symbols but, unlike string values for #define, you don't need quote the header value, jspreproc enclose the string and escape inner quotes as necessary.
+The output of the header is generated with the same engine as the defined symbols but, unlike string values for `#define`, you don't need quote the header value, jspreproc enclose the string and escape inner quotes as necessary.
 
 
 ### --headers
@@ -57,7 +57,7 @@ The output of the header is generated with the same engine as the defined symbol
 Text to insert before each _included_ file.
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --headers &lt;_string_> | headers | string | `"\n// __FILE\n\n"` | `--headers "/* __FILE */^"`
 
 The behavior of this option/property is the same of `--header1`
@@ -66,7 +66,7 @@ The behavior of this option/property is the same of `--header1`
 ### --indent
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --indent &lt;_string_> | indent | string | `"2s"` | `--indent 1t`
 
 Indentation to add before each line on the included files.  
@@ -79,7 +79,7 @@ Each level adds indentation.
 Performs end of line (EOL) normalization.
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --eol-type &lt;unix&#x7C;win&#x7C;mac> | eolType | string | `"unix"` | `--eol-type win`
 
 Converts all EOLs to Unix, Windows, or Mac style. Must Windows editors has no problems handling the default unix `\n` terminator.
@@ -92,7 +92,7 @@ Converts all EOLs to Unix, Windows, or Mac style. Must Windows editors has no pr
 Specifies how many consecutive empty lines are preserved in the output.
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --empty-lines &lt;_number_> | emptyLines | number | `1` | `--empty-lines 0`
 
 There's no range check for this option/property, only type coercion to integer. Value `0` removes and `-1` preserves all the blank lines, except lines from _conditional comments_, that are removed always.
@@ -103,7 +103,7 @@ There's no range check for this option/property, only type coercion to integer. 
 Treatment of the comments, both single and multiline.
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --comments &lt;all &#x7C; none &#x7C; filter> | comments | string | `"filter"` | `-C none`
 
 Accepted options are `"all"` for keep all comments, `"none"` for remove all, and `"filter"` for apply the filters defined by the `--filter` option. Again, _conditional comments_ are always removed.
@@ -116,7 +116,7 @@ Accepted options are `"all"` for keep all comments, `"none"` for remove all, and
 Keep comments matching the specified filter.
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --filter &lt;_filter-name_ &#x7C; all> | filter | string/<br>array | `"license"` | `-F jsdoc,eslint`
 
 `filter-name` can specify one filter, or a list of filters separated with commas as in the example (no spaces please) or with multiple `--filter`options. With the API, you can pass with the `filter` property an array of strings too, with one filter name per element.
@@ -138,8 +138,8 @@ Predefined jspreproc filters and their regexes are:
 [jsdoc]:  http://usejsdoc.org/ "@use JSDoc"
 [jslint]: http://www.jslint.com/ "Douglas Crockford JSLint"
 [jshint]: http://jshint.com/ "JSHint site"
-[eslint]: http://eslint.org/
-[jscs]:   http://jscs.info/
+[eslint]: http://eslint.org/ "ESLint site"
+[jscs]:   http://jscs.info/ "JSCS - JavaScript Code Style"
 
 
 ### --custom-filter
@@ -147,7 +147,7 @@ Predefined jspreproc filters and their regexes are:
 Creates a custom comments filter. 
 
 syntax | property | type | default | example
--|-|-|-
+-------|----------|------|---------|---------
 --custom-filter &lt;_regex-string_> | customFilter | string | (none) | (see bellow)
 
 With this option, you instruct to jspreproc for create a regex as a custom filter to apply with `regex.test()` on comments, i.e. the regex must returns `true` to keep the comment.
