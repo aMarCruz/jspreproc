@@ -1,5 +1,8 @@
 # Changelog for jspreproc
 
+#### Version 0.2.0 beta 4 - 2015-10-10
+- Minor fix to README.md
+
 #### Version 0.2.0 beta 3 - 2015-10-10
 - Fix: input stream (pipe) generates TypeError
 - Changes to documentation, I can take no much time on this

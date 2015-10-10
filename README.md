@@ -52,13 +52,13 @@ function _tmpl(str, data) {
 ```js
 function _tmpl(str, data) {
   if (!str) return str
-  return (_cache[str] || (_cache[str] = _create(str))).call(data, GLOBAL, logErr) eslint-disable-line
+  return (_cache[str] || (_cache[str] = _create(str))).call(data, GLOBAL, logErr)
 }
 ```
 
-Me too, so I write jspreproc, a tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
+Me too, so I write _**jspreproc**_, a tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
 
-**NOTE:**  
+*NOTE:*  
 Version 0.2.0-beta is an important update.  
 It has corrections to the implementation of the returned stream and the program logic. This allows for asynchronous use and freedom in handling errors with `stream.on("error")` code.
 
