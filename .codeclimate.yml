@@ -1,11 +1,9 @@
-languages:
-  JavaScript: true
 engines:
   eslint:
     enabled: true
 ratings:
-  paths:
-  - "lib/**"
-  - "*.js"
+   paths:
+   - lib/**
+   - "**.js"
 exclude_paths:
-- "spec/**"
+- spec/**/*
