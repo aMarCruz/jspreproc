@@ -23,6 +23,8 @@ jspp(["lib/file1.js", "lib/file2.js"], {emptyLines: 0, define: "RELEASE"}).pipe(
 
 ```
 
+This is in preparation for tools like Grunt, Gulp, etc.
+
 ---
 
 ### -D, --define
@@ -149,7 +151,7 @@ syntax | property | type | default | example
 --custom-filter &lt;_regex-string_> | customFilter | string | (none) | (see bellow)
 
 With this option, you instruct to jspreproc for create a regex as a custom filter to apply with `regex.test()` on comments, i.e. the regex must returns `true` to keep the comment.
-  
+
 Custom filters are anonymous and always enabled; you don't need use the --filter option with these.
 
 Common case for custom filters is preserve few comments with special text, but you can use this feature for preserving comments by type as in this examples:
@@ -161,12 +163,7 @@ Common case for custom filters is preserve few comments with special text, but y
 
 ### -V, --version
 
-Print the jspreproc version number to stdout and exits.
-
-syntax | property | type | default | example
--|-|-|-
---version | - | string | (version) | `-V`
-
+Print the jspreproc version number to stdout and exits.  
 From the API, use the version property of the jspreproc module: `require('jspreproc').version` 
 
 
