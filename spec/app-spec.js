@@ -495,3 +495,5 @@ describe('Headers', function () {
   })
 
 })
+
+// TODO: test with streams, e.g. pipe a file to stdin

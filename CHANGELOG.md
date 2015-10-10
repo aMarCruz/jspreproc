@@ -1,6 +1,10 @@
 # Changelog for jspreproc
 
-#### Version 0.2.0 beta - 2015-10-09
+#### Version 0.2.0 beta 3 - 2015-10-10
+- Fix: input stream (pipe) generates TypeError
+- Changes to documentation, I can take no much time on this
+
+#### Version 0.2.0 beta 1 - 2015-10-09
 Important upgrade:
 Corrections to the implementation of the stream returned and the program logic. This allows for asynchronous use and freedom in handling errors.
 - Fix: probable memory leaks
