@@ -67,21 +67,21 @@ defaults.headers = ''
 var defaultEmptyLines = defaults.emptyLines
 defaults.emptyLines = 0
 
-/*
-process.on('uncaughtException', function(err) {
+
+process.on('uncaughtException', function (err) {
   console.error('Uncaught Exception.')
   console.error(err.stack)
   process.exit(1)
 })
 jasmine.getEnv().catchExceptions(false)
-*/
+
 
 // Comments Suite
 // --------------
 
 describe('Comments', function () {
 
-  it('with defaults, only preserve comments with "@license"', function (done) {
+  it('with the defaults, only preserve comments with "@license"', function (done) {
 
     testFile('comments.js', {}, function (err, result) {
       var lic = /\/\/@license:/
