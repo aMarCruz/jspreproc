@@ -3,8 +3,6 @@
 [![npm Version][npm-image]][npm-url]
 [![Downloads by Month][npm-dm-image]][npm-url]
 
----
-
 # jspreproc
 
 **Do you have this?**

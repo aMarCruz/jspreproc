@@ -1,5 +1,8 @@
 # Changelog for jspreproc
 
+#### Version 0.2.0 beta 5 - 2015-10-10
+- Fix: substitution for '^' not working in headers
+
 #### Version 0.2.0 beta 4 - 2015-10-10
 - Minor fix to README.md
 

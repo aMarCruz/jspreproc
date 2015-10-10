@@ -494,6 +494,22 @@ describe('Headers', function () {
 
   })
 
+  it('one ^ is replaced with eol, and ^^ with the ^ char', function (done) {
+    var opts = {
+          header1: '^hi^ ^^top^',
+          headers: 'bye^^^__FILE^',
+          emptyLines: 1
+        },
+        text = '//#include ' + path.join(fixtures, 'include3')
+
+    testStr(text, opts, function (err, result) {
+      expect(result).toMatch(/\nhi\n \^top\n/)
+      expect(result).toMatch(/bye\^\n /)
+      done()
+    })
+
+  })
+
 })
 
 // TODO: test with streams, e.g. pipe a file to stdin
