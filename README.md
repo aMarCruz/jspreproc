@@ -117,8 +117,6 @@ If you wish and have time, help me improving this page... English is not my best
 ---
 
 [![Code Climate][climate-image]][climate-url]
-[![Dependency Status][depend-image]][depend-url]
-[![devDependency Status][devdep-image]][devdep-url]
 
 [npm-image]:     https://badge.fury.io/js/jspreproc.svg
 [npm-dm-image]:  https://img.shields.io/npm/dm/jspreproc.svg
