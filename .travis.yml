@@ -9,7 +9,7 @@ node_js:
 branches:
     only:
         - master
-        - stable
+        - dev
 notifications:
     email: false
 sudo: false
