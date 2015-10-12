@@ -2,4 +2,4 @@
 //#if ONCE
 //#include_once dummy
 //#endif
-//#include include2
+//#include include2.txt

@@ -60,9 +60,6 @@ Me too, so I write _**jspreproc**_, a tiny C-style source file preprocessor in J
 Version 0.2.0-beta is an important update.  
 It has corrections to the implementation of the returned stream and the program logic. This allows for asynchronous use and freedom in handling errors with `stream.on("error")` code.
 
-Since version 0.1.4-beta.1, the expression used to define a symbol can include other defined symbols (to itself inclusive). The expression is evaluated immediately.  
-Also, symbols can contain digits except for the first character, names beginning with `$_` can be used for replacement on the processing file (experimental).
-
 ## Install
 
 You can install jspreproc with npm globally to use as the CLI tool, or locally for your project.  

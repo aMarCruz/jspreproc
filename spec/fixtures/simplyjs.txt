@@ -1,0 +1,14 @@
+//#if !""
+empty
+//#endif
+//#if "0" | 1
+one
+//#endif
+//#if typeof {} === "object"
+object
+//#endif
+//#if NaN !== NaN
+NaN
+//#endif
+//#define $_S "\ntr\\nim\t ".trim()
+$_S~
