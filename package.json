@@ -1,20 +1,24 @@
 {
   "name": "jspreproc",
-  "version": "0.2.0-beta.6",
+  "version": "0.2.1-beta.1",
   "description": "Source file preprocessor and comments remover for JavaScript in JavaScript",
   "author": "Alberto Martínez",
   "license": "MIT",
   "main": "lib/preproc.js",
   "bin": {
-    "jspp": "./jspp.js"
+    "jspp": "bin/jspp.js"
   },
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "doc": "doc"
   },
   "files": [
     "index.js",
-    "jspp.js",
-    "lib"
+    "jspp.cmd",
+    "bin\\jspp.js",
+    "spec\\run.js",
+    "lib",
+    "doc"
   ],
   "engines": {
     "node": ">=0.10.0"

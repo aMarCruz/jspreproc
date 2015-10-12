@@ -5,9 +5,9 @@
 /* eslint no-console: 0 */
 'use strict'  // eslint-disable-line
 
-var preproc = require('./lib/preproc'),
-    Options = require('./lib/options')
-var defopts = Options.defaults
+var jspp     = require('../'),
+    Options  = require('../lib/options')
+var defaults = Options.defaults
 
 var argv = require('minimist')(process.argv.slice(2),
     {
@@ -30,12 +30,12 @@ var argv = require('minimist')(process.argv.slice(2),
       ],
       boolean: ['showme'],
       default: {
-        header1:     defopts.header1,
-        headers:     defopts.headers,
-        indent:      defopts.indent,
-        'eol-type':    defopts.eolType,
-        'empty-lines': defopts.emptyLines,
-        comments:    defopts.comments
+        header1:       defaults.header1,
+        headers:       defaults.headers,
+        indent:        defaults.indent,
+        'eol-type':    defaults.eolType,
+        'empty-lines': defaults.emptyLines,
+        comments:      defaults.comments
       },
       unknown: function (opt) {
         if (opt[0] === '-' && opt !== '--empty-lines') {
@@ -62,7 +62,7 @@ else {
   if (argv.showme)
     showOpts(argv)
   else
-    preproc(argv._, argv).pipe(process.stdout)
+    jspp(argv._, argv).pipe(process.stdout)
 }
 
 /*
@@ -85,14 +85,14 @@ function showOpts(args) {
  * Send version to the output and exit
  */
 function showVersion() {
-  process.stdout.write(require('./package.json').version)
+  process.stdout.write(jspp.version)
 }
 
 /*
  * Displays version and usage
  */
 function showHelp() {
-  console.log([
+  var hlp = [
     '',
     '  Usage: \x1B[1mjspp\x1B[0m [options] [file...]',
     '',
@@ -100,32 +100,30 @@ function showHelp() {
     '    empty lines and comments remover.',
     '',
     '    If no file name are given, jspp reads from the standard input.',
-    ''
-  ].join('\n'))
-  console.log([
+    '',
     '  Options:',
     '',
     '    -D, --define    add a define for use in expressions (e.g. -D NAME=value)',
     '                    type: string - e.g. -D "MODULE=1"',
     '    --header1       text to insert before the top level file.',
-    '                    type: string - default: ' + JSON.stringify(defopts.header1),
+    '                    type: string - default: ' + JSON.stringify(defaults.header1),
     '    --headers       text to insert before each included file.',
-    '                    type: string - default: ' + JSON.stringify(defopts.headers),
+    '                    type: string - default: ' + JSON.stringify(defaults.headers),
     '    --indent        indentation to add before each line of included files.',
     '                    The format matches the regex /^\\d+\s*[ts]/ (e.g. \'1t\'),',
     '                    where \'t\' means tabs and \'s\' spaces, default is spaces.',
     '                    Each level adds indentation.',
-    '                    type: string - default: ' + JSON.stringify(defopts.indent),
+    '                    type: string - default: ' + JSON.stringify(defaults.indent),
     '    --eol-type      normalize end of lines to unix, win, or mac style',
-    '                    type: string - default: ' + JSON.stringify(defopts.eolType),
+    '                    type: string - default: ' + JSON.stringify(defaults.eolType),
     '    --empty-lines   how much empty lines keep in the output (-1: keep all)',
-    '                    type: number - default: ' + JSON.stringify(defopts.emptyLines),
+    '                    type: number - default: ' + JSON.stringify(defaults.emptyLines),
     '    -C, --comments  treatment of comments, one of:',
     '                    all: keep all, none: remove all, filter: apply filter',
-    '                    type: string - default: ' + JSON.stringify(defopts.comments),
+    '                    type: string - default: ' + JSON.stringify(defaults.comments),
     '    -F, --filter    keep comments matching filter. "all" to apply all filters,',
     '                    or one or more of:',
-    '                    ' + Object.keys(Options.prototype.filters).join(', '),
+    '                    ' + Object.keys(Options.filters).join(', '),
     '    --custom-filter string for create regex as custom filter to apply with',
     '                    regex.test(). must return true to keep the comment.',
     '                    type: string - e.g. --custom-filter "\\\\\* @module"',
@@ -134,8 +132,12 @@ function showHelp() {
     '',
     '  Tips:',
     '    Use "^n" in the header1 and headers option values to insert line feeds.',
-    '    Fork the jspreproc repo from http://github.com/aMarCruz/jspreproc,',
-    '    run `npm i && npm t`, and find usage cases in spec/app-spec.js',
+    '    You can preprocess files other than JavaScript using --comments all.',
+    '',
+    '',
+    '  Clone the jspreproc repository at https://github.com/aMarCruz/jspreproc.git',
+    '  run `npm i && npm t`, and find usage cases in spec/app-spec.js',
     ''
-  ].join('\n'))
+  ]
+  console.log(hlp.join('\n'))
 }
