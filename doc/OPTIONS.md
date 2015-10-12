@@ -67,7 +67,7 @@ The behavior of this option/property is the same of `--header1`
 
 syntax | property | type | default | example
 -------|----------|------|---------|---------
---indent &lt;_string_> | indent | string | `"2s"` | `--indent 1t`
+--indent &lt;_string_> | indent | string | `""` | `--indent 1t`
 
 Indentation to add before each line on the included files.  
 The format matches the regex `/$\d+\s*[ts]/`, one or more digits followed by one `t` means tabs and `s` spaces, default is spaces.  

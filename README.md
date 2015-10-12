@@ -1,5 +1,6 @@
 [![License][license-image]][license-url]
 [![Build Status][build-image]][build-url]
+[![Coverity Scan Build Status][coverity-image]][coverity-url]
 [![npm Version][npm-image]][npm-url]
 [![Downloads by Month][npm-dm-image]][npm-url]
 
@@ -56,9 +57,13 @@ function _tmpl(str, data) {
 
 Me too, so I write _**jspreproc**_, a tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
 
-*NOTE:*  
-Version 0.2.0-beta is an important update.  
-It has corrections to the implementation of the returned stream and the program logic. This allows for asynchronous use and freedom in handling errors with `stream.on("error")` code.
+**IMPORTANT:**
+  
+From version 0.2.1-beta.1 the location of jspp.js is the bin folder, and there's a new file jspp.cmd for Windows users can run jspp from the root folder of jspreproc, useful in local installations.
+
+From version 0.2.0-beta.5 the default indentation for included files is none.
+
+Version 0.2.0-beta is an important update, it has corrections to the implementation of the returned stream and the program logic. This allows for asynchronous use and freedom in handling errors with `stream.on("error")` code.
 
 ## Install
 
@@ -111,7 +116,6 @@ If you wish and have time, help me improving this page... English is not my best
 
 ---
 
-[![Coverity Scan Build Status][coverity-image]][coverity-url]
 [![Code Climate][climate-image]][climate-url]
 [![Dependency Status][depend-image]][depend-url]
 [![devDependency Status][devdep-image]][devdep-url]

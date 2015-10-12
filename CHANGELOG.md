@@ -1,10 +1,18 @@
 # Changelog for jspreproc
 
+#### Varsion 0.2.1 beta 1 - 2015-10-11
+- Revision of package.json
+- Changed the location of jspp.js to the bin folder
+- New jspp.cmd for Windows user, local installation
+- Fix: missing doc folder
+- Fix: `npm test` is generating error
+
 #### Varsion 0.2.0 beta 6 - 2015-10-11
 Major code refactorization and more tests!
 - Fix: Code is mixed in the same line with files not ending with EOL
 - Fix: some escaped characters are not preserved
 - Fix: empty lines counter working almost perfect :)
+- Changed behavior: default indentation for included files is none 
 
 #### Version 0.2.0 beta 5 - 2015-10-10
 - Fix: substitution for '^' not working in headers
