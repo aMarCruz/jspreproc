@@ -2,6 +2,15 @@
 
 jspreproc follows the C preprocessor style, with the same keywords, preceded by `//`
 
+There are differences with the C preprocessor, the most important:
+
+- jspreproc does not supports function-like macros or macro-substitution on the source files, out of expressions(1)
+- Escaped characters remains literals (e.g. the `\n` sequence not generate end of line, it is written to the output as the string "\n")
+- Redefining a symbol changes their value, does not generates error
+- The evaluation of expressions by `#define/#if/#endif` is through a Function instance, so the result is same from a JavaScript expression, in the global scope.
+
+(1) See [Defines](#defines) for some exceptions.  
+
 ### Conditional Comments
 
 Conditional Comments allows remove unused parts and build different versions of your application.
@@ -13,7 +22,8 @@ Conditional Comments allows remove unused parts and build different versions of 
 **`//#if expression`**  
 **`//#elif expression`**
 
-If the expression evaluates to falsy, the block following the statement is removed.
+If the expression evaluates to falsy, the block following the statement is removed.  
+jspreproc supports the function `defined(SYMBOL)`, wich returns 1 if `SYMBOL` was defined, even when this has the `undefined` _value_ :)
 
 **`//#ifdef SYMBOL`**  
 **`//#ifndef SYMBOL`**
@@ -37,23 +47,21 @@ Default value for new symbols is 1. In expressions, undefined symbols are replac
 Once defined, the symbol is global to all files and their value can be changed at any time.
 Valid names for defines are all uppercase, starts with one character in the range `[$_A-Z]`, followed by one or more of `[0-9_A-Z]`, so minimum length is 2.
 
-You can use defined symbols in a new definition. The symbols in the expression are replaced with their values and then the expression in immediately evaluated to a literal constant value and it is assigned to the symbol.
+You can use defined symbols in a new definition. The symbols in the expression are replaced with their values and then the expression is immediately evaluated to a constant value and it is assigned to the symbol.  
 This behavior includes predefined symbol `__FILE`, which is replaced by the file name at the time of the evaluation.
+
+jspreproc supports basic macro-expansion, out of `#if/#elif` expressions, for names beginning with '`$_`' followed by one or more characters in `[0-9_A-Z]`, so their minimum length is 3. The replacement is a literal substitution (i.e. no evaluation) with String.prototype.replace and the raw value (experimental, there's no translation of escaped characters).
 
 This is an example of the process:
 
 ```js
 //#define $_FOO 'fo'+'o'        // $_FOO is evaluated to 'foo'
-//#define $_BAR "bar"           // $_BAR is evaluated to 'bar'
+//#define $_BAR "\bar"          // $_BAR is evaluated to '\bar'
 //#define $_BAZ $_FOO + $_BAR   // replaces $_FOO and $_BAR, and the result...
-                                //   'foo'+'bar' is evaluates to 'foobar'
-console.log($_BAZ)              // outputs foobar
+                                //   'foo'+'bar' is evaluates to 'foo\bar'
+console.log($_BAZ)              // outputs foo\bar (literal '\b')
 ```
 
-Unlike the C preprocessor behavior, redefining a symbol changes their value, does not generates error.
-
-**NOTE:**
-jspreproc does not supports function-like macros, nor macro expansion out of `#if-elif` expressions, except for symbols beginning with '`$_`' followed by one or more characters in `[0-9_A-Z]`, that can be used for replacement in the file being processed (new in 0.1.4-beta).
 
 ### Includes
 
@@ -110,16 +118,16 @@ Using const-like symbols in the source code:
 
 ```js
 //#define $_NAME 1              // must begin with '$_'
-var foo = $_NAME + 1            // foo is 2
+var foo = $_NAME + 1            // foo = 2
 
 //#define $_NAME 'foo'          // change defined value
-var bar = $_NAME                // bar is 'foo'
+var bar = $_NAME                // bar = "foo"
 
 //#define $_NAME 'foo' + 'bar'  // concatenation
-var baz = $_NAME                // baz is 'foobar'
+var baz = $_NAME                // baz = "foobar"
 
 //#define $_NAME /^a/           // define a regex
-var a = $_NAME.test('a')        // a is true
+var a = $_NAME.test('a')        // a = true
 
 //#undef $_NAME                 // delete $_NAME
 var x = $_NAME                  // SyntaxError
@@ -143,7 +151,8 @@ console.log('%s %s', $_FOO, $_BAR) // SyntaxError
 // FILE remains the same. You need redefine FILE to update their value.
 ```
 
-**Fail safe #define**  
+**Fail safe #define**
+
 Even without run jspreproc in file2.js, next code will work:
 
 ```js

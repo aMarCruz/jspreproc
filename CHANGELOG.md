@@ -1,5 +1,11 @@
 # Changelog for jspreproc
 
+#### Varsion 0.2.0 beta 6 - 2015-10-11
+Major code refactorization and more tests!
+- Fix: Code is mixed in the same line with files not ending with EOL
+- Fix: some escaped characters are not preserved
+- Fix: empty lines counter working almost perfect :)
+
 #### Version 0.2.0 beta 5 - 2015-10-10
 - Fix: substitution for '^' not working in headers
 

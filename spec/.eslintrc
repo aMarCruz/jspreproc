@@ -3,5 +3,4 @@ env:
     jasmine: true
 
 rules:
-    handle-callback-err: 0
     no-unused-expressions: 0
