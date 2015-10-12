@@ -1,9 +1,11 @@
 engines:
   eslint:
     enabled: true
+
 ratings:
   paths:
-  - lib/**
-  - "**.js"
+  - "lib/**"
+
 exclude_paths:
-- spec/**/*
+  - "spec/**/*"
+  - "bin/**/*"
