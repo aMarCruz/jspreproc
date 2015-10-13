@@ -112,11 +112,13 @@ process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. [
 - Better docs and tests
 - Read configuration values from the file system.
 
-If you wish and have time, help me improving this page... English is not my best friend.
+_Please note: the documentation is very much a work in progress. Contributions are welcome._
 
 ---
 
 [![Code Climate][climate-image]][climate-url]
+[![Dependencies][depend-image]][depend-url]
+[![Development Dependencies][devdep-image]][devdep-url]
 
 [npm-image]:     https://badge.fury.io/js/jspreproc.svg
 [npm-dm-image]:  https://img.shields.io/npm/dm/jspreproc.svg

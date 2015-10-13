@@ -78,7 +78,7 @@ rules:
     ###########################################################################
 
     block-scoped-var: 2         # treat var statements as if they were block scoped
-    complexity: [1, 12]         # specify the maximum cyclomatic complexity allowed in a program
+    complexity: [1, 8]         # specify the maximum cyclomatic complexity allowed in a program
     consistent-return: 1        # require return statements to either always or never specify values
     curly: 0                    # specify curly brace conventions for all control statements
     default-case: 1             # require default case in switch statements

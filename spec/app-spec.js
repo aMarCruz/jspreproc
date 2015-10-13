@@ -95,7 +95,7 @@ describe('Comments', function () {
   it('are completely removed with the `-C none` option', function (done) {
 
     testFile('comments.js', {comments: 'none'}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).not.toMatch(/\/[*\/]/)
       done()
     })
@@ -104,7 +104,7 @@ describe('Comments', function () {
   it('are preserved with `-C all`', function (done) {
 
     testFile('comments.js', {comments: 'all'}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe(readExpect('comments_all.js'))
       done()
     })
@@ -114,7 +114,7 @@ describe('Comments', function () {
     var opts = {comments: 'filter', filter: 'all'}
 
     testFile('comments.js', opts, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe(readExpect('comments_linters.js'))
       done()
     })
@@ -128,7 +128,7 @@ describe('Comments', function () {
         ].join('\n')
 
     testStr(text, opts, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toMatch(/\* @m/)
       done()
     })
@@ -176,7 +176,7 @@ describe('Lines', function () {
   it('default is one empty line and style eols "unix" (\\n).', function (done) {
 
     testStr(buff, {emptyLines: defaultEmptyLines}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toHasLinesLike('\na\n\n')
       done()
     })
@@ -185,7 +185,7 @@ describe('Lines', function () {
   it('eols can be converted to Win CRLF style (\\r\\n)', function (done) {
 
     testStr(buff, {eolType: 'win', emptyLines: 1}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toHasLinesLike('\r\na\r\n\r\n')
       done()
     })
@@ -194,7 +194,7 @@ describe('Lines', function () {
   it('or converted to Mac CR style (\\r)', function (done) {
 
     testStr(buff, {eolType: 'mac', emptyLines: 1}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toHasLinesLike('\ra\r\r')
       done()
     })
@@ -203,7 +203,7 @@ describe('Lines', function () {
   it('`--empty-lines -1` disable remotion of empty lines', function (done) {
 
     testStr(buff, {emptyLines: -1}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       var test = buff
         .replace(/\r\n?|\n/g, '\n')
         .replace(/\/\*[\s\S]*\*\//g, '')
@@ -217,7 +217,7 @@ describe('Lines', function () {
   it('`--empty-lines 0` remove all empty lines', function (done) {
 
     testStr(buff, {emptyLines: 0}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toHasLinesLike('a\n')
       done()
     })
@@ -227,7 +227,7 @@ describe('Lines', function () {
     var s = '\n1\n\n2\n\n'
 
     testStr(s, {emptyLines: 2}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toHasLinesLike('\n1\n\n2\n\n')
       done()
     })
@@ -237,7 +237,7 @@ describe('Lines', function () {
     var s = '\n\n\n\n1\n\n\n\n2\n\n\n\n'
 
     testStr(s, {emptyLines: 2}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toHasLinesLike('\n\n1\n\n\n2\n\n\n')
       done()
     })
@@ -258,7 +258,7 @@ describe('#define', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       var foo = '$_FOO'
 
       expect(result).toBe('1')
@@ -278,7 +278,7 @@ describe('#define', function () {
     ].join('\n')
 
     testStr(text, {emptyLines: -1}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       var test = '\\n1\\\\n2\\t3'
       result = result.replace(/['"]/g, '')
       expect(result).toBe(test + '.' + test + '.' + test + '.' + test)
@@ -290,7 +290,7 @@ describe('#define', function () {
     var text = '//#define N1 1\n//#define $_N N1+2\n$_N'
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('3')
       done()
     })
@@ -306,7 +306,7 @@ describe('#define', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('ok\n')
       done()
     })
@@ -322,7 +322,7 @@ describe('#define', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('ok\n')
       done()
     })
@@ -336,7 +336,7 @@ describe('#define', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('log(true)')
       done()
     })
@@ -361,7 +361,7 @@ describe('#define', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('0-0')
       done()
     })
@@ -375,7 +375,7 @@ describe('#define', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('log("foobar")')
       done()
     })
@@ -393,7 +393,7 @@ describe('#define', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       result = result.replace('\b', '{BS}').replace('\t', '{TAB}')
 //    console.log('--- Result: `' + result + '`')
       expect(result).toMatch(/a\\b/)
@@ -408,7 +408,7 @@ describe('#define', function () {
   it('be careful with backslashes in macro-substitution! (file)', function (done) {
 
     testFile('macrosubs.txt', {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       result = result.replace('\b', '{BS}').replace('\t', '{TAB}')
 //    console.log('--- Result: `' + result + '`')
       expect(result).toMatch(/a\\b/)
@@ -439,7 +439,7 @@ describe('Conditionals Blocks', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('  a\n')
       done()
     })
@@ -456,7 +456,7 @@ describe('Conditionals Blocks', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('  a\n')
       done()
     })
@@ -470,7 +470,7 @@ describe('Conditionals Blocks', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toBe('  a\n')
       done()
     })
@@ -530,7 +530,7 @@ describe('Conditionals Blocks', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toMatch(/Inf/)
       expect(result).toMatch(/~0~/)
       done()
@@ -556,7 +556,7 @@ describe('Conditionals Blocks', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       var i, test = ['empty', 'one', 'object', 'NaN', (/['"]tr\\\\nim['"]/)] // eslint-disable-line no-extra-parens
 
       for (i = 0; i < test.length; i++)
@@ -568,7 +568,7 @@ describe('Conditionals Blocks', function () {
   it('expressions are simply JavaScript (file)', function (done) {
 
     testFile('simplyjs.txt', {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       var i, test = ['empty', 'one', 'object', 'NaN', (/['"]tr\\\\nim['"]/)] // eslint-disable-line no-extra-parens
 
       for (i = 0; i < test.length; i++)
@@ -588,7 +588,7 @@ describe('#include', function () {
   it('files included in removed blocks are skipped (seems obvious?)', function (done) {
 
     testFile('include1.txt', {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       // ONCE not defined, 3 dummy.js 'cause include_once is skipped
       expect(result).toMatch('in dummy')
       expect(result.match(/in dummy/g).length).toBe(3)
@@ -599,7 +599,7 @@ describe('#include', function () {
   it('only 1 copy when include_once is seen', function (done) {
 
     testFile('include1.txt', {define: 'ONCE'}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       // ONCE defined, found include_once, only 1 dummy.js
       expect(result).toMatch('in dummy')
       expect(result.match(/in dummy/g).length).toBe(1)
@@ -616,7 +616,7 @@ describe('#include', function () {
     ].join('\n')
 
     testStr(text, {}, function (err, result) {
-      if (err) throw err
+      if (err) done.fail(err)
       expect(result).toMatch('log3')
       done()
     })
@@ -628,7 +628,7 @@ describe('#include', function () {
       var text = '//#include ' + path.join(fixtures, 'dummy')
 
       testStr(text, {}, function (err, result) {
-        if (err) throw err
+        if (err) done.fail(err)
         expect(result).toMatch(/^'in dummy'/)
         done()
       })
@@ -638,7 +638,7 @@ describe('#include', function () {
       var text = '//#include ' + path.join(fixtures, 'dummy')
 
       testStr(text, { indent: '1t' }, function (err, result) {
-        if (err) throw err
+        if (err) done.fail(err)
         expect(result).toMatch(/^\t'in dummy'/m)
         done()
       })
@@ -775,6 +775,16 @@ describe('Headers', function () {
 
   })
 
+})
+
+describe('Misc', function () {
+
+  it('wrong options throws', function () {
+    expect(function () {
+      jspp('', {comments: 'foo', buffer: 'dummy'})
+    })
+    .toThrow()
+  })
 })
 
 // TODO: test with streams, e.g. pipe a file to stdin

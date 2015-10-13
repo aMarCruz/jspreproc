@@ -1,5 +1,8 @@
 # Changelog for jspreproc
 
+#### Varsion 0.2.1 beta 2 - 2015-10-11
+- Fix to the options module
+
 #### Varsion 0.2.1 beta 1 - 2015-10-11
 - Revision of package.json
 - Changed the location of jspp.js to the bin folder
