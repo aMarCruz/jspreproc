@@ -10,7 +10,21 @@ try {
   Jasmine = require('jasmine')
   Jreport = require('jasmine-spec-reporter')
 }
-catch (e) {
+catch (e) { /**/ }
+
+if (Jasmine && Jreport) {
+
+  var jasmine = new Jasmine(),
+      jreport = new Jreport()
+
+  //jasmine.configureDefaultReporter({print: function () {}})
+  jasmine.loadConfigFile('spec/support/jasmine.json')
+  jasmine.addReporter(jreport)
+  jasmine.execute(process.argv.slice(2))
+
+}
+else {
+
   var msg = [
     '',
     '  Please clone the github repository of jspreproc to run the tests:',
@@ -22,16 +36,5 @@ catch (e) {
     ''
   ]
   console.log(msg.join('\n'))
-}
-
-if (Jasmine && Jreport) {
-
-  var jasmine = new Jasmine()
-  var path = require('path')
-
-  jasmine.configureDefaultReporter({print: function () {}})
-  jasmine.loadConfigFile(path.join(__dirname, 'support', 'jasmine.json'))
-  jasmine.addReporter(new Jreport())
-  jasmine.execute(process.argv.slice(2))
 
 }
