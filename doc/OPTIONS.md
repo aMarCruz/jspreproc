@@ -125,21 +125,23 @@ Predefined jspreproc filters and their regexes are:
 
 - `license` : `/@license\b/`  
    The default and non-removable filter keeps comments with the word "@license" inside.
-- [`titles`][titles] : `/\/(\/\s*|\*[*\s]*)#{1,}/`  
+- [`titles`][titles] : `/^\/(\/\s*|\*[*\s]*)#{1,}/`  
    For markdown titles ala [docco](jashkenas.github.io/docco/ "DOCCO page"), e.g. `// ##`, but multiline too.
-- [`jsdoc`][jsdoc] : `/\/\*\*[^@]*@[A-Za-z]/`
-- [`jslint`][jslint] : `/\/[*\/](?:jslint|global|property)\b/`
-- [`jshint`][jshint] : `/\/[*\/]\s*(?:jshint|globals|exported)\s/`
-- [`eslint`][eslint] : `/\/[*\/]\s*(?:eslint(?:\s|-[ed])|global\s)/`
-- [`jscs`][jscs] : `/\/[*\/]\s*jscs:[ed]/`
+- [`jsdoc`][jsdoc]   : `/^\/\*\*[^@]*@[A-Za-z]/`
+- [`jslint`][jslint] : `/^\/[*\/](?:jslint|global|property)\b/`
+- [`jshint`][jshint] : `/^\/[*\/]\s*(?:jshint|globals|exported)\s/`
+- [`eslint`][eslint] : `/^\/[*\/]\s*(?:eslint(?:\s|-[ed])|global\s)/`
+- [`jscs`][jscs]     : `/^\/[*\/]\s*jscs:[ed]/`
+- [`istanbul`][istanbul] : `/^\/[*\/]\s*istanbul\s/`
 - `all` : Enables _**all**_ the filters and yes, this is the easy and slower way.
 
 [titles]: http://daringfireball.net/projects/markdown/ "John Gruber Markdown"
 [jsdoc]:  http://usejsdoc.org/ "@use JSDoc"
 [jslint]: http://www.jslint.com/ "Douglas Crockford JSLint"
 [jshint]: http://jshint.com/ "JSHint site"
-[eslint]: http://eslint.org/ "ESLint site"
+[eslint]: http://eslint.org/ "The pluggable linting utility for JavaScript and JSX"
 [jscs]:   http://jscs.info/ "JSCS - JavaScript Code Style"
+[istanbul]: https://gotwarlost.github.io/istanbul/ "a JS code coverage tool written in JS"
 
 
 ### --custom-filter

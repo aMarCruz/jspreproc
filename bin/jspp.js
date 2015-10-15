@@ -2,7 +2,7 @@
 
 // Comand-Line Interface
 // =====================
-/* eslint no-console: 0 */
+/* eslint no-console: 0, quote-props: 0 */
 'use strict'  // eslint-disable-line
 
 var jspp     = require('../'),
@@ -30,12 +30,12 @@ var argv = require('minimist')(process.argv.slice(2),
       ],
       boolean: ['showme'],
       default: {
-        header1:       defaults.header1,
-        headers:       defaults.headers,
-        indent:        defaults.indent,
+        'header1':     defaults.header1,
+        'headers':     defaults.headers,
+        'indent':      defaults.indent,
         'eol-type':    defaults.eolType,
         'empty-lines': defaults.emptyLines,
-        comments:      defaults.comments
+        'comments':    defaults.comments
       },
       unknown: function (opt) {
         if (opt[0] === '-' && opt !== '--empty-lines') {
@@ -109,22 +109,22 @@ function showHelp() {
     '                    type: string - default: ' + JSON.stringify(defaults.header1),
     '    --headers       text to insert before each included file.',
     '                    type: string - default: ' + JSON.stringify(defaults.headers),
-    '    --indent        indentation to add before each line of included files.',
-    '                    The format matches the regex /^\\d+\s*[ts]/ (e.g. \'1t\'),',
+    '    --indent        indentation to add before each line of the included files.',
+    '                    The format matches the regex /^\\d+\\s*[ts]?/, e.g. "1t", ',
     '                    where \'t\' means tabs and \'s\' spaces, default is spaces.',
     '                    Each level adds indentation.',
     '                    type: string - default: ' + JSON.stringify(defaults.indent),
-    '    --eol-type      normalize end of lines to unix, win, or mac style',
+    '    --eol-type      normalize end of lines to "unix", "win", or "mac" style',
     '                    type: string - default: ' + JSON.stringify(defaults.eolType),
     '    --empty-lines   how much empty lines keep in the output (-1: keep all)',
     '                    type: number - default: ' + JSON.stringify(defaults.emptyLines),
-    '    -C, --comments  treatment of comments, one of:',
-    '                    all: keep all, none: remove all, filter: apply filter',
+    '    -C, --comments  treatment of the comments, one of:',
+    '                    "all": keep all, "none": remove all, "filter": apply filter',
     '                    type: string - default: ' + JSON.stringify(defaults.comments),
     '    -F, --filter    keep comments matching filter. "all" to apply all filters,',
     '                    or one or more of:',
     '                    ' + Object.keys(Options.filters).join(', '),
-    '    --custom-filter string for create regex as custom filter to apply with',
+    '    --custom-filter string for create a regex as custom filter to apply with',
     '                    regex.test(). must return true to keep the comment.',
     '                    type: string - e.g. --custom-filter "\\\\\* @module"',
     '    -V, --version   print version to stdout and exits.',
@@ -136,7 +136,7 @@ function showHelp() {
     '',
     '',
     '  Clone the jspreproc repository at https://github.com/aMarCruz/jspreproc.git',
-    '  run `npm i && npm t`, and find usage cases in spec/app-spec.js',
+    '  run `npm i && npm t`, and find examples of use in spec/app-spec.js',
     ''
   ]
   console.log(hlp.join('\n'))

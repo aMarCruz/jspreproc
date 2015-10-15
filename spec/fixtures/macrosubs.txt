@@ -3,5 +3,5 @@
 //#define $_BAZ "e\\f"
 $_FOO~$_BAR~$_BAZ
 //#if ~$_FOO.indexOf("\b")
-~ok
+ok
 //#endif
