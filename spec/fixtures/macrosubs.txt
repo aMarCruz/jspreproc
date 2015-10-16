@@ -1,6 +1,6 @@
-//#define $_FOO "a\b"
-//#define $_BAR "c\t"
-//#define $_BAZ "e\\f"
+//#set $_FOO "a\b"
+//#set $_BAR "c\t"
+//#set $_BAZ "e\\f"
 $_FOO~$_BAR~$_BAZ
 //#if ~$_FOO.indexOf("\b")
 ok

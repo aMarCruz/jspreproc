@@ -1,9 +1,14 @@
 # Changelog for jspreproc
 
 #### Varsion 0.2.1 beta 3 - 2015-10-11
+- Deprecated #define and #undef in favor of #set and #unset
+- More refactorization of tests
+- Enhancement: support for Date objects
+
+#### Varsion 0.2.1 beta 3 - 2015-10-11
 - Many fixes and refactorization of tests
 - Preparation for coverage reports
-- Added a new filter: istanbul
+- Enhancement: Added the istanbul filter
 
 #### Varsion 0.2.1 beta 2 - 2015-10-11
 - Fix to the options module

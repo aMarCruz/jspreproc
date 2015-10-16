@@ -10,5 +10,5 @@ object
 //#if NaN !== NaN
 NaN
 //#endif
-//#define $_S "\ntr\\nim\t ".trim()
+//#set $_S "\ntr\\nim\t ".trim()
 $_S~
