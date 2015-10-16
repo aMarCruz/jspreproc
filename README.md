@@ -46,7 +46,7 @@ function _tmpl(str, data) {
 ```js
 function _tmpl(str, data) {
   if (!str) return str
-  return (_cache[str] || (_cache[str] = _create(str))).call(data, GLOBAL, logErr)
+  return (_cache[str] || (_cache[str] = _create(str))).call(data, logErr)
 }
 ```
 
