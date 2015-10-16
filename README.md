@@ -1,4 +1,4 @@
-[![License][license-image]][license-url] [![Build Status][build-image]][build-url] [![npm Version][npm-image]][npm-url] [![Downloads by Month][npm-dm-image]][npm-url]
+[![Build Status][build-image]][build-url] [![npm Version][npm-image]][npm-url] [![Downloads by Month][npm-dm-image]][npm-url] [![License][license-image]][license-url]
 
 # jspreproc
 
