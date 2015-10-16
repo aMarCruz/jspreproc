@@ -1,7 +1,4 @@
-[![License][license-image]][license-url]
-[![Build Status][build-image]][build-url]
-[![npm Version][npm-image]][npm-url]
-[![Downloads by Month][npm-dm-image]][npm-url]
+[![License][license-image]][license-url] [![Build Status][build-image]][build-url] [![npm Version][npm-image]][npm-url] [![Downloads by Month][npm-dm-image]][npm-url]
 
 # jspreproc
 
@@ -46,7 +43,7 @@ function _tmpl(str, data) {
 ```js
 function _tmpl(str, data) {
   if (!str) return str
-  return (_cache[str] || (_cache[str] = _create(str))).call(data, GLOBAL, logErr)
+  return (_cache[str] || (_cache[str] = _create(str))).call(data, logErr)
 }
 ```
 
@@ -54,15 +51,12 @@ Me too. This is why **jspreproc**, a tiny C-style source file preprocessor in Ja
 
 Featuring many of the C preprocessor characteristics through JavaScript comments, jspreproc can be used in any source with a JavaScript-like syntax, even `C#` files with some limitations.
 
-**IMPORTANT:**
+**Important:**
+
+From version 0.2.1-beta.1 the location of jspp.js is the bin folder.
 
 This is work in progress, so please update jspreproc constantly, I hope that the first stable version does not take too long.
   
-From version 0.2.1-beta.1 the location of jspp.js is the bin folder, and there's a new file jspp.cmd for Windows users can run jspp from the root folder of jspreproc, useful in local installations.
-
-From version 0.2.0-beta.5 there's no default indentation for included files.
-
-Version 0.2.0-beta is an important update, it has corrections to the implementation of the returned stream and the program logic. This allows for asynchronous use and freedom in handling errors with `stream.on("error")` code.
 
 ## Install
 
@@ -84,7 +78,7 @@ Multiple files are concatenated into one, as if it had passed a file with multip
 If you don't list files, jspreproc reads from the standard input.  
 The output is written to standard output of the system, so it can be redirected.
 
-Learn about the [options](doc/OPTIONS.md) in the documentation. 
+Learn about the [options](doc/options.md) in the documentation. 
 
 ### node.js
 
@@ -104,12 +98,9 @@ There is a package for bower, too.
 
 ## Documentation
 
-Read the [CHANGELOG](CHANGELOG.md) for recent additions and fixes, and the [OPTIONS](doc/OPTIONS.md) and [SYNTAX](doc/SYNTAX.md) guides in the `doc` folder (WIP).
+Read the [CHANGELOG](CHANGELOG.md) for recent additions and fixes, the [options](doc/options.md), [syntax](doc/syntax.md), and [API](doc/API.md) pages has useful information (WIP).
 
-
-**_Tip:_**
-
-Clone the [jspreproc repository](from http://github.com/aMarCruz/jspreproc) and run `npm i && npm t`. You will find more usage examples in spec/app-spec.js
+There are examples of use in the file spec/app-spec.js
 
 ### Third-party tools & libraries
 
@@ -157,23 +148,24 @@ _Please note: the documentation is very much a work in progress. Contributions a
 
 ---
 
-[![Coverity Scan Build Status][coverity-image]][coverity-url]
-[![Code Climate][climate-image]][climate-url]
-[![Dependencies][depend-image]][depend-url]
-[![Development Dependencies][devdep-image]][devdep-url]
+[![Coverity Scan Build Status][coverity-image]][coverity-url] [![Code Climate][climate-image]][climate-url] [![Dependencies][depend-image]][depend-url] [![Development Dependencies][devdep-image]][devdep-url]
 
-[npm-image]:     https://badge.fury.io/js/jspreproc.svg
-[npm-dm-image]:  https://img.shields.io/npm/dm/jspreproc.svg
-[npm-url]:       https://www.npmjs.com/package/jspreproc
-[build-image]:   https://travis-ci.org/aMarCruz/jspreproc.svg?branch=master
-[build-url]:     https://travis-ci.org/aMarCruz/jspreproc
-[climate-image]: https://codeclimate.com/github/aMarCruz/jspreproc/badges/gpa.svg
-[climate-url]:   https://codeclimate.com/github/aMarCruz/jspreproc
-[coverity-image]: https://img.shields.io/coverity/scan/6621.svg
+[license-image]:  https://img.shields.io/npm/l/express.svg
+[license-url]:    https://github.com/aMarCruz/jspreproc/blob/master/LICENSE
+
+[npm-image]:      https://img.shields.io/npm/v/jspreproc.svg
+[npm-dm-image]:   https://img.shields.io/npm/dm/jspreproc.svg
+[npm-url]:        https://www.npmjs.com/package/jspreproc
+
+[build-image]:    https://travis-ci.org/aMarCruz/jspreproc.svg?branch=master
+[build-url]:      https://travis-ci.org/aMarCruz/jspreproc
+
+[coverity-image]: https://scan.coverity.com/projects/6621/badge.svg?flat=1
 [coverity-url]:   https://scan.coverity.com/projects/amarcruz-jspreproc 
-[depend-image]:  https://david-dm.org/aMarCruz/jspreproc.svg
-[depend-url]:    https://david-dm.org/aMarCruz/jspreproc
-[devdep-image]:  https://david-dm.org/aMarCruz/jspreproc/dev-status.svg
-[devdep-url]:    https://david-dm.org/aMarCruz/jspreproc#info=devDependencies
-[license-image]: https://img.shields.io/npm/l/express.svg?style=flat-square
-[license-url]:   https://github.com/aMarCruz/jspreproc/blob/master/LICENSE
+[climate-image]:  https://codeclimate.com/github/aMarCruz/jspreproc/badges/gpa.svg
+[climate-url]:    https://codeclimate.com/github/aMarCruz/jspreproc
+
+[depend-image]:   https://david-dm.org/aMarCruz/jspreproc.svg
+[depend-url]:     https://david-dm.org/aMarCruz/jspreproc
+[devdep-image]:   https://david-dm.org/aMarCruz/jspreproc/dev-status.svg
+[devdep-url]:     https://david-dm.org/aMarCruz/jspreproc#info=devDependencies

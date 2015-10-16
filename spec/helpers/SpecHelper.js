@@ -6,13 +6,15 @@ beforeEach(function () {
     toHasLinesLike: function (util) {
 
       function printable(str) {
-        return typeof str !== 'string' ?
-          str : (str && str.replace(/\n/g, '\\n').replace(/\r/g, '\\r'))
+        return ('' + str).replace(/\n/g, '\\n').replace(/\r/g, '\\r')
       }
       function compare(actual, expected) {
-        expected = printable(expected)
-        actual   = printable(actual)
-        return {pass: actual === expected}
+        var pass = actual === expected
+        return {
+          pass: pass,
+          message: util.buildFailureMessage(
+            'toHasLinesLike', pass, printable(actual), printable(expected))
+        }
       }
 
       return {compare: compare}

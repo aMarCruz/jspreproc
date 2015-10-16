@@ -12,14 +12,14 @@ var defaults = Options.defaults
 var argv = require('minimist')(process.argv.slice(2),
     {
       alias: {
-        define:   'D',
+        set:     ['D', 'define'],
         comments: 'C',
         filter:   'F',
         version:  'V',
         help:     'h'
       },
       string: [
-        'define',
+        'set',
         'header1',
         'headers',
         'indent',
@@ -103,7 +103,7 @@ function showHelp() {
     '',
     '  Options:',
     '',
-    '    -D, --define    add a define for use in expressions (e.g. -D NAME=value)',
+    '    -D, --set       add a variable for use in expressions (e.g. -D NAME=value)',
     '                    type: string - e.g. -D "MODULE=1"',
     '    --header1       text to insert before the top level file.',
     '                    type: string - default: ' + JSON.stringify(defaults.header1),

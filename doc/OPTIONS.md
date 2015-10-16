@@ -1,43 +1,34 @@
-## options
+## Options
 
-This guide includes the syntaxis for command-line interface, the property name of the options object passed to the jspreproc module, the basic type of the value, the default, and a short example.
+This guide includes command-line syntax, the equivalent property name of the options object passed to the jspreproc module, the basic type of the value, the default value, and a short example for the command line interface.
 
-From the command-line the processed file(s) goes to the standard output. You can redirect this output to a file in the common form:
+The processed file(s) goes to the standard output. You can redirect this output to a file in the common form:
 
 ```sh
 jspp -D RELEASE --empty-lines 0 lib/file1.js lib/file2.js > dist/app.js
 ```
-or pipe:
-```sh
-cat lib/file1.js lib/file2.js | jspp -D RELEASE --empty-lines 0
-```
-
-With the API, you pass an object with option properties:
-
-```js
-var jspp = require("jspreproc");
-var fs = require("fs");
-var st = fs.createWriteStream("dist/app.js");
-
-jspp(["lib/file1.js", "lib/file2.js"], {emptyLines: 0, define: "RELEASE"}).pipe(st);
-
-```
-
-This is in preparation for tools like Grunt, Gulp, etc.
 
 ---
 
-### -D, --define
+### -D, --define (deprecated)
 
-Declares a symbol for using in expressions.
+Due to the very different behavior of the `#define` directive of jspreproc and the C preprocessor, this keyword is replaced by `#set` and, for consistency, `#undef` is replaced with `#unset`.
+
+`#define` and `--define` will be recognized in all 0.2.x versions, from version 0.3.0 will be removed. Perhaps in the future it is implemented with a similar behavior to the C preprocessor.
+
+
+### --set
+
+Creates or modifies a jspreproc variable whose value can be used in conditional expressions or for replacement on the source.
 
 syntax | property | type | default | example
 -------|----------|------|---------|---------
---define &lt;_NAME_[=_value_]> | define | string | (none) | `-D "MODULE=1"`|
+--set &lt;_NAME_[=_value_]> | set (object) | string (list) | -- | `--set "MODULE=one"`
 
-Valid symbol names begins with a character in the range `[$_0-9A-Z]` (dollar sign, underscore, or alphabetic ASCII _uppercase_), followed by one or more characters in `[_0-9A-Z]` (underscore or alphanumeric uppercase).  
-If the symbol begins with `$_`, followed by one or more characters in `[_0-9A-Z]`, you can use the symbol for replacing text in the code, too.
+Valid names begins with one dollar sign, underscore, or ASCII _uppercase_ alphabetic character (`$`, `_`, `A-Z`), followed by one or more underscores or uppercase alphanumeric characters (`_`, `A-Z`, `0-9`).
 
+If the name begins with `$_`, followed by one or more valid characters, you can use the name for replacing text in the source, too. The replacement is performed with the literal value of the variable at the time of replacement.
+ 
 
 ### --header1
 
@@ -45,11 +36,11 @@ Text to insert before the _top level_ file.
 
 syntax | property | type | default | example
 -------|----------|------|---------|---------
---header1 &lt;_string_> | header1 | string | `""` | `--header "// @module foo\\n"`
+--header1 &lt;_string_> | header1 | string | `""` | `--header1 "// @module foo\\n"`
 
 As seen in the example, you can use special JavaScript characters like `\n`, `\t`, and so, but can specify an end of line with a caret, too (e.g. `"// @module foo^"`). In the output, the caret is replaced with a end of line (as configured by the `--eol-type` option). Use two carets to output a literal one.  
 
-The output of the header is generated with the same engine as the defined symbols but, unlike string values for `#define`, you don't need quote the header value, jspreproc enclose the string and escape inner quotes as necessary.
+The output of the header is generated with the same engine as the defined symbols but, unlike string values for `#set`, you don't need quote the header value, jspreproc enclose the string and escape inner quotes as necessary.
 
 
 ### --headers
@@ -60,17 +51,17 @@ syntax | property | type | default | example
 -------|----------|------|---------|---------
 --headers &lt;_string_> | headers | string | `"\n// __FILE\n\n"` | `--headers "/* __FILE */^"`
 
-The behavior of this option/property is the same of `--header1`
+The behavior of this option is the same of `--header1`
 
 
 ### --indent
 
 syntax | property | type | default | example
 -------|----------|------|---------|---------
---indent &lt;_string_> | indent | string | `""` | `--indent 1t`
+--indent &lt;_string_> | indent | string | `""` | `--indent 2s` or `indent 2`
 
 Indentation to add before each line on the included files.  
-The format matches the regex `/$\d+\s*[ts]/`, one or more digits followed by one `t` means tabs and `s` spaces, default is spaces.  
+The format matches the regex `/$\d+[ts]?/`, one or more digits followed by one `t` means tabs and `s` spaces, default is spaces.  
 Each level adds indentation.
 
 
@@ -165,10 +156,9 @@ Common case for custom filters is preserve few comments with special text, but y
 
 ### -V, --version
 
-Print the jspreproc version number to stdout and exits.  
-From the API, use the version property of the jspreproc module: `require('jspreproc').version` 
+Print the jspreproc version number to standard output and exits.  
 
 
 ### **-h, --help**
 
-Display a short help (command-line interface only).
+Display a short help.

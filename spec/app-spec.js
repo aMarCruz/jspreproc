@@ -48,6 +48,9 @@ function testIt(any, opts, callback, wantErr) {
       if (wantErr) callback(err)
       else fail(err)
     })
+    //.on('close', function () {
+    //  console.error('--- TRACE: closed stream ' + stpp._jspp_id)
+    //})
 }
 
 function testStr(str, opts, callback, wantErr) {
@@ -110,7 +113,7 @@ describe('Comments', function () {
     })
   })
 
-  it('are preserved for linters with `-F all`', function (done) {
+  it('are preserved for all filters with `-C filter -F all`', function (done) {
     var opts = {comments: 'filter', filter: 'all'}
 
     testFile('comments', opts, function (result) {
@@ -119,7 +122,7 @@ describe('Comments', function () {
     })
   })
 
-  it('can use custom filters, e.g. `--custom-filter "\\\\\* @module"`', function (done) {
+  it('can use custom filters, e.g. --custom-filter "\\\\\* @module"', function (done) {
     var opts = {customFilter: '\\\\\* @module'}, // "\\* @module" from console
         text = [
           '/* @module foo */',
@@ -132,7 +135,7 @@ describe('Comments', function () {
     })
   })
 
-  it('you can pass an array of regexes in the customFiler property', function (done) {
+  it('the customFiler property can be an array of regexes', function (done) {
     var opts = {customFilter: [/@m/, / #/]},
         text = [
           '/* @module foo */',
@@ -162,7 +165,7 @@ describe('Lines', function () {
     '\n'                            // 1
   ].join('')
 
-  it('default is one empty line and style eols "unix" (\\n).', function (done) {
+  it('default is one empty line and EOLs in Unix style (\\n).', function (done) {
 
     testStr(buff, {emptyLines: defaultEmptyLines}, function (result) {
       expect(result).toHasLinesLike('\na\n\n')
@@ -170,7 +173,7 @@ describe('Lines', function () {
     })
   })
 
-  it('eols can be converted to Win CRLF style (\\r\\n)', function (done) {
+  it('EOLs can be converted to Windows style (\\r\\n)', function (done) {
 
     testStr(buff, {eolType: 'win', emptyLines: 1}, function (result) {
       expect(result).toHasLinesLike('\r\na\r\n\r\n')
@@ -178,7 +181,7 @@ describe('Lines', function () {
     })
   })
 
-  it('or converted to Mac CR style (\\r)', function (done) {
+  it('or converted to Mac style (\\r)', function (done) {
 
     testStr(buff, {eolType: 'mac', emptyLines: 1}, function (result) {
       expect(result).toHasLinesLike('\ra\r\r')
@@ -186,7 +189,7 @@ describe('Lines', function () {
     })
   })
 
-  it('`--empty-lines -1` disable remotion of empty lines', function (done) {
+  it('`--empty-lines -1` disables remotion of empty lines', function (done) {
 
     testStr(buff, {emptyLines: -1}, function (result) {
       var test = buff
@@ -199,7 +202,7 @@ describe('Lines', function () {
     })
   })
 
-  it('`--empty-lines 0` remove all empty lines', function (done) {
+  it('`--empty-lines 0` removes all the empty lines', function (done) {
 
     testStr(buff, {emptyLines: 0}, function (result) {
       expect(result).toHasLinesLike('a\n')
@@ -207,20 +210,43 @@ describe('Lines', function () {
     })
   })
 
-  it('`--empty-lines` must no add empty lines', function (done) {
-    var s = '\n1\n\n2\n\n'
+  it('`--empty-lines` must obey its limit', function (done) {
+    var s = '\n\n\n\n1\n\n2\n\n\n\n3\n\n\n\n'
 
     testStr(s, {emptyLines: 2}, function (result) {
-      expect(result).toHasLinesLike('\n1\n\n2\n\n')
+      expect(result).toHasLinesLike('\n\n1\n\n2\n\n\n3\n\n\n')
       done()
     })
   })
 
-  it('`--empty-lines` must obey limit', function (done) {
-    var s = '\n\n\n\n1\n\n\n\n2\n\n\n\n'
+  it('force eol after any file, even with emptyLines 0', function (done) {
+    var text = [
+      '//#include ' + fixPath('noeol.txt'),
+      '//#include ' + fixPath('noeol.txt'),
+      'ok'
+    ].join('\n')
 
-    testStr(s, {emptyLines: 2}, function (result) {
-      expect(result).toHasLinesLike('\n\n1\n\n\n2\n\n\n')
+    testStr(text, {emptyLines: 0}, function (result) {
+      expect(result).toHasLinesLike('noEol\nnoEol\nok')
+      done()
+    })
+  })
+
+  it('limit empty lines when joining files', function (done) {
+    var text = '//#include ' + fixPath('manyeols.txt')
+    text = '\n\n\n\n' + text + '\n' + text + '\n\n\n\n'
+
+    testStr(text, {emptyLines: 2}, function (result) {
+      expect(result).toHasLinesLike('\n\neol\n\n\neol\n\n\n')
+      done()
+    })
+  })
+
+  it('don\'t add unnecessary EOLs after insert a file', function (done) {
+    var text = '//#include ' + fixPath('noeol.txt')
+
+    testStr(text, {}, function (result) {
+      expect(result).toBe('noEol')
       done()
     })
   })
@@ -228,10 +254,10 @@ describe('Lines', function () {
 })
 
 
-// #define Suite
+// #set Suite
 // -------------
 
-describe('#define', function () {
+describe('#set / #define', function () {
 
   it('once emitted, has global scope to the *top* file', function (done) {
     var text = [
@@ -254,8 +280,8 @@ describe('#define', function () {
 
   it('names starting with `$_` can be used anywhere in the file', function (done) {
     var text = [
-      '//#define BAR "bar"',
-      '//#define $_FOO "foo" + BAR',
+      '//#set BAR "bar"',
+      '//#set $_FOO "foo" + BAR',
       'log($_FOO)'
     ].join('\n')
 
@@ -267,9 +293,9 @@ describe('#define', function () {
 
   it('can include other defined symbols', function (done) {
     var text = [
-      '//#define $_A  "A"',
-      '//#define $_B  $_A + "." + $_A',
-      '//#define $_C  $_A + "." + $_B',
+      '//#set $_A  "A"',
+      '//#set $_B  $_A + "." + $_A',
+      '//#set $_C  $_A + "." + $_B',
       '$_C'
     ].join('\n')
 
@@ -283,8 +309,8 @@ describe('#define', function () {
 
   it('evaluates the expression immediately', function (done) {
     var text = [
-      '//#define N_1  1',
-      '//#define $_R  N_1 + 2',
+      '//#set N_1  1',
+      '//#set $_R  N_1 + 2',
       '$_R'
     ].join('\n')
 
@@ -296,8 +322,8 @@ describe('#define', function () {
 
   it('evaluation performs mathematical operations', function (done) {
     var text = [
-      '//#define FOO 1 + 2',
-      '//#define BAR 3',
+      '//#set FOO 1 + 2',
+      '//#set BAR 3',
       '//#if FOO+BAR === 6',
       'ok',
       '//#endif'
@@ -311,8 +337,8 @@ describe('#define', function () {
 
   it('evaluation concatenate strings', function (done) {
     var text = [
-      '//#define FOO "fo" + "o"',
-      '//#define BAR \'bar\'',
+      '//#set FOO "fo" + "o"',
+      '//#set BAR \'bar\'',
       '//#if FOO+BAR === "foobar"',
       'ok',
       '//#endif'
@@ -326,9 +352,9 @@ describe('#define', function () {
 
   it('recognizes and preserves regexes', function (done) {
     var text = [
-      '//#define RE /^f/',
-      '//#define $_R /\\n+/',
-      '//#define $_V RE.test("foo")',
+      '//#set RE /^f/',
+      '//#set $_R /\\n+/',
+      '//#set $_V RE.test("foo")',
       '($_V, $_R)'
     ].join('\n')
 
@@ -340,13 +366,13 @@ describe('#define', function () {
 
   it('recognizes and preserves Date objects', function (done) {
     var text = [
-      '//#define $_D new Date(2015,9,10)',
-      '//#define $_E +$_D',
+      '//#set $_D new Date(2015,9,10)',
+      '//#set $_E +$_D',
       '//#if ($_D instanceof Date) && (typeof $_E === "number")',
       'date',
       '//#endif',
-      '//#define $_E $_D.getFullYear()',
-      '//#define $_D +(new Date("x"))',
+      '//#set $_E $_D.getFullYear()',
+      '//#set $_D +(new Date("x"))',
       '$_E~$_D'
     ].join('\n')
 
@@ -358,9 +384,9 @@ describe('#define', function () {
 
   it('null, undefined and NaN values are preserved too', function (done) {
     var text = [
-      '//#define $_X null',
-      '//#define $_U undefined',
-      '//#define $_N parseInt("x", 10)',
+      '//#set $_X null',
+      '//#set $_U undefined',
+      '//#set $_N parseInt("x", 10)',
       '($_X,$_U,$_N)'
     ].join('\n')
 
@@ -372,8 +398,8 @@ describe('#define', function () {
 
   it('Infinity (e.g. division by 0) is converted to zero', function (done) {
     var text = [
-      '//#define $_FOO Infinity',
-      '//#define $_BAR 5/0',
+      '//#set $_FOO Infinity',
+      '//#set $_BAR 5/0',
       '$_FOO-$_BAR'
     ].join('\n')
 
@@ -383,9 +409,57 @@ describe('#define', function () {
     })
   })
 
+  it('in expressions, undefined variables are converted to zero', function (done) {
+    var text = [
+      '//#if $_FOO === 0',      // no error is emitted
+      'ok',
+      '//#endif',
+      '//#if !defined($_FOO)',  // retest
+      'ok',
+      '//#endif'
+    ].join('\n')
+
+    testStr(text, {}, function (result) {
+      expect(result).toMatch(/ok\nok/)
+      done()
+    })
+  })
+
+  it('#unset or #undef removes the variable completely', function (done) {
+    var text = [
+      '//#set $_FOO 1',
+      '//#unset $_FOO',       // check unset is deleting the var
+      '//#if $_FOO === 0',
+      'ok',
+      '//#endif',
+      '//#define $_FOO 1',
+      '//#undef $_FOO',
+      '//#if $_FOO === 0',
+      'ok',
+      '//#endif'
+    ].join('\n')
+
+    testStr(text, {}, function (result) {
+      expect(result).toMatch(/ok\nok/)
+      done()
+    })
+  })
+
+  it('emit error event setting invalid symbol names', function (done) {
+
+    testStr('//#set $_Foo', {}, function (result) {
+      expect(result).toErrorContain('symbol name')
+
+      testStr('//#set =1', {}, function (result2) {
+        expect(result2).toErrorContain('symbol name')
+        done()
+      }, WANT_ERR)
+    }, WANT_ERR)
+  })
+
   it('emit error event on evaluation errors', function (done) {
     var text = [
-      '//#define $_FOO 5*10)',
+      '//#set $_FOO 5*10)',
       '$_FOO'
     ].join('\n')
 
@@ -395,11 +469,27 @@ describe('#define', function () {
     }, WANT_ERR)
   })
 
+  it('object varset in options has name-value pairs', function (done) {
+    var opts = {
+          varset: {_FOO: 1, _BAR: '2'}
+        },
+        text = [
+          '//#if _FOO + _BAR === "12"',
+          'ok',
+          '//#endif'
+        ].join('\n')
+
+    testStr(text, opts, function (result) {
+      expect(result).toBe('ok\n')
+      done()
+    })
+  })
+
   it('be careful with backslashes in macro-substitution!', function (done) {
     var text = [
-      '//#define $_FOO "a\b"',
-      '//#define $_BAR "c\t"',
-      '//#define $_BAZ "e\\\\f"',
+      '//#set $_FOO "a\b"',
+      '//#set $_BAR "c\t"',
+      '//#set $_BAZ "e\\\\f"',
       '$_FOO~$_BAR~$_BAZ',
       '//#if ~$_FOO.indexOf("\b")',
       'ok',
@@ -440,7 +530,7 @@ describe('Conditionals Blocks', function () {
 
   it('can be indented', function (done) {
     var text = [
-      '//#define _A',
+      '//#set _A',
       '//#if 1',
       '  //#if _A',
       '  a',
@@ -456,7 +546,7 @@ describe('Conditionals Blocks', function () {
 
   it('can include spaces between `//#` and the keyword', function (done) {
     var text = [
-      '//# define _A',
+      '//# set _A',
       '//# if 1',
       '//#   if _A',
       '  a',
@@ -483,15 +573,29 @@ describe('Conditionals Blocks', function () {
     })
   })
 
+  it('ignore comments in falsy blocks', function (done) {
+    var text = [
+      '//#if 0',
+      '/* @license MIT */',
+      '//#endif'
+    ].join('\n')
+
+    testStr(text, {}, function (result) {
+      expect(result).toMatch(/^\s*$/)
+      done()
+    })
+  })
+
   it('#if blocks can be nested', function (done) {
     var text = [
-      '//#define _A   ',
+      '//#set _A      ',
       '//#if 1        ',
       '//#  if 1      ',
       '//#    if _A   ',
       '         ok    ',
-      '//#    else    ',
-      '//#      if 1  ',
+      '//#    elif 1  ',    // test elif after trueish block
+      '         no    ',
+      '//#      if 1  ',    // test if ignored this
       '           no  ',
       '//#      endif ',
       '//#    endif   ',
@@ -604,7 +708,7 @@ describe('Conditionals Blocks', function () {
       '//#if NaN !== NaN',
       'NaN',
       '//#endif',
-      '//#define $_S "\\ntr\\\\nim\\t ".trim()',
+      '//#set $_S "\\ntr\\\\nim\\t ".trim()',
       '$_S~'
     ].join('\n')
 
@@ -631,7 +735,7 @@ describe('Conditionals Blocks', function () {
 
   it('#if/#elif supports the `defined()` function', function (done) {
     var text = [
-      '//#define _A',
+      '//#set _A',
       '//#if defined(_B) || defined(_A)',
       'ok1',
       '//#endif',
@@ -648,7 +752,7 @@ describe('Conditionals Blocks', function () {
 
   it('#ifdef/#ifndef are shorthands to `defined`', function (done) {
     var text = [
-      '//#define _A',
+      '//#set _A',
       '//#ifdef _A',
       'ok1',
       '//#endif',
@@ -693,10 +797,23 @@ describe('#include', function () {
     })
   })
 
-  it('only 1 copy is included when include_once is seen', function (done) {
+  it('only one copy included from #include_once is seen', function (done) {
 
     testFile('include1.txt', {define: 'ONCE'}, function (result) {
       // ONCE defined, found include_once, only 1 dummy.js
+      expect(result).toMatch(/Dummy/)
+      expect(result.match(/Dummy/g).length).toBe(1)
+      done()
+    })
+  })
+
+  it('only one copy included with #include_once even in nested files', function (done) {
+    var text = [
+      '//#include_once ' + fixPath('dummy'),
+      '//#include ' + fixPath('include2.txt') // has two #include dummy
+    ].join('\n')
+
+    testStr(text, {}, function (result) {
       expect(result).toMatch(/Dummy/)
       expect(result.match(/Dummy/g).length).toBe(1)
       done()
@@ -722,9 +839,17 @@ describe('#include', function () {
     })
   })
 
-  it('emit error if filenames is missing or invalid', function (done) {
+  it('emit error if filename for inclussion is invalid', function (done) {
 
-    testStr('//#include ""\n', {}, function (result) {
+    testStr('//#include " "', {}, function (result) {
+      expect(result).toErrorContain('Expected filename')
+      done()
+    }, WANT_ERR)
+  })
+
+  it('emit error if filename for inclussion is missing', function (done) {
+
+    testStr('//#include ', {}, function (result) {
       expect(result).toErrorContain('Expected filename')
       done()
     }, WANT_ERR)
@@ -763,42 +888,6 @@ describe('#include', function () {
 
   })
 
-  describe('- Empty lines', function () {
-
-    it('force eol after any file, even with emptyLines 0', function (done) {
-      var text = [
-        '//#include ' + fixPath('noeol.txt'),
-        '//#include ' + fixPath('noeol.txt'),
-        'ok'
-      ].join('\n')
-
-      testStr(text, {emptyLines: 0}, function (result) {
-        expect(result).toHasLinesLike('noEol\nnoEol\nok')
-        done()
-      })
-    })
-
-    it('limit empty lines to `emptyLines` value between files', function (done) {
-      var text = '//#include ' + fixPath('manyeols.txt')
-      text = '\n\n\n\n' + text + '\n' + text + '\n\n\n\n'
-
-      testStr(text, {emptyLines: 2}, function (result) {
-        expect(result).toHasLinesLike('\n\neol\n\n\neol\n\n\n')
-        done()
-      })
-    })
-
-    it('don\'t add unnecessary eol after insert a file', function (done) {
-      var text = '//#include ' + fixPath('noeol.txt')
-
-      testStr(text, {}, function (result) {
-        expect(result).toBe('noEol')
-        done()
-      })
-    })
-
-  })
-
 })
 
 // Headers suite
@@ -806,19 +895,21 @@ describe('#include', function () {
 
 describe('Headers', function () {
 
-  it('for top file default is none (the --header1 option)', function (done) {
+  it('for the top file or mainstream default is none', function (done) {
 
     testFile('include3.txt', {}, function (result) {
-      expect(result).not.toMatch('/include3')
+      expect(result).not.toMatch('include3')
       done()
     })
   })
 
-  it('for included files is the relative filename (--headers)', function (done) {
-    var text = '//#include ' + fixPath('include3.txt')
+  it('for included files is the relative filename', function (done) {
+    var file = fixPath('sub/child.txt'),
+        text = '//#include ' + file
 
     testStr(text, {headers: defaultHeaders}, function (result) {
-      expect(result).toMatch('/include3')
+      result = result.replace(/\\/g, '/')
+      expect(result).toMatch(' ' + path.relative('.', file).replace(/\\/g, '/'))
       done()
     })
   })
@@ -826,14 +917,13 @@ describe('Headers', function () {
   it('for top and included files can be customized', function (done) {
     var opts = {
           header1: 'hi top\n',
-          headers: 'bye __FILE\n',
+          headers: 'bye\n',
           emptyLines: 0
         },
         text = '//#include ' + fixPath('include3.txt')
 
     testStr(text, opts, function (result) {
-      expect(result).toMatch('hi top\nb')
-      expect(result).toMatch('bye ')
+      expect(result).toMatch('hi top\nbye')
       done()
     })
   })
@@ -895,6 +985,8 @@ describe('Parameters', function () {
       opts[vals[i]] = 'foo'
       expect(test).toThrow()
     }
+    opts = {varset: {Foo: 1}}
+    expect(test).toThrow()
     opts = {customFilter: '['}
     expect(test).toThrow()
     opts = {eolType: null}
@@ -921,13 +1013,13 @@ describe('Parameters', function () {
     opts = {define: 'FOO,BAR=2,BAZ=""'}
     expect(test).not.toThrow()
 
-    opts = jopt._getDefines()
+    opts = jopt.getVars()
     expect(opts.FOO).toEqual(1)
     expect(opts.BAR).toEqual(2)
     expect(opts.BAZ).toBe('""')
   })
 
-  it('undef can be an array, or a string delimited with commas', function (done) {
+  it('undef can be an array or a string delimited with commas', function (done) {
     var text = [
       '//#if !AA',
       'aa',

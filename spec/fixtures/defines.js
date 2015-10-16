@@ -1,5 +1,5 @@
-//#define NUM1 1
-//#define NUM2 2
+//#set NUM1 1
+//#set NUM2 2
 
 //#ifdef FOO
 'ifdef FOO'
