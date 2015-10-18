@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>jspreproc by aMarCruz</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>jspreproc</h1>
+          <h2>C-style source file preprocessor and comments remover for JavaScript in JavaScript</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/aMarCruz/jspreproc/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/aMarCruz/jspreproc/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/aMarCruz/jspreproc" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <p><a href="https://travis-ci.org/aMarCruz/jspreproc"><img src="https://travis-ci.org/aMarCruz/jspreproc.svg?branch=master" alt="Build Status"></a> <a href="https://www.npmjs.com/package/jspreproc"><img src="https://img.shields.io/npm/v/jspreproc.svg" alt="npm Version"></a> <a href="https://www.npmjs.com/package/jspreproc"><img src="https://img.shields.io/npm/dm/jspreproc.svg" alt="Downloads by Month"></a> <a href="https://github.com/aMarCruz/jspreproc/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/express.svg" alt="License"></a></p>
+
+<h1>
+<a id="jspreproc" class="anchor" href="#jspreproc" aria-hidden="true"><span class="octicon octicon-link"></span></a>jspreproc</h1>
+
+<p><strong>Do you have this?</strong></p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/**</span>
+<span class="pl-c"> * The exposed tmpl function returns the template value from the cache, render with data.</span>
+<span class="pl-c"> * <span class="pl-k">@param</span>   {string} str  - Expression or template with zero or more expressions</span>
+<span class="pl-c"> * <span class="pl-k">@param</span>   {Object} data - For setting the context</span>
+<span class="pl-c"> * <span class="pl-k">@returns</span> {*} Raw expression value or template to render</span>
+<span class="pl-c"> * <span class="pl-k">@private</span></span>
+<span class="pl-c"> */</span>
+<span class="pl-k">function</span> <span class="pl-en">_tmpl</span>(<span class="pl-smi">str</span>, <span class="pl-smi">data</span>) {
+  <span class="pl-k">if</span> (<span class="pl-k">!</span>str) <span class="pl-k">return</span> str  <span class="pl-c">// catch falsy values here</span>
+
+  <span class="pl-c">//#if DEBUG</span>
+  <span class="pl-k">if</span> (data <span class="pl-k">&amp;&amp;</span> data._debug_) {
+    data._debug_ <span class="pl-k">=</span> <span class="pl-c1">0</span>
+    <span class="pl-k">if</span> (<span class="pl-k">!</span>_cache[str]) {
+      _cache[str] <span class="pl-k">=</span> _create(str, <span class="pl-c1">1</span>)  <span class="pl-c">// request debug output</span>
+      <span class="pl-k">var</span> rs <span class="pl-k">=</span> <span class="pl-k">typeof</span> riot <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>undefined<span class="pl-pds">'</span></span> <span class="pl-k">?</span>
+        <span class="pl-s"><span class="pl-pds">'</span>(riot undefined)<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-c1">JSON</span>.stringify(riot.settings)
+      <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>--- DEBUG<span class="pl-pds">'</span></span> <span class="pl-k">+</span>
+        <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span> riot.settings: <span class="pl-pds">'</span></span> <span class="pl-k">+</span> rs <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span> data: <span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-c1">JSON</span>.stringify(data))
+    }
+  }
+  <span class="pl-c">//#endif</span>
+
+  <span class="pl-c">// At this point, the expressions must have been parsed, it only remains to construct</span>
+  <span class="pl-c">// the function (if it is not in the cache) and call it to replace expressions with</span>
+  <span class="pl-c">// their values. data (`this`) is a Tag instance, logErr is the error handler.</span>
+
+  <span class="pl-k">return</span> (_cache[str] <span class="pl-k">||</span> (_cache[str] <span class="pl-k">=</span> _create(str))).<span class="pl-c1">call</span>(data, logErr)
+}
+<span class="pl-c">// end of _tmpl</span></pre></div>
+
+<p><strong>And want this?</strong></p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">function</span> <span class="pl-en">_tmpl</span>(<span class="pl-smi">str</span>, <span class="pl-smi">data</span>) {
+  <span class="pl-k">if</span> (<span class="pl-k">!</span>str) <span class="pl-k">return</span> str
+  <span class="pl-k">return</span> (_cache[str] <span class="pl-k">||</span> (_cache[str] <span class="pl-k">=</span> _create(str))).<span class="pl-c1">call</span>(data, logErr)
+}</pre></div>
+
+<p>Me too. This is why <strong>jspreproc</strong>, a tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.</p>
+
+<p>Featuring many of the C preprocessor characteristics through JavaScript comments, jspreproc can be used in any source with a JavaScript-like syntax, even <code>C#</code> files with some limitations.</p>
+
+<p><strong>Important:</strong></p>
+
+<p>From version 0.2.1-beta.1 the location of jspp.js is the bin folder.</p>
+
+<p>This is work in progress, so please update jspreproc constantly, I hope the first stable version does not take too long.</p>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<p>You can install jspreproc with npm globally to use as the CLI tool, or locally for your project.<br>
+jspreproc works in node.js 0.10.0 or above (tested in Windows 7/8, cmd and sh shells).</p>
+
+<h3>
+<a id="command-line" class="anchor" href="#command-line" aria-hidden="true"><span class="octicon octicon-link"></span></a>Command-line</h3>
+
+<div class="highlight highlight-source-shell"><pre>npm -g install jspreproc</pre></div>
+
+<p>jspreproc name for command-line interface is <code>jspp</code></p>
+
+<div class="highlight highlight-source-shell"><pre>jspp [options] file1 file2 ...</pre></div>
+
+<p>Multiple files are concatenated into one, as if it had passed a file with multiple <code>#include</code> directives, one for each of the files listed.</p>
+
+<p>If you don't list files, jspreproc reads from the standard input.<br>
+The result is written to the standard output, so it can be redirected.</p>
+
+<p>Find more about the <a href="doc/options.md">options</a> in the documentation.</p>
+
+<h3>
+<a id="nodejs" class="anchor" href="#nodejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>node.js</h3>
+
+<div class="highlight highlight-source-shell"><pre>npm install jspreproc</pre></div>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> jspp <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jspreproc<span class="pl-pds">'</span></span>)
+<span class="pl-k">var</span> stream <span class="pl-k">=</span> jspp(files, options)</pre></div>
+
+<p>Parameter <code>files</code> can be an file name, an array of file names, or an instance of a readable stream. Options is an object with the same options from command-line.<br>
+jspp return value is a <a href="https://nodejs.org/api/stream.html#stream_class_stream_passthrough"><code>stream.PassThrough</code></a> instance.</p>
+
+<p>You can read about this <a href="doc/API.md">API</a> in the documentation.</p>
+
+<p>There is a package for bower, too.</p>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>This is a short example of basic syntax in files prepared for jspreproc:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">//#include globals.inc</span>
+<span class="pl-c">//#define DEBUG</span>
+
+<span class="pl-c">//#ifdef DEBUG</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(result)
+<span class="pl-c">//#endif</span></pre></div>
+
+<p>Find more in the <a href="doc/syntax.md">Syntax guide</a>.</p>
+
+<p>Read the <a href="CHANGELOG.md">CHANGELOG</a> for recent additions and fixes.<br>
+You can see jspreproc operation in <a href="spec/app-spec.js">the tests</a>.</p>
+
+<p><em>Please note: the documentation is very much a work in progress. Contributions are welcome.</em></p>
+
+<h3>
+<a id="third-party-tools--libraries" class="anchor" href="#third-party-tools--libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Third-party tools &amp; libraries</h3>
+
+<p>The following third-party tools and libraries are used by this project:</p>
+
+<h4>
+<a id="for-regular-use-dependencies-installed-by-npm" class="anchor" href="#for-regular-use-dependencies-installed-by-npm" aria-hidden="true"><span class="octicon octicon-link"></span></a>For regular use (dependencies installed by npm)</h4>
+
+<ul>
+<li>
+<a href="https://github.com/substack/minimist" title="parse argument options">minimist</a> by <a href="http://substack.net/">substack</a>, for parsing argument options from the command line</li>
+</ul>
+
+<h4>
+<a id="development-and-code-quality-devdependencies" class="anchor" href="#development-and-code-quality-devdependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development and code quality (devDependencies)</h4>
+
+<ul>
+<li>
+<a href="http://jasmine.github.io/" title="Jasmine, Behavior-Driven JavaScript">Jasmine</a> by <a href="https://www.pivotaltracker.com/">Pivotal Labs</a>, my favorite testing framework, does not rely on other frameworks</li>
+<li>
+<a href="https://github.com/bcaudan/jasmine-spec-reporter">jasmine-spec-reporter</a> by <a href="https://github.com/bcaudan">Bastien Caudan</a>, pretty console spec reporter for jasmine</li>
+<li>
+<a href="https://gotwarlost.github.io/istanbul/" title="a JS code coverage tool written in JS">istanbul</a> by <a href="https://github.com/gotwarlost">Krishnan Anantheswaran</a>, for generating coverage information</li>
+</ul>
+
+<p>I'd like to thank all.</p>
+
+<h3>
+<a id="known-issues" class="anchor" href="#known-issues" aria-hidden="true"><span class="octicon octicon-link"></span></a>Known Issues</h3>
+
+<p>process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. <a href="https://conemu.github.io/">ConEmu</a> and others, use clean Windows prompt or <a href="http://www.mingw.org/wiki/msys">MSYS</a> with mintty.</p>
+
+<h3>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h3>
+
+<p>Maybe some day...</p>
+
+<ul>
+<li>[ ] 100% coverage (almost done)</li>
+<li>[ ] Configuration from the file system. <code>.jspreproc.json</code>?</li>
+<li>[ ] jspreproc reconfiguration through comments</li>
+<li>[ ] <code>#emit</code>? for generating output of expression values</li>
+<li>[ ] Better documentation</li>
+</ul>
+
+<hr>
+
+<p><a href="https://scan.coverity.com/projects/amarcruz-jspreproc"><img src="https://scan.coverity.com/projects/6621/badge.svg?flat=1" alt="Coverity Scan Build Status"></a> <a href="https://codeclimate.com/github/aMarCruz/jspreproc"><img src="https://codeclimate.com/github/aMarCruz/jspreproc/badges/gpa.svg" alt="Code Climate"></a> <a href="https://david-dm.org/aMarCruz/jspreproc"><img src="https://david-dm.org/aMarCruz/jspreproc.svg" alt="Dependencies"></a> <a href="https://david-dm.org/aMarCruz/jspreproc#info=devDependencies"><img src="https://david-dm.org/aMarCruz/jspreproc/dev-status.svg" alt="Development Dependencies"></a></p>
+        </section>
+
+        <footer>
+          jspreproc is maintained by <a href="https://github.com/aMarCruz">aMarCruz</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
