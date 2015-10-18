@@ -19,12 +19,11 @@ function _tmpl(str, data) {
   if (data && data._debug_) {
     data._debug_ = 0
     if (!_cache[str]) {
-      _cache[str] = _create(str, 1)
+      _cache[str] = _create(str, 1)  // request debug output
       var rs = typeof riot === 'undefined' ?
         '(riot undefined)' : JSON.stringify(riot.settings)
       console.log('--- DEBUG' +
         '\n riot.settings: ' + rs + '\n data: ' + JSON.stringify(data))
-      return _cache[str].call(data, logErr)
     }
   }
   //#endif
@@ -33,7 +32,7 @@ function _tmpl(str, data) {
   // the function (if it is not in the cache) and call it to replace expressions with
   // their values. data (`this`) is a Tag instance, logErr is the error handler.
 
-  return (_cache[str] || (_cache[str] = _create(str))).call(data, logErr)  // eslint-disable-line no-unreachable
+  return (_cache[str] || (_cache[str] = _create(str))).call(data, logErr)
 }
 // end of _tmpl
 ```
@@ -55,13 +54,13 @@ Featuring many of the C preprocessor characteristics through JavaScript comments
 
 From version 0.2.1-beta.1 the location of jspp.js is the bin folder.
 
-This is work in progress, so please update jspreproc constantly, I hope that the first stable version does not take too long.
+This is work in progress, so please update jspreproc constantly, I hope the first stable version does not take too long.
   
 
 ## Install
 
 You can install jspreproc with npm globally to use as the CLI tool, or locally for your project.  
-jspreproc works in node.js 0.10.0 or above (tested in Windows 7/8, cmd and bash shells).
+jspreproc works in node.js 0.10.0 or above (tested in Windows 7/8, cmd and sh shells).
 
 ### Command-line
 
@@ -76,9 +75,9 @@ jspp [options] file1 file2 ...
 Multiple files are concatenated into one, as if it had passed a file with multiple `#include` directives, one for each of the files listed.
 
 If you don't list files, jspreproc reads from the standard input.  
-The output is written to standard output of the system, so it can be redirected.
+The result is written to the standard output, so it can be redirected.
 
-Learn about the [options](doc/options.md) in the documentation. 
+Find more about the [options](doc/options.md) in the documentation.
 
 ### node.js
 
@@ -90,17 +89,32 @@ var jspp = require('jspreproc')
 var stream = jspp(files, options)
 ```
 
-Parameter `files` can be an file name, an array of file names, or an instance of a readable stream. Options is an object with the same options from command-line, but replace dashed options with camelCase properties: `eol-type` with `eolType`, and `empty-lines` with `emptyLines`.
-
+Parameter `files` can be an file name, an array of file names, or an instance of a readable stream. Options is an object with the same options from command-line.  
 jspp return value is a [`stream.PassThrough`](https://nodejs.org/api/stream.html#stream_class_stream_passthrough) instance.
+
+You can read about this [API](doc/API.md) in the documentation.
 
 There is a package for bower, too.
 
 ## Documentation
 
-Read the [CHANGELOG](CHANGELOG.md) for recent additions and fixes, the [options](doc/options.md), [syntax](doc/syntax.md), and [API](doc/API.md) pages has useful information (WIP).
+This is a short example of basic syntax in files prepared for jspreproc:
 
-There are examples of use in the file spec/app-spec.js
+```js
+//#include globals.inc
+//#define DEBUG
+
+//#ifdef DEBUG
+console.log(result)
+//#endif
+```
+
+Find more in the [Syntax guide](doc/syntax.md).
+
+Read the [CHANGELOG](CHANGELOG.md) for recent additions and fixes.  
+You can see jspreproc operation in [the tests](spec/app-spec.js).
+
+_Please note: the documentation is very much a work in progress. Contributions are welcome._
 
 ### Third-party tools & libraries
 
@@ -134,7 +148,7 @@ I'd like to thank all.
 ### Known Issues
 process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. [ConEmu](https://conemu.github.io/) and others, use clean Windows prompt or [MSYS](http://www.mingw.org/wiki/msys) with mintty.
 
-### TODOs
+### TODO
 
 Maybe some day...
 
@@ -143,8 +157,6 @@ Maybe some day...
 - jspreproc reconfiguration through comments
 - `#emit`? for generating output of expression values
 - Better documentation
-
-_Please note: the documentation is very much a work in progress. Contributions are welcome._
 
 ---
 

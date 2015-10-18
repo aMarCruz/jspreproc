@@ -151,7 +151,7 @@ Common case for custom filters is preserve few comments with special text, but y
 
 - `"^//"` or `/^\/\//` : preserves single-line comments.
 - `"^/**"` or `/^\/\*\*/` : keep multiline, comments blocks starting with two (or more) asterisk characters.
-- `"\n *[ \t]@module"` or `/\n\ \*[ \t]@module/` : preserves comment blocks with any line starting with " *" followed by one space or tab and the string "module". 
+- `"\n *[ \t]@module"` or `/\n\ \*[ \t]@module/` : preserves comment blocks with any line starting with " \*" followed by one space or tab and the string "module". 
 
 
 ### -V, --version
