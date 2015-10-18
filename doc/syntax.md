@@ -12,7 +12,7 @@ Differences from the C preprocessor:
 - Redefining a symbol changes their value, does not generates error. This is why `#define` is deprecated in favor of `#set`
 - The evaluation of expressions by `#set/#if/#endif` is through a Function instance, so the result is the same from a JavaScript expression, in the global scope.
 
-<sup>(1)</sup> See [Defines](#defines) for some exceptions.  
+<sup>(1)</sup> See [Variables Symbols](#variable-symbols) for some exceptions.  
 
 For jspreproc recognize the directives, keep them in its own line, with no other tokens except single-line comments following the directive. Only spaces and tabs are allowed before the starting `//#`, and between this and the keyword.
 
@@ -34,7 +34,7 @@ If the sequence of directives are malformed, as the unclosed blocks in the above
 
 ## Variable Symbols
 
-These are similar to C preprocessor `#define`'s, but its behavior is the same as JavaScript variables.
+These seems similar to C preprocessor `#define`'s, but its behavior is the same as JavaScript variables.
 
 **`//#set SYMBOL`**  
 **`//#set SYMBOL [=] expression`**
