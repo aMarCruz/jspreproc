@@ -7,9 +7,9 @@ However, there are some differences.
 
 Differences from the C preprocessor:
 
+- The `#define` keyword does not works in jspreproc as in the C preprocessor and is **deprecated** in 0.2.3 -- Use the `#set` keyword instead 
 - jspreproc does not supports function-like macros or macro-substitution on the source files, out of expressions<sub>(1)</sub>
 - Escaped characters remains literals, e.g. the `\n` sequence not generate end of line, it is written to the output as the string "\n"
-- Redefining a symbol changes their value, does not generates error. This is why `#define` is deprecated in favor of `#set`
 - The evaluation of expressions by `#set/#if/#endif` is through a Function instance, so the result is the same from a JavaScript expression, in the global scope.
 
 <sup>(1)</sup> See [Variables Symbols](#variable-symbols) for some exceptions.  
@@ -34,12 +34,11 @@ If the sequence of directives are malformed, as the unclosed blocks in the above
 
 ## Variable Symbols
 
-These seems similar to C preprocessor `#define`'s, but its behavior is the same as JavaScript variables.
+These looks similar to C preprocessor `#define`'s, but its behavior is the same as JavaScript variables.
 
-**`//#set SYMBOL`**  
 **`//#set SYMBOL [=] expression`**
 
-The sign `=` before the expression is optional, default value for expression is 1.  
+The sign `=` before the expression is optional.
 Once defined, the symbol is global to all files and its value can be changed at any time.
 
 Valid names are all uppercase, starts with one character in the range `[$_A-Z]`, followed by one or more of `[0-9_A-Z]`, so minimum length is 2.
@@ -53,11 +52,11 @@ jspreproc supports, in experimental fashion, macro-expansion in the source file 
 This is an example of the process:
 
 ```js
-//#set $_FOO 'fo'+'o'         // $_FOO is evaluated to 'foo'
-//#set $_BAR "bar"            // $_BAR is evaluated to 'bar'
-//#set $_BAZ $_FOO + $_BAR    // evaluates to 'foobar'
+//#set $_FOO = 'fo'+'o'       // $_FOO is evaluated to 'foo'
+//#set $_BAR = "bar"          // $_BAR is evaluated to 'bar'
+//#set $_BAZ = $_FOO + $_BAR  // evaluates to 'foobar'
 //#unset $_FOO                // dees not affect $_BAZ
-//#set $_BAR "?"              // $_BAZ remains the same
+//#set $_BAR = "?"            // $_BAZ remains the same
 console.log($_BAZ)            // outputs "foobar"
 ```
 
@@ -97,7 +96,7 @@ You can include the same file multiple times in the current file, but the statem
 
 jspreproc does not cache the file, it is readed from the file system and preprocessed before each insertion.
 
-Use `include_once` to limit the inclussion to one copy by _mainstream_.
+Use `include_once` to limit the inclusion to one copy by _mainstream_.
 
 ## Examples
 
@@ -134,27 +133,27 @@ Use `include_once` to limit the inclussion to one copy by _mainstream_.
 Some variable assignments
 
 ```js
-//#set FOO = "one"      // you can use the equal sign
-//#set DEBUG            // DEBUG value is 1
-//#set THREE (1+2)      // THREE value is 3
-//#set TODAY new Date() // Date instances are preserved
-//#set REGEX /^$/       // so RegExp
-//#set TRUE  !0         // and boolean
+//#set FOO "one"          // you can omit the equal sign
+//#set DEBUG              // DEBUG value is 1
+//#set THREE = (1+2)      // THREE value is 3
+//#set TODAY = new Date() // Date instances are preserved
+//#set REGEX = /^$/       // so RegExp
+//#set TRUE  = !0         // and boolean
 ```
 
 Using variable symbols in the source code
 
 ```js
-//#set $_NAME = 1       // must begin with '$_'
-var foo = $_NAME + 1    // foo = 2
+//#set $_NAME = 1         // must begin with '$_'
+var foo = $_NAME + 1      // foo = 2
 
-//#set $_NAME 'foo'     // change defined value
-var bar = $_NAME        // bar = "foo"
+//#set $_NAME = 'foo'     // change defined value
+var bar = $_NAME          // bar = "foo"
 
-//#set $_NAME 'foo'+'bar'   // concatenation
+//#set $_NAME = 'foo'+'bar' // concatenation
 var baz = $_NAME            // baz = "foobar"
 
-//#set $_NAME /^a/          // define a regex
+//#set $_NAME = /^a/        // define a regex
 var a = $_NAME.test('a')    // a = /^a/.test('a')
 
 //#unset $_NAME         // delete $_NAME
@@ -164,9 +163,9 @@ var x = $_NAME          // SyntaxError
 Effects of immediate evaluation
 
 ```js
-//#set $_FOO 'foo'          // value defaults to 1
-//#set $_BAR NAME + 'bar'   // OTHER value is 'foobar'
-//#set $_FOO 'baz'
+//#set $_FOO = 'foo'          // value defaults to 1
+//#set $_BAR = NAME + 'bar'   // OTHER value is 'foobar'
+//#set $_FOO = 'baz'
 console.log('%s %s', $_FOO, $_BAR)  // prints 'baz foobar'
 //#unset $_FOO
 console.log('%s %s', $_FOO, $_BAR)  // SyntaxError
@@ -180,13 +179,13 @@ console.log('%s %s', $_FOO, $_BAR)  // SyntaxError
 // FILE remains the same. You need reassign FILE to update their value.
 ```
 
-**Fail safe #define**
+**Fail safe #set**
 
 Even without run jspreproc on file2.js, next code will work:
 
 ```js
 // file1.js
-//#define $_NAME 1
+//#set $_NAME = 1
 ```
 
 ```js

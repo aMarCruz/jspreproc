@@ -89,7 +89,7 @@ This is the list of properties for the `options` object passed as second paramet
 
 Due to the very different behavior of the `#define` directive of jspreproc and the C preprocessor, this keyword is replaced by `#set` and, for consistency, `#undef` is replaced with `#unset`.
 
-`#define` will be recognized in all 0.2.x versions, from version 0.3.0 will be removed. Perhaps in the future it is implemented with a similar behavior to the C preprocessor.
+`#define` will be recognized in all 0.2.x versions, and starting from 0.3.0 will be removed. Perhaps in the future it is implemented with a similar behavior to the C preprocessor.
 
 
 ### varset
@@ -119,9 +119,9 @@ Other value types are serialized with `JSON.stringify`, so functions are not sup
 _Example:_
 
 ```js
-//#define $_STRING 'foo' + 'bar'
-//#define $_NUMBER 5 - 2
-//#define $_DATE   new Date()
+//#set $_STRING = 'foo' + 'bar'
+//#set $_NUMBER = 5 - 2
+//#set $_DATE   = new Date()
 var result = fn($_STRING, $_NUMBER, $_DATE)
 ```
 Output:
@@ -138,11 +138,11 @@ Text to insert before the _top level_ file.
 
 type   | default | example
 -------|---------|----------
-string | `""`    | `{headers: "// @module foo\n"}`
+string | (none)  | `{headers: '// @module foo\n'}`
 
 As seen in the example, you can use special JavaScript characters like `\n`, `\t`, and so, but can specify an end of line with a caret, too (e.g. `"// @module foo^"`). In the output, any EOLs and carets are replaced with a end of line (as configured by the `--eol-type` option). Use two carets to output a literal one.  
 
-The output of the header is generated with the same engine as the defined symbols, but you don't need quote the header value, jspreproc enclose the string and escape inner quotes as necessary.
+The output of the header is generated with the same engine as the defined symbols but, unlike string values for `#set`, don't enclose the header value in quotes, jspreproc stores this as string.
 
 
 ### headers
@@ -151,7 +151,7 @@ Text to insert before each _included_ file.
 
 type   | default | example
 -------|---------|---------
-string | `"\n// __FILE\n\n"` | `{headers: "/* __FILE */^"}`
+string | `\n// __FILE\n\n` | `{headers: "/* __FILE */^"}`
 
 The behavior of this option/property is the same of `--header1`
 
@@ -160,7 +160,7 @@ The behavior of this option/property is the same of `--header1`
 
 type          | default | example
 --------------|---------|---------
-string/number | `""`    | `{indent: "2s"}` or `{indent: 2}` 
+string/number | (none)    | `{indent: "2s"}` or `{indent: 2}` 
 
 Indentation to add before each line on the included files.  
 For a string, the format matches the regex `/$\d+\s*[ts]/`, one or more digits followed by one `t` means tabs and `s` spaces, default for both number or strings is spaces.  
@@ -258,5 +258,5 @@ Common case for custom filters is preserve few comments with special text, but y
 
 ### version
 
-jspreproc version number as string.
+jspreproc version number as a string.
 

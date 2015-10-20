@@ -46,7 +46,7 @@ function _tmpl(str, data) {
 }
 ```
 
-Me too. This is why **jspreproc**, a tiny C-style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
+Me too. This is why **jspreproc**, a tiny, C-Style source file preprocessor in JavaScript for JavaScript, with duplicate empty lines and comments remover.
 
 Featuring many of the C preprocessor characteristics through JavaScript comments, jspreproc can be used in any source with a JavaScript-like syntax, even `C#` files with some limitations.
 
@@ -77,7 +77,7 @@ Multiple files are concatenated into one, as if it had passed a file with multip
 If you don't list files, jspreproc reads from the standard input.  
 The result is written to the standard output, so it can be redirected.
 
-Find more about the [options](doc/options.md) in the documentation.
+Find more about the [options](https://github.com/aMarCruz/jspreproc/blob/master/doc/options.md) in the documentation.
 
 ### node.js
 
@@ -102,17 +102,17 @@ This is a short example of basic syntax in files prepared for jspreproc:
 
 ```js
 //#include globals.inc
-//#define DEBUG
+//#set DEBUG = 1
 
 //#ifdef DEBUG
 console.log(result)
 //#endif
 ```
 
-Find more in the [Syntax guide](doc/syntax.md).
+Find more in the [Syntax guide](https://github.com/aMarCruz/jspreproc/blob/master/doc/syntax.md).
 
-Read the [CHANGELOG](CHANGELOG.md) for recent additions and fixes.  
-You can see jspreproc operation in [the tests](spec/app-spec.js).
+Read the [CHANGELOG](https://github.com/aMarCruz/jspreproc/blob/master/CHANGELOG.md) for recent additions and fixes.  
+You can see jspreproc operation in [the tests](https://github.com/aMarCruz/jspreproc/blob/master/spec/app-spec.js).
 
 _Please note: the documentation is very much a work in progress. Contributions are welcome._
 
@@ -152,7 +152,7 @@ process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. [
 
 Maybe some day...
 
-- [ ] 100% coverage (almost done)
+- [x] ~~100% coverage (almost done)~~
 - [ ] Configuration from the file system. `.jspreproc.json`?
 - [ ] jspreproc reconfiguration through comments
 - [ ] `#emit`? for generating output of expression values
@@ -162,21 +162,18 @@ Maybe some day...
 
 [![Coverity Scan Build Status][coverity-image]][coverity-url] [![Code Climate][climate-image]][climate-url] [![Dependencies][depend-image]][depend-url] [![Development Dependencies][devdep-image]][devdep-url]
 
-[license-image]:  https://img.shields.io/npm/l/express.svg
-[license-url]:    https://github.com/aMarCruz/jspreproc/blob/master/LICENSE
-
-[npm-image]:      https://img.shields.io/npm/v/jspreproc.svg
-[npm-dm-image]:   https://img.shields.io/npm/dm/jspreproc.svg
+[npm-image]:      https://img.shields.io/npm/v/jspreproc.svg?style=flat-square
+[npm-dm-image]:   https://img.shields.io/npm/dm/jspreproc.svg?style=flat-square
+[build-image]:    https://img.shields.io/travis/aMarCruz/jspreproc.svg?style=flat-square
+[license-image]:  https://img.shields.io/npm/l/express.svg?style=flat-square
 [npm-url]:        https://www.npmjs.com/package/jspreproc
-
-[build-image]:    https://travis-ci.org/aMarCruz/jspreproc.svg?branch=master
 [build-url]:      https://travis-ci.org/aMarCruz/jspreproc
+[license-url]:    https://github.com/aMarCruz/jspreproc/blob/master/LICENSE
 
 [coverity-image]: https://scan.coverity.com/projects/6621/badge.svg?flat=1
 [coverity-url]:   https://scan.coverity.com/projects/amarcruz-jspreproc 
-[climate-image]:  https://codeclimate.com/github/aMarCruz/jspreproc/badges/gpa.svg
+[climate-imag]:   https://codeclimate.com/github/aMarCruz/jspreproc/badges/gpa.svg
 [climate-url]:    https://codeclimate.com/github/aMarCruz/jspreproc
-
 [depend-image]:   https://david-dm.org/aMarCruz/jspreproc.svg
 [depend-url]:     https://david-dm.org/aMarCruz/jspreproc
 [devdep-image]:   https://david-dm.org/aMarCruz/jspreproc/dev-status.svg
