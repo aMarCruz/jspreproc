@@ -1,4 +1,8 @@
-[![Build Status][build-image]][build-url] [![npm Version][npm-image]][npm-url] [![Downloads by Month][npm-dm-image]][npm-url] [![License][license-image]][license-url]
+[![Build Status][build-image]][build-url]
+[![Test Coverage][coverage-image]][coverage-url]
+[![npm Version][npm-image]][npm-url]
+[![Downloads by Month][npm-dm-image]][npm-url]
+[![License][license-image]][license-url]
 
 # jspreproc
 
@@ -160,19 +164,24 @@ Maybe some day...
 
 ---
 
-[![Coverity Scan Build Status][coverity-image]][coverity-url] [![Code Climate][climate-image]][climate-url] [![Dependencies][depend-image]][depend-url] [![Development Dependencies][devdep-image]][devdep-url]
+[![Coverity Scan Build Status][coverity-image]][coverity-url]
+[![Code Climate][climate-image]][climate-url]
+[![Dependencies][depend-image]][depend-url]
+[![Development Dependencies][devdep-image]][devdep-url]
 
+[build-image]:    https://img.shields.io/travis/aMarCruz/jspreproc.svg?style=flat-square
+[build-url]:      https://travis-ci.org/aMarCruz/jspreproc
 [npm-image]:      https://img.shields.io/npm/v/jspreproc.svg?style=flat-square
 [npm-dm-image]:   https://img.shields.io/npm/dm/jspreproc.svg?style=flat-square
-[build-image]:    https://img.shields.io/travis/aMarCruz/jspreproc.svg?style=flat-square
-[license-image]:  https://img.shields.io/npm/l/express.svg?style=flat-square
 [npm-url]:        https://www.npmjs.com/package/jspreproc
-[build-url]:      https://travis-ci.org/aMarCruz/jspreproc
+[license-image]:  https://img.shields.io/npm/l/express.svg?style=flat-square
 [license-url]:    https://github.com/aMarCruz/jspreproc/blob/master/LICENSE
+[coverage-image]: https://img.shields.io/codeclimate/coverage/github/aMarCruz/jspreproc.svg?style=flat-square 
+[coverage-url]:   https://codeclimate.com/github/aMarCruz/jspreproc/coverage
 
 [coverity-image]: https://scan.coverity.com/projects/6621/badge.svg?flat=1
 [coverity-url]:   https://scan.coverity.com/projects/amarcruz-jspreproc 
-[climate-imag]:   https://codeclimate.com/github/aMarCruz/jspreproc/badges/gpa.svg
+[climate-image]:  https://codeclimate.com/github/aMarCruz/jspreproc/badges/gpa.svg
 [climate-url]:    https://codeclimate.com/github/aMarCruz/jspreproc
 [depend-image]:   https://david-dm.org/aMarCruz/jspreproc.svg
 [depend-url]:     https://david-dm.org/aMarCruz/jspreproc
