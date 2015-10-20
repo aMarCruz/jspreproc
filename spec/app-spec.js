@@ -1070,6 +1070,7 @@ describe('Parameters', function () {
   it('jspp input file can be any readable stream', function (done) {
     var stin = new stream.Readable()
 
+    stin.pause()
     stin.push('foo')     // queue the data to output through stdin
     stin.push(null)      // queue the EOF signal
     testOther(stin, {}, function (result) {
@@ -1080,6 +1081,7 @@ describe('Parameters', function () {
 
   it('if the file parameter is null, jspp uses stdin', function (done) {
 
+    process.stdin.pause()
     process.stdin.push('foo')     // queue the data to output through stdin
     process.stdin.push(null)      // queue the EOF signal
     testOther(null, {}, function (result) {
