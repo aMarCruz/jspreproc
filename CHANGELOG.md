@@ -1,37 +1,37 @@
 # Changelog for jspreproc
 
-#### Varsion 0.2.3 - 2015-10-20
+#### Version 0.2.3 - 2015-10-20
 - Fix to a bug replacing text that looks like jspp vars in quoted strings and regexes
 - Don't enclose headers in quotes, this is already a javascript string
 - First release with 100% coverage (by istanbul)
-- travis.yml rewrite
+- Makefile & travis.yml rewrite
 
-#### Varsion 0.2.2 - 2015-10-16
+#### Version 0.2.2 - 2015-10-16
 - First release with 98% coverage (by istanbul)
 - Updated readme and documentation
 - Fixed changelog
 
-#### Varsion 0.2.2 beta 1 - 2015-10-15
+#### Version 0.2.2 beta 1 - 2015-10-15
 - Deprecated #define and #undef in favor of #set and #unset
 - More refactorization of tests
 - Enhancement: support for Date objects
 
-#### Varsion 0.2.1 beta 3 - 2015-10-14
+#### Version 0.2.1 beta 3 - 2015-10-14
 - Many fixes and refactorization of tests
 - Preparation for coverage reports
 - Enhancement: Added the istanbul filter
 
-#### Varsion 0.2.1 beta 2 - 2015-10-11
+#### Version 0.2.1 beta 2 - 2015-10-11
 - Fix to the options module
 
-#### Varsion 0.2.1 beta 1 - 2015-10-11
+#### Version 0.2.1 beta 1 - 2015-10-11
 - Revision of package.json
 - Changed the location of jspp.js to the bin folder
 - New jspp.cmd for Windows user, local installation
 - Fix: missing doc folder
 - Fix: `npm test` is generating error
 
-#### Varsion 0.2.0 beta 6 - 2015-10-11
+#### Version 0.2.0 beta 6 - 2015-10-11
 Major code refactorization and more tests!
 - Fix: Code is mixed in the same line with files not ending with EOL
 - Fix: some escaped characters are not preserved

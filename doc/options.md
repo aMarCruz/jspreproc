@@ -14,7 +14,7 @@ jspp -D RELEASE --empty-lines 0 lib/file1.js lib/file2.js > dist/app.js
 
 Due to the very different behavior of the `#define` directive of jspreproc and the C preprocessor, this keyword is replaced by `#set` and, for consistency, `#undef` is replaced with `#unset`.
 
-`#define` and `--define` will be recognized in all 0.2.x versions, from version 0.3.0 will be removed. Perhaps in the future it is implemented with a similar behavior to the C preprocessor.
+`#define` and `--define` will be recognized in all 0.2.x versions, and from 0.3.0 will be removed. Perhaps in the future it is implemented with a similar behavior to the C preprocessor.
 
 
 ### --set
@@ -40,7 +40,7 @@ syntax | property | type | default | example
 
 As seen in the example, you can use special JavaScript characters like `\n`, `\t`, and so, but can specify an end of line with a caret, too (e.g. `"// @module foo^"`). In the output, the caret is replaced with a end of line (as configured by the `--eol-type` option). Use two carets to output a literal one.  
 
-The output of the header is generated with the same engine as the defined symbols but, unlike string values for `#set`, you don't need quote the header value, jspreproc enclose the string and escape inner quotes as necessary.
+The output of the header is generated with the same engine as the defined symbols but, unlike string values for `#set`, don't enclose the header value in quotes, jspreproc stores this as string.
 
 
 ### --headers
@@ -49,7 +49,7 @@ Text to insert before each _included_ file.
 
 syntax | property | type | default | example
 -------|----------|------|---------|---------
---headers &lt;_string_> | headers | string | `"\n// __FILE\n\n"` | `--headers "/* __FILE */^"`
+--headers &lt;_string_> | headers | string | `\n// __FILE\n\n` | `--headers "/* __FILE */^"`
 
 The behavior of this option is the same of `--header1`
 
