@@ -23,7 +23,9 @@ script: istanbul cover spec/run.js
 
 after_success: codeclimate-test-reporter < coverage/lcov.info
 
-addons: code_climate
+addons:
+    code_climate:
+        repo_token: $CODECLIMATE_REPO_TOKEN
 
 notifications:
     email: false
