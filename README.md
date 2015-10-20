@@ -169,14 +169,14 @@ Maybe some day...
 [![Dependencies][depend-image]][depend-url]
 [![Development Dependencies][devdep-image]][devdep-url]
 
-[build-image]:    https://img.shields.io/travis/aMarCruz/jspreproc.svg?style=flat-square
+[build-image]:    https://img.shields.io/travis/aMarCruz/jspreproc.svg
 [build-url]:      https://travis-ci.org/aMarCruz/jspreproc
-[npm-image]:      https://img.shields.io/npm/v/jspreproc.svg?style=flat-square
-[npm-dm-image]:   https://img.shields.io/npm/dm/jspreproc.svg?style=flat-square
+[npm-image]:      https://img.shields.io/npm/v/jspreproc.svg
+[npm-dm-image]:   https://img.shields.io/npm/dm/jspreproc.svg
 [npm-url]:        https://www.npmjs.com/package/jspreproc
-[license-image]:  https://img.shields.io/npm/l/express.svg?style=flat-square
+[license-image]:  https://img.shields.io/npm/l/express.svg
 [license-url]:    https://github.com/aMarCruz/jspreproc/blob/master/LICENSE
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/aMarCruz/jspreproc.svg?style=flat-square 
+[coverage-image]: https://img.shields.io/codeclimate/coverage/github/aMarCruz/jspreproc.svg
 [coverage-url]:   https://codeclimate.com/github/aMarCruz/jspreproc/coverage
 
 [coverity-image]: https://scan.coverity.com/projects/6621/badge.svg?flat=1
