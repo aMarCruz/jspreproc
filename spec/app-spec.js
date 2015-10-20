@@ -4,6 +4,7 @@
 'use strict'
 
 var jspp     = require('../lib/preproc'),
+    stream   = require('stream'),
     path     = require('path'),
     fs       = require('fs'),
     defaults = require('../lib/options').defaults
@@ -45,8 +46,10 @@ function testIt(any, opts, callback, wantErr) {
       //console.error('--- [' + stpp._jspp_id + '] have an error: ' + err)
       //opts.__hasError = true
       /* istanbul ignore else: make no sense if spec fails */
-      if (wantErr) callback(err)
-      else fail(err)
+      if (wantErr)
+        callback(err)
+      else
+        fail(err)
     })
     //.on('close', function () {
     //  console.error('--- TRACE: closed stream ' + stpp._jspp_id)
@@ -280,7 +283,7 @@ describe('#set / #define', function () {
 
   it('names starting with `$_` can be used anywhere in the file', function (done) {
     var text = [
-      '//#set BAR "bar"',
+      '//#set BAR = "bar"',
       '//#set $_FOO "foo" + BAR',
       'log($_FOO)'
     ].join('\n')
@@ -293,9 +296,9 @@ describe('#set / #define', function () {
 
   it('can include other defined symbols', function (done) {
     var text = [
-      '//#set $_A  "A"',
-      '//#set $_B  $_A + "." + $_A',
-      '//#set $_C  $_A + "." + $_B',
+      '//#set $_A = "A"',
+      '//#set $_B = $_A + "." + $_A',
+      '//#set $_C = $_A + "." + $_B',
       '$_C'
     ].join('\n')
 
@@ -307,10 +310,26 @@ describe('#set / #define', function () {
     })
   })
 
+  it('don\'t replace symbols in quotes or regexes', function (done) {
+    var text = [
+      '//#set AA  = "A"',
+      '//#set $_A = AA + "AA"',
+      '//#set $_R = /^AA/',
+      '$_R.test($_A)'
+    ].join('\n')
+
+    testStr(text, {emptyLines: -1}, function (result) {
+      //var test = 'A.A.A'
+      //result = result.replace(/['"]/g, '')
+      expect(result).toBe('/^AA/.test("AAA")')
+      done()
+    })
+  })
+
   it('evaluates the expression immediately', function (done) {
     var text = [
-      '//#set N_1  1',
-      '//#set $_R  N_1 + 2',
+      '//#set N_1 = 1',
+      '//#set $_R = N_1 + 2',
       '$_R'
     ].join('\n')
 
@@ -322,8 +341,8 @@ describe('#set / #define', function () {
 
   it('evaluation performs mathematical operations', function (done) {
     var text = [
-      '//#set FOO 1 + 2',
-      '//#set BAR 3',
+      '//#set FOO = 1 + 2',
+      '//#set BAR = 3',
       '//#if FOO+BAR === 6',
       'ok',
       '//#endif'
@@ -337,8 +356,8 @@ describe('#set / #define', function () {
 
   it('evaluation concatenate strings', function (done) {
     var text = [
-      '//#set FOO "fo" + "o"',
-      '//#set BAR \'bar\'',
+      '//#set FOO = "fo" + "o"',
+      '//#set BAR = \'bar\'',
       '//#if FOO+BAR === "foobar"',
       'ok',
       '//#endif'
@@ -352,9 +371,9 @@ describe('#set / #define', function () {
 
   it('recognizes and preserves regexes', function (done) {
     var text = [
-      '//#set RE /^f/',
-      '//#set $_R /\\n+/',
-      '//#set $_V RE.test("foo")',
+      '//#set RE = /^f/',
+      '//#set $_R = /\\n+/',
+      '//#set $_V = RE.test("foo")',
       '($_V, $_R)'
     ].join('\n')
 
@@ -366,13 +385,13 @@ describe('#set / #define', function () {
 
   it('recognizes and preserves Date objects', function (done) {
     var text = [
-      '//#set $_D new Date(2015,9,10)',
-      '//#set $_E +$_D',
+      '//#set $_D = new Date(2015,9,10)',
+      '//#set $_E = +$_D',
       '//#if ($_D instanceof Date) && (typeof $_E === "number")',
       'date',
       '//#endif',
-      '//#set $_E $_D.getFullYear()',
-      '//#set $_D +(new Date("x"))',
+      '//#set $_E = $_D.getFullYear()',
+      '//#set $_D = +(new Date("x"))',
       '$_E~$_D'
     ].join('\n')
 
@@ -384,9 +403,9 @@ describe('#set / #define', function () {
 
   it('null, undefined and NaN values are preserved too', function (done) {
     var text = [
-      '//#set $_X null',
-      '//#set $_U undefined',
-      '//#set $_N parseInt("x", 10)',
+      '//#set $_X = null',
+      '//#set $_U = undefined',
+      '//#set $_N = parseInt("x", 10)',
       '($_X,$_U,$_N)'
     ].join('\n')
 
@@ -398,8 +417,8 @@ describe('#set / #define', function () {
 
   it('Infinity (e.g. division by 0) is converted to zero', function (done) {
     var text = [
-      '//#set $_FOO Infinity',
-      '//#set $_BAR 5/0',
+      '//#set $_FOO = Infinity',
+      '//#set $_BAR = 5/0',
       '$_FOO-$_BAR'
     ].join('\n')
 
@@ -427,7 +446,7 @@ describe('#set / #define', function () {
 
   it('#unset or #undef removes the variable completely', function (done) {
     var text = [
-      '//#set $_FOO 1',
+      '//#set $_FOO = 1',
       '//#unset $_FOO',       // check unset is deleting the var
       '//#if $_FOO === 0',
       'ok',
@@ -459,7 +478,7 @@ describe('#set / #define', function () {
 
   it('emit error event on evaluation errors', function (done) {
     var text = [
-      '//#set $_FOO 5*10)',
+      '//#set $_FOO = 5*10)',
       '$_FOO'
     ].join('\n')
 
@@ -487,9 +506,9 @@ describe('#set / #define', function () {
 
   it('be careful with backslashes in macro-substitution!', function (done) {
     var text = [
-      '//#set $_FOO "a\b"',
-      '//#set $_BAR "c\t"',
-      '//#set $_BAZ "e\\\\f"',
+      '//#set $_FOO = "a\b"',
+      '//#set $_BAR = "c\t"',
+      '//#set $_BAZ = "e\\\\f"',
       '$_FOO~$_BAR~$_BAZ',
       '//#if ~$_FOO.indexOf("\b")',
       'ok',
@@ -530,7 +549,7 @@ describe('Conditionals Blocks', function () {
 
   it('can be indented', function (done) {
     var text = [
-      '//#set _A',
+      '//#define _A',
       '//#if 1',
       '  //#if _A',
       '  a',
@@ -546,7 +565,7 @@ describe('Conditionals Blocks', function () {
 
   it('can include spaces between `//#` and the keyword', function (done) {
     var text = [
-      '//# set _A',
+      '//# define _A',
       '//# if 1',
       '//#   if _A',
       '  a',
@@ -588,7 +607,7 @@ describe('Conditionals Blocks', function () {
 
   it('#if blocks can be nested', function (done) {
     var text = [
-      '//#set _A      ',
+      '//#define _A   ',
       '//#if 1        ',
       '//#  if 1      ',
       '//#    if _A   ',
@@ -708,7 +727,7 @@ describe('Conditionals Blocks', function () {
       '//#if NaN !== NaN',
       'NaN',
       '//#endif',
-      '//#set $_S "\\ntr\\\\nim\\t ".trim()',
+      '//#set $_S = "\\ntr\\\\nim\\t ".trim()',
       '$_S~'
     ].join('\n')
 
@@ -735,7 +754,7 @@ describe('Conditionals Blocks', function () {
 
   it('#if/#elif supports the `defined()` function', function (done) {
     var text = [
-      '//#set _A',
+      '//#define _A',
       '//#if defined(_B) || defined(_A)',
       'ok1',
       '//#endif',
@@ -752,7 +771,7 @@ describe('Conditionals Blocks', function () {
 
   it('#ifdef/#ifndef are shorthands to `defined`', function (done) {
     var text = [
-      '//#set _A',
+      '//#define _A',
       '//#ifdef _A',
       'ok1',
       '//#endif',
@@ -1048,7 +1067,18 @@ describe('Parameters', function () {
     })
   })
 
-  it('jspp file can be a stream, if null, defaults to stdin', function (done) {
+  it('jspp input file can be any readable stream', function (done) {
+    var stin = new stream.Readable()
+
+    stin.push('foo')     // queue the data to output through stdin
+    stin.push(null)      // queue the EOF signal
+    testOther(stin, {}, function (result) {
+      expect(result).toBe('foo')
+      done()
+    })
+  })
+
+  it('if the file parameter is null, jspp uses stdin', function (done) {
 
     process.stdin.push('foo')     // queue the data to output through stdin
     process.stdin.push(null)      // queue the EOF signal
@@ -1073,13 +1103,14 @@ describe('Parameters', function () {
       })
   })
 
-  it('if the stream is not readable, jspp throws', function () {
-    var Writable = require('stream').Writable
+  it('if the stream is not readable, jspp throws before start', function () {
+    var Writable = stream.Writable
 
     expect(function () {
       testOther(new Writable(), {})
     }).toThrow()
   })
+
 /*
   it('without an on("error") handler, jspp throws an exception', function (done) {
     var stpp = jspp(null, {buffer: '#if'})
