@@ -16,7 +16,7 @@ debug:
 	@ node-debug spec/run.js
 
 lint:
-    @ eslint **/*.js
-    # Done.
+	@ eslint **/*.js
+	# Done.
 
 .PHONY: sendc cover lint debug
