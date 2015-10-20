@@ -23,7 +23,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "istanbul spec/run.js"
+    "test": "istanbul cover spec/run.js"
   },
   "dependencies": {
     "minimist": "^1.2.0"
