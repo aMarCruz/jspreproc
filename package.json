@@ -23,9 +23,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "node spec/run.js",
-    "cover": "istanbul cover spec/run.js",
-    "lint": "eslint **/*.js"
+    "test": "node spec/run.js"
   },
   "dependencies": {
     "minimist": "^1.2.0"
