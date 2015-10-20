@@ -23,7 +23,7 @@ install:
 script: istanbul cover spec/run.js
 
 after_success:
-    - [ $TRAVIS_NODE_VERSION == 4.2 ] && "codeclimate-test-reporter" < ./coverage/lcov.info
+    - if [ $TRAVIS_NODE_VERSION == 4.2 ] ; codeclimate-test-reporter < ./coverage/lcov.info ; fi
 
 notifications:
     email: false
