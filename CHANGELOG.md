@@ -1,5 +1,11 @@
 # Changelog for jspreproc
 
+#### Varsion 0.2.3 - 2015-10-20
+- Fix to a bug replacing text that looks like jspp vars in quoted strings and regexes
+- Don't enclose headers in quotes, this is already a javascript string
+- First release with 100% coverage (by istanbul)
+- travis.yml rewrite
+
 #### Varsion 0.2.2 - 2015-10-16
 - First release with 98% coverage (by istanbul)
 - Updated readme and documentation

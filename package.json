@@ -1,7 +1,7 @@
 {
   "name": "jspreproc",
   "version": "0.2.3-beta",
-  "description": "C-style source file preprocessor and comments remover for JavaScript in JavaScript",
+  "description": "C-Style source file preprocessor and comments remover for JavaScript in JavaScript",
   "license": "MIT",
   "main": "lib/preproc.js",
   "bin": {
@@ -23,13 +23,14 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "istanbul cover spec/run.js"
+    "test": "node spec/run.js",
+    "cover": "istanbul cover spec/run.js",
+    "lint": "eslint **/*.js"
   },
   "dependencies": {
     "minimist": "^1.2.0"
   },
   "devDependencies": {
-    "istanbul": "^0.4.0",
     "jasmine": "^2.3.2",
     "jasmine-spec-reporter": "^2.4.0"
   },
