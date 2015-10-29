@@ -1,5 +1,8 @@
 # Changelog for jspreproc
 
+#### Version 0.2.4 - 2015-10-28
+- Enhancement: Experimental #indent directive (will be #pragma indent)
+
 #### Version 0.2.3 - 2015-10-20
 - Fix to a bug replacing text that looks like jspp vars in quoted strings and regexes
 - Don't enclose headers in quotes, this is already a javascript string

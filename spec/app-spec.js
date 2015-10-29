@@ -905,6 +905,14 @@ describe('#include', function () {
       })
     })
 
+    it('#indent adjust indentation (experimental)', function (done) {
+
+      testFile('reindent.js', {}, function (result) {
+        expect(result).toBe(readExpect('reindent.out'))
+        done()
+      })
+    })
+
   })
 
 })
