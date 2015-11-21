@@ -59,7 +59,7 @@ Featuring many of the C preprocessor characteristics through JavaScript comments
 From version 0.2.1-beta.1 the location of jspp.js is the bin folder.
 
 This is work in progress, so please update jspreproc constantly, I hope the first stable version does not take too long.
-  
+
 
 ## Install
 
@@ -145,7 +145,7 @@ I'd like to thank all.
 [Caudan]:   https://github.com/bcaudan
 [Anantheswaran]: https://github.com/gotwarlost
 [git4win]:       https://git-for-windows.github.io/ "The awesome Git SCM"
-[code-climate]:  https://codeclimate.com/ "A better experience for creating software" 
+[code-climate]:  https://codeclimate.com/ "A better experience for creating software"
 [coverity-scan]: https://scan.coverity.com/
 [pivotal-labs]:  https://www.pivotaltracker.com/
 
@@ -176,11 +176,11 @@ Maybe some day...
 [npm-url]:        https://www.npmjs.com/package/jspreproc
 [license-image]:  https://img.shields.io/npm/l/express.svg
 [license-url]:    https://github.com/aMarCruz/jspreproc/blob/master/LICENSE
-[coverage-image]: https://img.shields.io/codeclimate/coverage/github/aMarCruz/jspreproc.svg
+[coverage-image]: https://codeclimate.com/github/aMarCruz/jspreproc/badges/coverage.svg
 [coverage-url]:   https://codeclimate.com/github/aMarCruz/jspreproc/coverage
 
 [coverity-image]: https://scan.coverity.com/projects/6621/badge.svg?flat=1
-[coverity-url]:   https://scan.coverity.com/projects/amarcruz-jspreproc 
+[coverity-url]:   https://scan.coverity.com/projects/amarcruz-jspreproc
 [climate-image]:  https://codeclimate.com/github/aMarCruz/jspreproc/badges/gpa.svg
 [climate-url]:    https://codeclimate.com/github/aMarCruz/jspreproc
 [depend-image]:   https://david-dm.org/aMarCruz/jspreproc.svg
