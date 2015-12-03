@@ -905,6 +905,14 @@ describe('#include', function () {
       })
     })
 
+    it('#indent adjust indentation (experimental)', function (done) {
+
+      testFile('reindent.js', {}, function (result) {
+        expect(result).toBe(readExpect('reindent.out'))
+        done()
+      })
+    })
+
   })
 
 })
@@ -1121,3 +1129,22 @@ describe('Parameters', function () {
 })
 
 // TODO: test with streams, e.g. pipe a file to stdin
+
+describe('fixes', function () {
+
+  it('a regex after a `return` is mistaken for a divisor operator', function (done) {
+    var opts = {},
+        text = [
+          'function foo(s) {',
+          '  return /^[\'"]/.test(s) //\'',
+          '}'
+        ].join('\n')
+
+    testStr(text, opts, function (result) {
+      expect(result).toBe('function foo(s) {\n  return /^[\'"]/.test(s)\n}')
+      done()
+    })
+
+  })
+
+})
