@@ -1,5 +1,11 @@
 # Changelog for jspreproc
 
+#### Version 0.2.6 - 2015-12-03
+- Fix errors when including unicode line and paragraph characters.
+- Enhancement: New `sources` filer. It supports `sourceMappingURL` and `sourceMappingURL` directives.
+  See http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl
+- Revised regexes.
+
 #### Version 0.2.5 - 2015-12-02
 - Fix: a regex after the `return` keyword is mistaken for a division operator
 - Enhancement: Most parser error messages include the source file name.

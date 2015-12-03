@@ -1133,18 +1133,28 @@ describe('Parameters', function () {
 describe('fixes', function () {
 
   it('a regex after a `return` is mistaken for a divisor operator', function (done) {
-    var opts = {},
-        text = [
-          'function foo(s) {',
-          '  return /^[\'"]/.test(s) //\'',
-          '}'
-        ].join('\n')
+    var text = [
+      'function foo(s) {',
+      '  return /^[\'"]/.test(s) //\'',
+      '}'
+    ].join('\n')
 
-    testStr(text, opts, function (result) {
+    testStr(text, {}, function (result) {
       expect(result).toBe('function foo(s) {\n  return /^[\'"]/.test(s)\n}')
       done()
     })
+  })
 
+  it('unicode line and paragraph characters break strings', function (done) {
+    var text = [
+      '//#set $_STR = "\\u2028\\u2029"',
+      'var s = $_STR'
+    ].join('\n')
+
+    testStr(text, {}, function (result) {
+      expect(result).toBe('var s = "\\u2028\\u2029"')
+      done()
+    })
   })
 
 })
