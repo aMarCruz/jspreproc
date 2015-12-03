@@ -156,11 +156,12 @@ process.stdout fails (so jspreproc too) on console emulators for Windows, e.g. [
 
 Maybe some day...
 
-- [x] ~~100% coverage (almost done)~~
+- [x] ~~100% coverage (done)~~
 - [ ] Configuration from the file system. `.jspreproc.json`?
 - [ ] jspreproc reconfiguration through comments
 - [ ] `#emit`? for generating output of expression values
 - [ ] Better documentation
+- [ ] Explanatory error messages
 
 ---
 

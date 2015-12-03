@@ -1,6 +1,6 @@
 {
   "name": "jspreproc",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "C-Style source file preprocessor and comments remover for JavaScript in JavaScript",
   "license": "MIT",
   "main": "lib/preproc.js",

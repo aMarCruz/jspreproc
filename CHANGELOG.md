@@ -1,10 +1,14 @@
 # Changelog for jspreproc
 
+#### Version 0.2.5 - 2015-12-02
+- Fix: a regex after the `return` keyword is mistaken for a division operator
+- Enhancement: Most parser error messages include the source file name.
+
 #### Version 0.2.4 - 2015-10-28
 - Enhancement: Experimental #indent directive (will be #pragma indent)
 
 #### Version 0.2.3 - 2015-10-20
-- Fix to a bug replacing text that looks like jspp vars in quoted strings and regexes
+- Fixes a bug replacing text that looks like jspp vars in quoted strings and regexes
 - Don't enclose headers in quotes, this is already a javascript string
 - First release with 100% coverage (by istanbul)
 - Makefile & travis.yml rewrite
@@ -39,7 +43,7 @@ Major code refactorization and more tests!
 - Fix: Code is mixed in the same line with files not ending with EOL
 - Fix: some escaped characters are not preserved
 - Fix: empty lines counter working almost perfect :)
-- Changed behavior: default indentation for included files is none 
+- Changed behavior: default indentation for included files is none
 
 #### Version 0.2.0 beta 5 - 2015-10-10
 - Fix: substitution for '^' not working in headers
@@ -55,7 +59,7 @@ Major code refactorization and more tests!
 Important upgrade:
 Corrections to the implementation of the stream returned and the program logic. This allows for asynchronous use and freedom in handling errors.
 - Fix: probable memory leaks
-- Fix: custom filters are active without using the --filter option 
+- Fix: custom filters are active without using the --filter option
 - Fix: error catching in tests working now
 
 #### Version 0.1.5 beta 4 - 2015-10-08 (unpublished)
@@ -76,7 +80,7 @@ Corrections to the implementation of the stream returned and the program logic. 
 - Fix: process.on calling multiple times
 - Enhancement: code refactorization, more debug-friendly
 - Enhancement: use `^n` in the `header1` and `headers` values to insert line feeds
-- Enhancement: more clear output with the `-h` option 
+- Enhancement: more clear output with the `-h` option
 - Added custom filters in TODO
 - More tests
 - Updated readme
