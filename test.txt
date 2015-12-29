@@ -1,0 +1,3 @@
+//#include spec/fixtures/noeol.txt
+//#include spec/fixtures/noeol.txt
+ok

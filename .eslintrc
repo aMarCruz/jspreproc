@@ -65,7 +65,7 @@ rules:
     no-sparse-arrays: 2         # disallow sparse arrays
     no-unreachable: 2           # disallow unreachable statements after a return, throw, continue, or break statement
     use-isnan: 2                # disallow comparisons with the value NaN
-    valid-jsdoc: [2, { requireReturn: false }] # ensure JSDoc comments are valid, returns optional in void functions
+    valid-jsdoc: [2, { "requireReturn": false }] # ensure JSDoc comments are valid, returns optional in void functions
     valid-typeof: 2             # ensure that the results of typeof are compared against a valid string
     no-unexpected-multiline: 2  # Avoid code that looks like two expressions but is actually one
 
@@ -78,12 +78,12 @@ rules:
     ###########################################################################
 
     block-scoped-var: 2         # treat var statements as if they were block scoped
-    complexity: [1, 9]         # specify the maximum cyclomatic complexity allowed in a program
+    complexity: [1, 9]          # specify the maximum cyclomatic complexity allowed in a program
     consistent-return: 1        # require return statements to either always or never specify values
     curly: 0                    # specify curly brace conventions for all control statements
     default-case: 1             # require default case in switch statements
     dot-notation: 1             # encourages use of dot notation whenever possible
-    eqeqeq: [2, 'smart']        # require the use of === and !==
+    eqeqeq: [2, "smart"]        # require the use of === and !==
     guard-for-in: 1             # make sure for-in loops have an if statement
     no-alert: 2                 # disallow the use of alert, confirm, and prompt
     no-caller: 2                # disallow use of arguments.caller or arguments.callee
@@ -142,7 +142,7 @@ rules:
     no-delete-var: 2            # disallow deletion of variables
     no-label-var: 2             # disallow labels that share a name with a variable
     no-shadow: 2                # disallow declaration of variables already declared in the outer scope
-    no-shadow-restricted-names: 2   # disallow shadowing of names such as arguments
+    no-shadow-restricted-names: 2 # disallow shadowing of names such as arguments
     no-undef: 2                 # disallow use of undeclared variables unless mentioned in a /*global */ block
     no-undef-init: 1            # disallow use of undefined when initializing variables
     no-undefined: 2             # disallow use of undefined variable
@@ -173,9 +173,9 @@ rules:
 
     linebreak-style: [2, "unix"]
 
-    indent: [2, 2, { SwitchCase: 1, VariableDeclarator: 2 }] # Set a specific tab width
-    brace-style: [1, "stroustrup", { allowSingleLine: true }] # enforce stroustrup brace style
-    camelcase: [2, properties: "always" ]   # require camel case names
+    indent: [2, 2, { "SwitchCase": 1, "VariableDeclarator": 2 }] # Set a specific tab width
+    brace-style: [1, "stroustrup", { "allowSingleLine": true }] # enforce stroustrup brace style
+    camelcase: [2, { "properties": "always" } ] # require camel case names
     comma-spacing: 2                # enforce spacing before and after comma
     comma-style: 2                  # enforce one true comma style
     consistent-this: 1              # enforces consistent naming when capturing the current execution context
@@ -198,10 +198,10 @@ rules:
     quote-props: [2, "as-needed"]   # require quotes around object literal property names only if needed
     quotes: [1, "single", "avoid-escape"]  # specify whether double or single quotes should be used
     semi: [2, "never"]              # require or disallow use of semicolons instead of ASI
-    #semi-spacing: [2, { before: false, after: true }] # disallow space before semicolon, require after
+    #semi-spacing: [2, { "before": false, "after": true }] # disallow space before semicolon, require after
     space-after-keywords: [2, "always"] # require a space after certain keywords
     space-before-blocks: 2          # require or disallow space before blocks
-    space-before-function-paren: [2, { anonymous: "always", named: "never" }]
+    space-before-function-paren: [2, { "anonymous": "always", "named": "never" }]
     #space-in-brackets: 0           # require or disallow spaces inside brackets
     #space-in-parens: 0             # require or disallow spaces inside parentheses
     space-infix-ops: 1              # require spaces around operators
