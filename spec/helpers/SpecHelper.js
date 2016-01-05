@@ -21,7 +21,7 @@ beforeEach(function () {
     },
 
     // actual has to be an Error instance, and contain the expected string
-    toErrorContain: function (util) {
+    toErrorContain: function (/*util*/) {
 
       function compare(actual, expected) {
         return {

@@ -13,7 +13,6 @@
   },
   "files": [
     "index.js",
-    "jspp.cmd",
     "bin/jspp.js",
     "lib",
     "doc",

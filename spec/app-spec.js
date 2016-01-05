@@ -1,6 +1,5 @@
-/*
-  Tests for jspreproc using jasmine
-*/
+/*eslint-env node, jasmine */
+/*eslint no-unused-expressions: 0 */
 'use strict'
 
 var jspp     = require('../lib/preproc'),
@@ -786,6 +785,57 @@ describe('Conditionals Blocks', function () {
     })
   })
 
+  it('if/ifdef/ifndef/elif/else can start with `/*#` (v0.2.7)', function (done) {
+    var text = [
+      '/*#if 1',
+      'var x = 1',
+      '//#else*/',
+      'var x = 2',
+      '//#endif'
+    ].join('\n')
+
+    testStr(text, {comments: 'none'}, function (result) {
+      expect(result.trim()).toBe('var x = 1')
+      done()
+    })
+  })
+
+  it('starting with `/*#` can include another conditionals', function (done) {
+    var text = [
+      '//#set FOO=2',
+      '/*#if FOO==1',
+      'var x = 1',
+      '//#elif FOO==2',
+      'var x = 2',
+      '//#else*/',
+      'var x = 3',
+      '//#endif'
+    ].join('\n')
+
+    testStr(text, {comments: 'none'}, function (result) {
+      expect(result.trim()).toBe('var x = 2')
+      done()
+    })
+  })
+
+  it('not recognized keywords following `/*#` are comments', function (done) {
+    var text = [
+      '/*#if- 0',
+      'var x = 1',
+      '//#else',
+      'var x = 2',
+      '//#endif */',
+      '/*#set $_FOO = 1',
+      'var x = $_FOO',
+      '//#unset $_FOO*/'
+    ].join('\n')
+
+    testStr(text, {comments: 'none'}, function (result) {
+      expect(result.trim()).toBe('')
+      done()
+    })
+  })
+
 })
 
 
@@ -1145,14 +1195,15 @@ describe('fixes', function () {
     })
   })
 
-  it('unicode line and paragraph characters break strings', function (done) {
+  it('Unicode line and paragraph characters doesn\'t break strings', function (done) {
     var text = [
       '//#set $_STR = "\\u2028\\u2029"',
+      '//#set $_STR = $_STR[0]',
       'var s = $_STR'
     ].join('\n')
 
     testStr(text, {}, function (result) {
-      expect(result).toBe('var s = "\\u2028\\u2029"')
+      expect(result).toBe('var s = "\\u2028"')
       done()
     })
   })

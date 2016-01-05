@@ -7,10 +7,10 @@ However, there are some differences.
 
 Differences from the C preprocessor:
 
-- The `#define` keyword does not works in jspreproc as in the C preprocessor and is **deprecated** in 0.2.3 -- Use the `#set` keyword instead 
+- The `#define` keyword does not works in jspreproc as in the C preprocessor and is **deprecated** in 0.2.3 -- Use the `#set` keyword instead
 - jspreproc does not supports function-like macros or macro-substitution on the source files, out of expressions<sub>(1)</sub>
-- Escaped characters remains literals, e.g. the `\n` sequence not generate end of line, it is written to the output as the string "\n"
-- The evaluation of expressions by `#set/#if/#endif` is through a Function instance, so the result is the same from a JavaScript expression, in the global scope.
+- Escaped characters remains literals, e.g. `\n` does not generate an end of line, it is written to the output as the string "\n"
+- The evaluation of expressions by `#set/#if/#elif` is done through a Function instance, so the result is the same as for a JavaScript expression in the global scope.
 
 <sup>(1)</sup> See [Variables Symbols](#variable-symbols) for some exceptions.  
 
@@ -84,6 +84,29 @@ These are shorthands for `#if defined(SYMBOL)` and `#if !defined(SYMBOL)`.
 **`//#endif`**
 
 These are the default block and closing statement keywords.
+
+### Hiding blocks
+
+From v0.2.7 you can hide conditional blocks using multiline comments. This syntax is valid for the `if/ifdef/ifndef/elif/else` keywords only. The opening sequence (`/*`) must comply with the same rules as the one-line conditional comments, the closing sequence (`*/`) must follow another regular conditional comment:
+```js
+/*#if EXPRESSION
+...
+//#endif */
+```
+
+Note the `//#endif`, this is a regular conditional comment, but now the parser will ignore anything in the line starting from `*/`. Tools such as minifiers or syntax highlighters will see these blocks as a regular multiline comment, which allows you to hide the block, as in this example:
+```js
+//#set FOO = 1
+
+/*#if FOO == 1
+var x = one()
+//#elif FOO == 2
+var x = two()
+//#else*/
+var x = other()
+//#endif
+```
+
 
 ### Includes
 
