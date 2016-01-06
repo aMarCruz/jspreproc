@@ -1,5 +1,10 @@
 # Changelog for jspreproc
 
+#### Version 0.2.7 - 2016-01-05
+- Rewrite of the conditional comments' parser.
+- Enhancement: Multiline comment with `if/ifdef/ifndef/elif/else` allows hide conditional blocks. See [doc/syntax.md](doc/syntax.md)
+- Added test with uglify-js
+
 #### Version 0.2.6 - 2015-12-03
 - Fix errors when including unicode line and paragraph characters.
 - Enhancement: New `sources` filer. It supports `sourceMappingURL` and `sourceMappingURL` directives.

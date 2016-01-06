@@ -1,6 +1,0 @@
-env:
-    node: true
-    jasmine: true
-
-rules:
-    no-unused-expressions: 0
