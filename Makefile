@@ -19,4 +19,7 @@ lint:
 	@ eslint **/*.js
 	# Done.
 
+utest:
+	@ node spec/ut.js
+
 .PHONY: sendc cover lint debug
